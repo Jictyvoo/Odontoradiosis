@@ -1,0 +1,15 @@
+@font-face {
+	font-family: 'Didact Gothic';
+	src: url('fonts/didactgothic.woff2') format('woff2'),
+		url('fonts/didactgothic.woff') format('woff');
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: 'Wild Words Roman BR';
+	src: url('fonts/wild_words_roman_br.woff2') format('woff2'),
+		url('fonts/wild_words_roman_br.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
