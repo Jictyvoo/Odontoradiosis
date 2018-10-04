@@ -7,6 +7,9 @@ A system to auxiliate development of Automatic Measurement to Cephalometric Land
 * Abel Ramalho Galvão
 * João Victor Oliveira Couto
 
-## Credits
+## Command to Run
 
-Used Fit_Piece framework developed by Jictyvoo. Can be accessed on https://github.com/Jictyvoo/FitPiece
+Run commands
+
+* composer dump-autoload
+* php artisan db:seed

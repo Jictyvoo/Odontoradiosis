@@ -70,11 +70,11 @@ function coordenadas(event) {
 var legenda_id = 0;
 
 function openWindow() {
-	window.open("../views/service_pages/doctor_pages/Window.php", "_blank", "width=600, height=400");
+	window.open("../views/service_pages/doctor/Window.php", "_blank", "width=600, height=400");
 }
 
 function openWindowSave(){
-	window.open("../views/service_pages/doctor_pages/WindowSave.php", "_blank", "width=600, height=400");
+	window.open("../views/service_pages/doctor/WindowSave.php", "_blank", "width=600, height=400");
 }
 
 function desfazer() {
