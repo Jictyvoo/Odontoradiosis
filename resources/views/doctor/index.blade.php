@@ -6,29 +6,24 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <!--<li class="active"><a href="#"><label class="filter-label" >Estruturas</label><select style="width: 80%; color:black">
+                <li class="active"><a href="#">
+                        <label class="filter-label">Curvas</label>
+                        <select id="curvesId" style="width: 80%; color:black">
                             <option selected>Selecione</option>
-                            <option>Molar Superior</option>
-                            <option>Molar Inferior</option>
-                            <option>Incisivo Superior</option>
-                            <option>Incisivo Inferior</option>
-                            <option>Sela</option>
-                            <option>Pório</option>
-                            <option>Fosse Pterigo Maxilar</option>
+                            <option onclick="curve()">Perfil Mole</option>
+                            <option>Sela Túrcica</option>
+                            <option>Sutura Fronto-Nasal</option>
+                            <option>Borda Póstero-Inferior</option>
+                            <option>Fissura Pterigomaxilar</option>
+                            <option>Pório Anatômico</option>
                             <option>Maxila</option>
-                            <option>Mandibula</option>
-                            <option>Sínfise</option>
-                            <option>Ossos Nasais</option>
-                            <option>Frontal</option>
-                            <option>Tecido Mole Inferior</option>
-                            <option>Tecido Mole Superior</option>
-                        </select></a></li>
-                <li class="active"><a href="#"><label class="filter-label" >Traçados</label><select style="width: 80%; color:black">
-                            <option selected>Selecione</option>
-                            <option>Harvold</option>
-                            <option>Steiner</option>
-                            <option>Downs</option>
-                        </select></a></li>-->
+                            <option>Mandíbula</option>
+                            <option>Dentes</option>
+                            <option>Incisivos Centrais</option>
+                            <option>Dentes Posteriores</option>
+                        </select>
+                    </a></li>
+                <li class="active"><a href="#">
                 <li class="active"><a href="#"><label class="filter-label">Pontos</label>
                         <select id="pointsId" style="width: 80%; color:black">
                             <option selected>Selecione</option>
@@ -119,4 +114,13 @@
             <div id="image"></div>
         </div>
     </div>
+    <script lang="js">
+        function openWindow() {
+            window.open("{{ route('image.index') }}", "_blank", "width=600, height=400");
+        }
+
+        function openWindowSave() {
+            window.open("{{ route('image.index') }}", "_blank", "width=600, height=400");
+        }
+    </script>
 @endsection

@@ -35,7 +35,12 @@
                     <li class="dropdown"><a href="#" class="dropdown-toggle"
                                             data-toggle="dropdown">Sair <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li class=""><a href="{{ route('logout') }}">Logout</a></li>
+                            <li class="">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button class="btn btn-primary" type="submit">Logout</button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -49,6 +54,7 @@
     <div class="container-fluid">
         @yield('content')
     </div>
+
 </div>
 <div id="footer">
     <div class="container">
@@ -67,7 +73,11 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script language="javascript" src="{{ asset('js/imageFunctions.js') }}"></script>
+<script language="javascript" src="{{ asset('js/landmark_selection.js') }}"></script>
+<script src="{{ asset('js/bezierjs/bezier.js') }}"></script>
+<script src="{{ asset('js/bezierjs/draw.js') }}"></script>
+<script src="{{ asset('js/bezierjs/interaction.js') }}"></script>
+<script src="{{ asset('js/bezierjs/loader.js') }}"></script>
 
 </body>
 </html>
