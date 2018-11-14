@@ -120,7 +120,7 @@
         }
 
         function openWindowSave() {
-            window.open("{{ route('image.index') }}", "_blank", "width=600, height=400");
+            window.open("{{ route('image_landmark.index') }}", "_blank", "width=600, height=400");
         }
     </script>
 @endsection

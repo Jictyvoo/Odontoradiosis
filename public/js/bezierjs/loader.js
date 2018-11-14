@@ -25,32 +25,6 @@ function loadAll() {
     content = "\n  with(drawfunctions) { " + content + "\n  }";
     content = "(function(drawfunctions) { " + content + "\n} (bindDrawFunctions( " + idx + " )) );\n";
 
-      /*var codearea = document.createElement("div");
-      codearea.classList.add("textarea");
-      codearea.textContent = code;
-      codearea.setAttribute("style", "height: " + (16*(len-1)) + "px!important;");
-      figure.appendChild(codearea);
-      var button = document.createElement("button");
-      button.textContent = "view source";
-      figure.appendChild(button);
-
-      button.onclick = function(evt) {
-        if(open && open!==codearea) { open.classList.remove("showcode"); }
-        if(codearea.classList.contains("showcode")) {
-          codearea.classList.remove("showcode");
-        } else {
-          codearea.classList.add("showcode");
-          open = codearea;
-        }
-        evt.stopPropagation();
-      };*/
-
-    document.addEventListener("click", function() {
-      if(codearea.classList.contains("showcode")) {
-        codearea.classList.remove("showcode");
-      }
-    });
-
     var ns = document.createElement("script");
     ns.textContent = content;
     document.querySelector("head").appendChild(ns);

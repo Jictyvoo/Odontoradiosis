@@ -15,7 +15,8 @@ class ImageLandmarkController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		//
+        $imageLandmarks = ImageLandmark::all()->where('fk_id_doctor', auth()->user()->id);
+        return view("doctor.saved_images",['images' => $imageLandmarks]);
 	}
 
 	/**
