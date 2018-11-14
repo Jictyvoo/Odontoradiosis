@@ -56,13 +56,14 @@ function coordenadas(event) {
         hiddenForm = document.getElementById("current_image");
         var imageSource = document.getElementById("logo").getAttribute("src");
         var splitedSource = imageSource.split("/");
-        imageSource = "";
+        /*imageSource = "";
         for (var i = splitedSource.length - 2; i < splitedSource.length; i += 1) {
             imageSource = imageSource + splitedSource[i];
             if (i !== splitedSource.length - 1) {
                 imageSource = imageSource + "/";
             }
-        }
+        }*/
+        imageSource = splitedSource[splitedSource.length - 1].charAt(0);
         hiddenForm.setAttribute("value", imageSource);
     }
 }

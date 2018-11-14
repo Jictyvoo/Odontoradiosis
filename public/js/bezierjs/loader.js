@@ -6,7 +6,7 @@ function find(qs) {
   return document.querySelectorAll(qs).array();
 }
 
-var open = false;
+var opened = false;
 
 function loadAll() {
   var list = find("figure script[type='text/beziercode']");

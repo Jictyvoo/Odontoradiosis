@@ -23,7 +23,6 @@
                             <option>Dentes Posteriores</option>
                         </select>
                     </a></li>
-                <li class="active"><a href="#">
                 <li class="active"><a href="#"><label class="filter-label">Pontos</label>
                         <select id="pointsId" style="width: 80%; color:black">
                             <option selected>Selecione</option>
@@ -86,7 +85,7 @@
                     <tr>
                         <td>
                             <input type="image" name="selectImage" src="{{ asset('img/Abrir.png') }}"
-                                   onClick="openWindow()">
+                                   onClick="openImageSelection()">
                         </td>
                         <td>
                             <input type="image" name="markStitch" src="{{ asset('img/Ponto.png') }}"
@@ -100,7 +99,8 @@
                                    onClick="desfazer()">
                         </td>
                         <td>
-                            <form method="post" action="">
+                            <form method="post" action="{{ route('image_landmark.store') }}">
+                                @csrf
                                 <input type="hidden" name="savedPoints" id="saved_points" value=""/>
                                 <input type="hidden" name="currentImage" id="current_image" value=""/>
                                 <input type="image" name="save" src="{{ asset('img/salvar.png') }}"
@@ -115,7 +115,7 @@
         </div>
     </div>
     <script lang="js">
-        function openWindow() {
+        function openImageSelection() {
             window.open("{{ route('image.index') }}", "_blank", "width=600, height=400");
         }
 

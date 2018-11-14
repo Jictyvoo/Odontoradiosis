@@ -21,3 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('user', 'UsersController');
 Route::resource('image', 'ImageController');
+Route::resource('image_landmark', 'ImageLandmarkController');
