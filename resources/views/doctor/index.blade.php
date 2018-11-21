@@ -111,7 +111,7 @@
                     </tr>
                 </table>
             </div>
-            <div id="image"></div>
+            <canvas id="image"></canvas>
         </div>
     </div>
     <script lang="js">

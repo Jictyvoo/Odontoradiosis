@@ -142,7 +142,19 @@ function image(imagem) {
 
     img = new Image();
     img.src = imagem;
-    document.getElementById('image').innerHTML = "<img style=\" cursor:crosshair\" id='logo' href=\"#\" onmousedown= \"bezier_coordinate(event)\" src=\"" + img.src + "\" width= 1050 />";
+    //document.getElementById('image').innerHTML = "<img style=\" cursor:crosshair\" id='logo' href=\"#\" onmousedown= \"bezier_coordinate(event)\" src=\"" + img.src + "\" width= 1050 />";
+    let ctx = document.getElementById('image');
+    ctx.setAttribute("onmousedown", "bezier_coordinate(event)");
+    if (ctx.getContext) {
+        ctx = ctx.getContext('2d');
+        ctx.canvas.width = window.innerWidth;
+        ctx.canvas.height = 785;
+        img.onload = function () {
+            ctx.drawImage(img, 0, 0, 1050, 785);    //draw background image
+            ctx.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
+        };
+    }
+    img.src = imagem;
     reset();
 }
 
