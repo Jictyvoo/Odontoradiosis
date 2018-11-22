@@ -1,74 +1,91 @@
+image_url = "";
+global_points = null;
+global_effects = null;
+
+function openImage(path) {
+    img = new Image();
+    image_url = path;
+    let ctx = document.getElementById('image');
+    ctx.setAttribute("onmousedown", "bezier_coordinate(event)");
+    if (ctx.getContext) {
+        ctx = ctx.getContext('2d');
+        ctx.canvas.width = window.innerWidth;
+        ctx.canvas.height = 785;
+        img.onload = function () {
+            ctx.drawImage(img, 0, 0, 1050, 785);    //draw background image
+            ctx.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
+        };
+    }
+    img.src = path;
+}
+
+function image(path) {
+    global_points = [];
+    global_effects = [];
+    openImage(path);
+    reset();
+}
+
+function drawLandmark(div, locations) {
+    let ctx = div.getContext('2d');
+    ctx.beginPath();
+    const imageOffset = $("#image").offset();
+    const imgOfLf = imageOffset.left;
+    const imgOfTp = imageOffset.top;
+    ctx.arc(Math.floor(parseInt(locations.X) - imgOfLf), Math.floor(parseInt(locations.Y) - imgOfTp), 4, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#330005';
+    ctx.stroke();
+}
+
+function removeLandmark(canvas, exceptFor) {
+    let context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    openImage(image_url);
+    global_points[exceptFor].exist = false;
+    Object.keys(global_points).forEach(function (element, index, array) {
+        if (element !== exceptFor) {
+            drawLandmark(canvas, global_points[element]);
+        }
+    });
+}
+
 function coordenadas(event) {
-    var selectedIndex = document.getElementById("pointsId").selectedIndex;
-    var currentPoint = document.getElementById("pointsId").options[selectedIndex].text;
+    const selectedIndex = document.getElementById("pointsId").selectedIndex;
+    const currentPoint = document.getElementById("pointsId").options[selectedIndex].text;
     if (currentPoint !== "Selecione") {
         x = event.pageX;
         y = event.pageY;
 
-        var div = document.getElementById('image');
+        const div = document.getElementById('image');
         if (!global_points[currentPoint]) {
             global_points[currentPoint] = [];
         }
+
+        if (global_points[currentPoint].exist) {
+            removeLandmark(div, currentPoint);
+        }
+
         global_points[currentPoint].X = x;
         global_points[currentPoint].Y = y;
 
-        if (global_points[currentPoint].htmlPoint) {
-            global_points[currentPoint].htmlPoint.outerHTML = '';
-            //erase the point
-            global_points[currentPoint].htmlPoint = null;
-        }
-        var pto = document.querySelector('#image .ponto');
-        var ponto = document.createElement("span");
-        global_points[currentPoint].htmlPoint = ponto;
+        global_points[currentPoint].exist = true;
 
-        ponto.setAttribute("class", "ponto");
-        var imgOfLf = $("#image").offset().left;
-        var imgOfTp = $("#image").offset().top;
-        ponto.style.cssText = "top: " + Math.floor(parseInt(y) - imgOfTp - 2.5) + "px; left: " + Math.floor(parseInt(x) - imgOfLf - 2.5) + "px;";
-        div.appendChild(ponto); // crio o ponto
+        drawLandmark(div, global_points[currentPoint]);
 
-        //cria a legenda e posiciona
-        var sigla = $("#pointsId option:selected").text().match(/\(\w+\)/)[0];
-        var legs = $("span[id^='legenda_']");
-        legs.each(function () {
-            if ($(this).text() == sigla) $(this).remove();
-        });
-        $("#image").append('<span id="legenda_' + legenda_id + '" class="legendas">' + sigla + '</span>');
-        var legenda_width = $("#legenda_" + legenda_id).width() / 2;
-        $("#legenda_" + legenda_id).css({
-            "top": Math.floor(parseInt(y) - imgOfTp + 5) + "px",
-            "left": Math.floor(parseInt(x) - imgOfLf - legenda_width - 2.5) + "px"
-        });
-        var subtitle = document.createElement("span");
-        subtitle.setAttribute("id", "legenda_" + legenda_id);
-        subtitle.setAttribute("class", "legendas");
-        subtitle.innerHTML = sigla;
-        //div.append(subtitle);
-        legenda_id++;
-        $("span.ponto").each(function (i, e) {
-            if (e.nextSibling && e.nextSibling.className != "legendas") e.outerHTML = '';
-        });
-
-        var data_json = toJSON(global_points);
-        var hiddenForm = document.getElementById("saved_points");
+        const data_json = toJSON(global_points);
+        let hiddenForm = document.getElementById("saved_points");
         hiddenForm.setAttribute("value", data_json);
 
         hiddenForm = document.getElementById("current_image");
-        var imageSource = document.getElementById("logo").getAttribute("src");
-        var splitedSource = imageSource.split("/");
-        /*imageSource = "";
-        for (var i = splitedSource.length - 2; i < splitedSource.length; i += 1) {
-            imageSource = imageSource + splitedSource[i];
-            if (i !== splitedSource.length - 1) {
-                imageSource = imageSource + "/";
-            }
-        }*/
-        imageSource = splitedSource[splitedSource.length - 1].charAt(0);
+        let imageSource = image_url;
+        const splicedSource = imageSource.split("/");
+        imageSource = splicedSource[splicedSource.length - 1].charAt(0);
         hiddenForm.setAttribute("value", imageSource);
     }
 }
-
-var legenda_id = 0;
 
 function desfazer() {
     global_points.htmlPoint.outerHTML = '';
@@ -134,28 +151,6 @@ function bezier_coordinate(event) {
     } else {
         bezier_curve(event, currentCurve);
     }
-}
-
-function image(imagem) {
-    global_points = new Array();
-    global_effects = new Array();
-
-    img = new Image();
-    img.src = imagem;
-    //document.getElementById('image').innerHTML = "<img style=\" cursor:crosshair\" id='logo' href=\"#\" onmousedown= \"bezier_coordinate(event)\" src=\"" + img.src + "\" width= 1050 />";
-    let ctx = document.getElementById('image');
-    ctx.setAttribute("onmousedown", "bezier_coordinate(event)");
-    if (ctx.getContext) {
-        ctx = ctx.getContext('2d');
-        ctx.canvas.width = window.innerWidth;
-        ctx.canvas.height = 785;
-        img.onload = function () {
-            ctx.drawImage(img, 0, 0, 1050, 785);    //draw background image
-            ctx.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
-        };
-    }
-    img.src = imagem;
-    reset();
 }
 
 var elements = document.getElementsByTagName('input');
