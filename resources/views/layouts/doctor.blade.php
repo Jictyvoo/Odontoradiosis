@@ -78,7 +78,6 @@
 <script src="{{ asset('js/bezierjs/draw.js') }}"></script>
 <script src="{{ asset('js/bezierjs/interaction.js') }}"></script>
 <script src="{{ asset('js/bezierjs/loader.js') }}"></script>
-<script language="javascript" src="{{ asset('js/bezier_image.js') }}"></script>
 <script language="javascript" src="{{ asset('js/landmark_selection.js') }}"></script>
 
 </body>
