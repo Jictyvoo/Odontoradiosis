@@ -111,7 +111,11 @@
                     </tr>
                 </table>
             </div>
-            <canvas id="image"></canvas>
+            <div id="stack-canvas">
+                <canvas id="image"></canvas>
+                <canvas id="landmarks"></canvas>
+                <canvas id="bezier"></canvas>
+            </div>
         </div>
     </div>
     <script lang="js">
@@ -122,5 +126,7 @@
         function openWindowSave() {
             window.open("{{ route('image_landmark.index') }}", "_blank", "width=600, height=400");
         }
+
+        const curves_url = "{{ asset('js/bezier_curves.json') }}";
     </script>
 @endsection

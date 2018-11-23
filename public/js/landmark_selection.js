@@ -1,15 +1,20 @@
 image_url = "";
 global_points = null;
 global_effects = null;
+let all_curves = null;
 
 function openImage(path, loadFunction) {
     img = new Image();
     image_url = path;
+    document.getElementById('stack-canvas').setAttribute("onmousedown", "bezier_coordinate(event)");
     let ctx = document.getElementById('image');
-    ctx.setAttribute("onmousedown", "bezier_coordinate(event)");
     if (ctx.getContext) {
         ctx = ctx.getContext('2d');
         ctx.canvas.width = window.innerWidth;
+        document.getElementById('landmarks').getContext('2d').canvas.width = window.innerWidth;
+        document.getElementById('landmarks').getContext('2d').canvas.height = 785;
+        document.getElementById('bezier').getContext('2d').canvas.width = window.innerWidth;
+        document.getElementById('bezier').getContext('2d').canvas.height = 785;
         ctx.canvas.height = 785;
         img.onload = function () {
             ctx.drawImage(img, 0, 0, 1050, 785);    //draw background image
@@ -46,27 +51,22 @@ function drawLandmark(div, landmarkName) {
     ctx.stroke();
 }
 
-function redrawLandmark(canvas, loadFunction) {
+function redrawLandmark(canvas) {
     let context = canvas.getContext('2d');
-    //context.clearRect(0, 0, canvas.width, canvas.height);
-    openImage(image_url, function () {
-        Object.keys(global_points).forEach(function (element, index, array) {
-            drawLandmark(canvas, element);
-        });
-        if (loadFunction) {
-            loadFunction();
-        }
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    Object.keys(global_points).forEach(function (element, index, array) {
+        drawLandmark(canvas, element);
     });
 }
 
-function coordenadas(event) {
+function coordinates(event) {
     const selectedIndex = document.getElementById("pointsId").selectedIndex;
     const currentPoint = document.getElementById("pointsId").options[selectedIndex].text;
     if (currentPoint !== "Selecione") {
         x = event.pageX;
         y = event.pageY;
 
-        const div = document.getElementById('image');
+        const div = document.getElementById('landmarks');
         if (!global_points[currentPoint]) {
             global_points[currentPoint] = [];
         }
@@ -74,8 +74,7 @@ function coordenadas(event) {
         global_points[currentPoint].X = x;
         global_points[currentPoint].Y = y;
 
-        redrawLandmark(div, null);
-        //drawLandmark(div, global_points[currentPoint]);
+        redrawLandmark(div);
 
         const data_json = toJSON(global_points);
         let hiddenForm = document.getElementById("saved_points");
@@ -96,26 +95,26 @@ function desfazer() {
 }
 
 function toJSON(js_array) {
-    var returned_json = "{";
-    for (var key in js_array) {
+    let returned_json = "{";
+    for (let key in js_array) {
         if (returned_json.length > 1) {
             returned_json = returned_json + ",";
         }
         returned_json = returned_json + "\"" + key + "\":{";
-        var internalArray = js_array[key];
+        let internalArray = js_array[key];
         returned_json = returned_json + "\"X\":" + internalArray.X + ",\"Y\":" + internalArray.Y + "}";
     }
     returned_json = returned_json + "}";
     return returned_json;
 }
 
-var brightness = document.getElementById('brightness'),
+let brightness = document.getElementById('brightness'),
     contrast = document.getElementById('contrast'),
     grayscale = document.getElementById('grayscale'),
     invert = document.getElementById('invert');
 
 function getValues() {
-    var filterStyle = "filter: ",
+    let filterStyle = "filter: ",
         brightnessValue = brightness.value,
         contrastValue = contrast.value,
         grayscaleValue = grayscale.value,
@@ -132,8 +131,8 @@ function getValues() {
 }
 
 function onChangeValue() {
-    var imageDiv = document.getElementById('image');
-    var filterValue = getValues();
+    const imageDiv = document.getElementById('image');
+    let filterValue = getValues();
     imageDiv.setAttribute("style", filterValue);
 }
 
@@ -146,48 +145,57 @@ function reset() {
 }
 
 function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
-    const div = document.getElementById('image');
+    const div = document.getElementById('bezier');
     let ctx = div.getContext('2d');
     const imageOffset = $("#image").offset();
     const imgOfLf = imageOffset.left;
     const imgOfTp = 10;//imageOffset.top;
     ctx.strokeStyle = '#e3ed5c';
-    ctx.moveTo(((x1 * ctx.canvas.width) / 800) + imgOfLf, ((y1 * ctx.canvas.height) / 600) + imgOfTp);
+    ctx.moveTo(((x1 * ctx.canvas.width) / 800) + imgOfLf, ((y1 * 785) / 600) + imgOfTp);
     ctx.bezierCurveTo(
         ((cx1 * ctx.canvas.width) / 800) + imgOfLf,
-        ((cy1 * ctx.canvas.height) / 600) + imgOfTp,
-        ((cx2 * ctx.canvas.width) / 800) + imgOfLf, ((cy2 * ctx.canvas.height) / 600) + imgOfTp,
-        ((x2 * ctx.canvas.width) / 800) + imgOfLf, ((y2 * ctx.canvas.height) / 600) + imgOfTp
+        ((cy1 * 785) / 600) + imgOfTp,
+        ((cx2 * ctx.canvas.width) / 800) + imgOfLf, ((cy2 * 785) / 600) + imgOfTp,
+        ((x2 * ctx.canvas.width) / 800) + imgOfLf, ((y2 * 785) / 600) + imgOfTp
     );
     ctx.stroke();
 }
 
-function bezier_curve(event) {
-    const div = document.getElementById('image');
-    redrawLandmark(div, function () {
-        /*PERFIL MOLE*/
-        drawBezier(352, 48, 315, 150, 367, 195, 402, 233);
-        drawBezier(402, 233, 430, 267, 373, 277, 352, 286);
-        drawBezier(352, 286, 340, 300, 350, 320, 354, 330);
-        drawBezier(354, 330, 354, 340, 345, 347, 337, 349);
-        drawBezier(337, 349, 353, 358, 356, 375, 350, 383);
-        drawBezier(350, 383, 317, 392, 336, 410, 336, 432);
-        drawBezier(336, 432, 339, 522, 180, 491, 100, 514);
-        drawBezier(100, 514, 80, 523, 80, 548, 74, 559);
+function draw_all_curves() {
+    const canvas = document.getElementById('bezier');
+    let context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    Object.keys(all_curves).forEach(function (element, index, array) {
+        all_curves[element].forEach(function (points, position, arr) {
+            if (position === 0) {
+                drawBezier(points[0], points[1], points[2], points[3], points[4], points[5], points[6], points[7]);
+            } else {
+                let temporary = all_curves[element][position - 1];
+                drawBezier(temporary[temporary.length - 2], temporary[temporary.length - 1], points[0], points[1], points[2], points[3], points[4], points[5]);
+            }
+        })
     });
+}
+
+function bezier_curve(event, currentCurve) {
+    draw_all_curves();
 }
 
 function bezier_coordinate(event) {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
     if (currentCurve === "Selecione") {
-        coordenadas(event);
+        coordinates(event);
     } else {
         bezier_curve(event, currentCurve);
     }
 }
 
-var elements = document.getElementsByTagName('input');
-for (var i = 0; i < elements.length; i++) {
+let elements = document.getElementsByTagName('input');
+for (let i = 0; i < elements.length; i++) {
     elements[i].addEventListener("input", onChangeValue);
 }
+
+$.getJSON(curves_url, function (data) {
+    all_curves = data;
+});
