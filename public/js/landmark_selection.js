@@ -2,11 +2,29 @@ image_url = "";
 global_points = null;
 global_effects = null;
 let all_curves = null;
+let curveBox = null;
+let boxPoints = null;
+let isInsideBox = false;
+let mousePosition = [x = null, y = null];
+
+let isCurveFunction = false;
+let isMouseDown = false;
+document.onmousedown = function () {
+    isMouseDown = true;
+};
+document.onmouseup = function () {
+    isMouseDown = false;
+    isInsideBox = false;
+
+    mousePosition.x = null;
+    mousePosition.y = null;
+};
 
 function openImage(path, loadFunction) {
     img = new Image();
     image_url = path;
     document.getElementById('stack-canvas').setAttribute("onmousedown", "bezier_coordinate(event)");
+    document.getElementById('stack-canvas').setAttribute("onmousemove", "bezier_functions(event)");
     let ctx = document.getElementById('image');
     if (ctx.getContext) {
         ctx = ctx.getContext('2d');
@@ -22,6 +40,7 @@ function openImage(path, loadFunction) {
             if (loadFunction) {
                 loadFunction();
             }
+            draw_all_curves();
         };
     }
     img.src = path;
@@ -151,14 +170,46 @@ function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
     const imgOfLf = imageOffset.left;
     const imgOfTp = 10;//imageOffset.top;
     ctx.strokeStyle = '#e3ed5c';
-    ctx.moveTo(((x1 * ctx.canvas.width) / 800) + imgOfLf, ((y1 * 785) / 600) + imgOfTp);
+    ctx.moveTo(x1 + imgOfLf, y1 + imgOfTp);
     ctx.bezierCurveTo(
-        ((cx1 * ctx.canvas.width) / 800) + imgOfLf,
-        ((cy1 * 785) / 600) + imgOfTp,
-        ((cx2 * ctx.canvas.width) / 800) + imgOfLf, ((cy2 * 785) / 600) + imgOfTp,
-        ((x2 * ctx.canvas.width) / 800) + imgOfLf, ((y2 * 785) / 600) + imgOfTp
+        cx1 + imgOfLf,
+        cy1 + imgOfTp,
+        cx2 + imgOfLf, cy2 + imgOfTp,
+        x2 + imgOfLf, y2 + imgOfTp
     );
     ctx.stroke();
+}
+
+function getBoxPoints(curveName) {
+    if (boxPoints != null) {
+        return boxPoints;
+    }
+    let minX = Number.POSITIVE_INFINITY, minY = Number.POSITIVE_INFINITY;
+    let maxX = Number.NEGATIVE_INFINITY, maxY = Number.NEGATIVE_INFINITY;
+    all_curves[curveName].forEach(function (element, index, array) {
+        element.forEach(function (point, position, arr) {
+            if (position % 2 !== 0) {
+                minY = Math.min(minY, point);
+                maxY = Math.max(maxY, point);
+            } else {
+                minX = Math.min(minX, point);
+                maxX = Math.max(maxX, point);
+            }
+        });
+    });
+    boxPoints = [minX, minY, maxX, maxY];
+    return boxPoints;
+}
+
+function getBoxDimensions(curveName, borderSize) {
+    if (borderSize == null) {
+        borderSize = 20;
+    }
+    let points = getBoxPoints(curveName);
+    let minX = points[0], minY = points[1];
+    let maxX = points[2], maxY = points[3];
+    let width = maxX - minX, height = maxY - minY;
+    return [minX - borderSize, minY - borderSize, width + borderSize, height + borderSize];
 }
 
 function draw_all_curves() {
@@ -177,17 +228,72 @@ function draw_all_curves() {
     });
 }
 
-function bezier_curve(event, currentCurve) {
-    draw_all_curves();
+function bezier_curve(currentCurve) {
+    if (currentCurve != null) {
+        currentCurve = currentCurve.replace(" ", "-").toLowerCase();
+        draw_all_curves();
+        if (all_curves[currentCurve] != null) {
+            curveBox = getBoxDimensions(currentCurve);
+            let context = document.getElementById('bezier').getContext('2d');
+            const imgOfLf = $("#image").offset().left;
+            const imgOfTp = 10;//imageOffset.top;
+            context.rect(curveBox[0] + imgOfLf, curveBox[1] + imgOfTp, curveBox[2], curveBox[3]);
+            context.stroke();
+        }
+    }
+}
+
+function translateBezier(curveName, amountX, amountY) {
+    curveName = curveName.replace(" ", "-").toLowerCase();
+    boxPoints[0] -= amountX;
+    boxPoints[1] -= amountY;
+    boxPoints[2] -= amountX;
+    boxPoints[3] -= amountY;
+    all_curves[curveName].forEach(function (points, index, array) {
+        points.forEach(function (point, position, arr) {
+            if (position % 2 === 0) {
+                points[position] -= amountX;
+            } else {
+                points[position] -= amountY;
+            }
+        });
+    });
+    bezier_curve(curveName);
+}
+
+function bezier_functions(event) {
+    const canvas = document.getElementById('bezier');
+    let context = canvas.getContext('2d');
+    if (isMouseDown && isCurveFunction) { /* do drag things */
+        console.log(isInsideBox);
+        if (isInsideBox) {
+            const selectedIndex = document.getElementById("curvesId").selectedIndex;
+            const curveName = document.getElementById("curvesId").options[selectedIndex].text;
+            if (mousePosition.x == null) {
+                mousePosition.x = event.clientX;
+                mousePosition.y = event.clientY;
+            } else {
+                translateBezier(curveName, mousePosition.x - event.clientX, mousePosition.y - event.clientY);
+                mousePosition.x = event.clientX;
+                mousePosition.y = event.clientY;
+            }
+        }
+    }
 }
 
 function bezier_coordinate(event) {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
     if (currentCurve === "Selecione") {
+        isCurveFunction = false;
         coordinates(event);
     } else {
-        bezier_curve(event, currentCurve);
+        isCurveFunction = true;
+        let points = getBoxPoints(currentCurve.replace(" ", "-").toLowerCase());
+        const imgOfLf = $("#image").offset().left;
+        const imgOfTp = 10;//imageOffset.top;
+        isInsideBox = event.pageX >= points[0] + imgOfLf && event.pageX <= points[2] + imgOfLf
+            && event.pageY >= points[1] + imgOfTp && event.pageY <= points[3] + imgOfTp;
     }
 }
 
@@ -195,6 +301,13 @@ let elements = document.getElementsByTagName('input');
 for (let i = 0; i < elements.length; i++) {
     elements[i].addEventListener("input", onChangeValue);
 }
+
+let curveSelect = document.getElementById("curvesId");
+curveSelect.addEventListener("input", function () {
+    const selectedIndex = document.getElementById("curvesId").selectedIndex;
+    const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
+    bezier_curve(currentCurve);
+});
 
 $.getJSON(curves_url, function (data) {
     all_curves = data;
