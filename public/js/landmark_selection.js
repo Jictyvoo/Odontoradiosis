@@ -216,6 +216,9 @@ function draw_all_curves() {
     const canvas = document.getElementById('bezier');
     let context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
+    var w = canvas.width;
+    canvas.width = 1;
+    canvas.width = w;
     Object.keys(all_curves).forEach(function (element, index, array) {
         all_curves[element].forEach(function (points, position, arr) {
             if (position === 0) {
