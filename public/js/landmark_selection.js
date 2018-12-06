@@ -188,8 +188,8 @@ function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
     ctx.stroke();
 }
 
-function getBoxPoints(curveName) {
-    if (boxPoints != null) {
+function getBoxPoints(curveName, recalculate) {
+    if (boxPoints != null && recalculate !== true) {
         return boxPoints;
     }
     let minX = Number.POSITIVE_INFINITY, minY = Number.POSITIVE_INFINITY;
@@ -209,11 +209,11 @@ function getBoxPoints(curveName) {
     return boxPoints;
 }
 
-function getBoxDimensions(curveName, borderSize) {
+function getBoxDimensions(curveName, borderSize, recalculate) {
     if (borderSize == null) {
         borderSize = 20;
     }
-    let points = getBoxPoints(curveName);
+    let points = getBoxPoints(curveName, recalculate);
     let minX = points[0], minY = points[1];
     let maxX = points[2], maxY = points[3];
     let width = maxX - minX, height = maxY - minY;
@@ -259,9 +259,9 @@ function runPointsAndChange(curveName, callback_1, callback_2) {
         all_curves[curveName].forEach(function (points, index, array) {
             points.forEach(function (point, position, arr) {
                 if (position % 2 === 0) {
-                    points[position] = callback_1(points[position]);
+                    points[position] = callback_1(points[position], points[position + 1]);
                 } else {
-                    points[position] = callback_2(points[position]);
+                    points[position] = callback_2(points[position], points[position - 1]);
                 }
             });
         });
@@ -283,29 +283,49 @@ function translateBezier(curveName, amountX, amountY) {
 }
 
 function rotateBezier(curveName, angle) {
-    runPointsAndChange(curveName, function (pointX) {
-        return pointX * Math.cos(angle);
-    }, function (pointY) {
-        return pointY * Math.sin(angle);
+    curveName = curveName.replace(" ", "-").toLowerCase();
+    const boxDimensions = getBoxDimensions(curveName, null, true);
+    const imgOfLf = $("#image").offset().left;
+    const imgOfTp = 10;//imageOffset.top;
+    let origin = {
+        x: (boxDimensions[0] + boxDimensions[2]) / 2,
+        y: (boxDimensions[1] + boxDimensions[3]) / 2
+    };
+    console.log(all_curves[curveName]);
+    runPointsAndChange(curveName, function (pointX, pointY) {
+        return origin.x + imgOfLf + (pointX * Math.cos(angle)) - (pointY * Math.sin(angle));
+    }, function (pointY, pointX) {
+        return origin.y + imgOfTp + (pointX * Math.sin(angle)) + (pointY * Math.cos(angle));
     });
+    console.log(all_curves[curveName]);
 }
 
 function bezier_functions(event) {
     const canvas = document.getElementById('bezier');
     let context = canvas.getContext('2d');
+    context.translate(canvas.width / 2, canvas.height / 2);
     if (isMouseDown && isCurveFunction) { /* do drag things */
-        console.log(isInsideBox);
-        if (isInsideBox) {
-            const selectedIndex = document.getElementById("curvesId").selectedIndex;
-            const curveName = document.getElementById("curvesId").options[selectedIndex].text;
-            if (mousePosition.x == null) {
-                mousePosition.x = event.clientX;
-                mousePosition.y = event.clientY;
-            } else {
+        const selectedIndex = document.getElementById("curvesId").selectedIndex;
+        const curveName = document.getElementById("curvesId").options[selectedIndex].text;
+        if (mousePosition.x == null) {
+            mousePosition.x = event.clientX;
+            mousePosition.y = event.clientY;
+        } else {
+            if (isInsideBox) {
                 translateBezier(curveName, mousePosition.x - event.clientX, mousePosition.y - event.clientY);
-                mousePosition.x = event.clientX;
-                mousePosition.y = event.clientY;
+            } else {
+                // noinspection JSSuspiciousNameCombination
+                let productModule = {
+                    first: Math.sqrt(Math.pow(event.clientX, 2) + Math.pow(event.clientY, 2)),
+                    second: Math.sqrt(Math.pow(mousePosition.x, 2) + Math.pow(mousePosition.y, 2))
+                };
+                let scaleProduct = Math.abs((event.clientX * mousePosition.x) + (event.clientY * mousePosition.y));
+                let angle = Math.acos(scaleProduct / (productModule.first * productModule.second));
+                console.log(angle);
+                rotateBezier(curveName, Math.PI);
             }
+            mousePosition.x = event.clientX;
+            mousePosition.y = event.clientY;
         }
     }
 }
@@ -337,6 +357,11 @@ curveSelect.addEventListener("input", function () {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
     bezier_curve(currentCurve);
+    if (currentCurve !== "Selecione") {
+        document.getElementById('stack-canvas').style.cursor = "move";
+    } else {
+        document.getElementById('stack-canvas').style.cursor = "crosshair";
+    }
 });
 
 $.getJSON(curves_url, function (data) {
