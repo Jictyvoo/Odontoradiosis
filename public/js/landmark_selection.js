@@ -196,6 +196,25 @@ function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
     ctx.stroke();
 }
 
+function drawPointCircle(curveName) {
+    if (all_curves[curveName] != null) {
+        const canvas = document.getElementById("bezier");
+        const context = canvas.getContext("2d");
+        context.beginPath();
+        const radius = 50;
+        let previousPoint = {x: null, y: null};
+        all_curves[curveName].forEach(function (element, index, array) {
+            element.forEach(function (point, position, arr) {
+                if (element.length === 6) {
+                    console.log(point);
+                }
+            });
+        });
+        context.arc(100, 75, radius, 0, 2 * Math.PI);
+        context.stroke();
+    }
+}
+
 function getBoxPoints(curveName, recalculate) {
     if (boxPoints != null && recalculate !== true) {
         return boxPoints;
@@ -292,17 +311,10 @@ function translateBezier(curveName, amountX, amountY) {
 
 function rotateBezier(curveName, angle) {
     curveName = curveName.replace(" ", "-").toLowerCase();
-    const boxDimensions = getBoxDimensions(curveName, null, true);
-    const imgOfLf = 0;//$("#image").offset().left;
-    const imgOfTp = 0;//10;//imageOffset.top;
-    let origin = {
-        x: 0,//(boxDimensions[0] + boxDimensions[2]) / 2,
-        y: 0//(boxDimensions[1] + boxDimensions[3]) / 2
-    };
     runPointsAndChange(curveName, function (pointX, pointY) {
-        return imgOfLf + origin.x + (pointX * Math.cos(angle)) - (pointY * Math.sin(angle));
+        return (pointX * Math.cos(angle)) - (pointY * Math.sin(angle));
     }, function (pointY, pointX) {
-        return imgOfTp + origin.y + (pointX * Math.sin(angle)) + (pointY * Math.cos(angle));
+        return (pointX * Math.sin(angle)) + (pointY * Math.cos(angle));
     }, true);
 }
 
@@ -323,6 +335,7 @@ function highLowAngle(oldPosition, currentPosition) {
     return oldPosition.y > currentPosition.y ? -1 : 1;
 }
 
+// noinspection JSUnusedGlobalSymbols
 function bezier_functions(event) {
     const canvas = document.getElementById('bezier');
     let context = canvas.getContext('2d');
@@ -364,6 +377,7 @@ function verifyMouseOnBoxVertex(relativeMouse) {
     return false;
 }
 
+// noinspection JSUnusedGlobalSymbols
 function bezier_coordinate(event) {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
