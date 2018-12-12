@@ -118,7 +118,14 @@ function coordinates(event) {
         hiddenForm = document.getElementById("current_image");
         let imageSource = image_url;
         const splicedSource = imageSource.split("/");
-        imageSource = splicedSource[splicedSource.length - 1].charAt(0);
+        imageSource = "";
+        for (let index = 0; index < splicedSource.length; index += 1) {
+            if (splicedSource[splicedSource.length - 1] === ".") {
+                index = splicedSource.length + 1;
+            } else {
+                imageSource += splicedSource[splicedSource.length - 1].charAt(index);
+            }
+        }
         hiddenForm.setAttribute("value", imageSource);
     }
 }
@@ -197,21 +204,28 @@ function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
 }
 
 function drawPointCircle(curveName) {
+    curveName = curveName.replace(" ", "-").toLowerCase();
     if (all_curves[curveName] != null) {
         const canvas = document.getElementById("bezier");
         const context = canvas.getContext("2d");
         context.beginPath();
-        const radius = 50;
-        let previousPoint = {x: null, y: null};
+        const radius = 4;
+        const imageOffset = $("#image").offset();
+        const imgOfLf = imageOffset.left;
+        const imgOfTp = 10;//imageOffset.top;
         all_curves[curveName].forEach(function (element, index, array) {
             element.forEach(function (point, position, arr) {
-                if (element.length === 6) {
-                    console.log(point);
+                if (position % 2 !== 0) {
+                    context.moveTo(element[position - 1] + imgOfLf, element[position] + imgOfTp);
+                    context.arc(element[position - 1] + imgOfLf, element[position] + imgOfTp, radius, 0, 2 * Math.PI);
+                    context.fillStyle = '#184bed';
+                    context.fill();
+                    context.lineWidth = 1;
+                    context.strokeStyle = '#184bed';
+                    context.stroke();
                 }
             });
         });
-        context.arc(100, 75, radius, 0, 2 * Math.PI);
-        context.stroke();
     }
 }
 
@@ -360,15 +374,14 @@ function bezier_functions(event) {
                 };
                 let scaleProduct = Math.abs((event.clientX * mousePosition.x) + (event.clientY * mousePosition.y));
                 let angle = Math.acos(scaleProduct / (productModule.first * productModule.second));
-                if (isNaN(angle)) {
-                    angle = 0;
-                } else {
+                if (!isNaN(angle)) {
                     angle *= highLowAngle(mousePosition, {x: event.clientX, y: event.clientY});
+                    rotateBezier(curveName, angle);
                 }
-                rotateBezier(curveName, angle);
             }
             mousePosition.x = event.clientX;
             mousePosition.y = event.clientY;
+            drawPointCircle(curveName);
         }
     }
 }
@@ -406,6 +419,7 @@ curveSelect.addEventListener("input", function () {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
     bezier_curve(currentCurve);
+    drawPointCircle(currentCurve);
     if (currentCurve !== "Selecione") {
         document.getElementById('stack-canvas').style.cursor = "move";
     } else {
