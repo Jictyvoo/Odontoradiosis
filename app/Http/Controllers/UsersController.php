@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller {
@@ -11,7 +12,8 @@ class UsersController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		//
+		$users = User::all();
+		return view('administrator.see_all_users', compact('users'));
 	}
 
 	/**

@@ -15,7 +15,7 @@
             <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
                  height="200" class="img-responsive" alt="Generic placeholder thumbnail">
             <h4>Insert new Radiographs</h4>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <p><a class="btn btn-default" href="{{ route('image.create') }}" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
             <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"

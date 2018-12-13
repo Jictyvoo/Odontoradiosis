@@ -62,15 +62,13 @@
                     <li><a href="#">Export Database</a></li>
                 </ul>
                 <ul class="nav nav-sidebar">
-                    <li><a href="">See All Users</a></li>
-                    <li><a href="">Delete User</a></li>
-                    <li><a href="">See All Radiographs</a></li>
-                    <li><a href="">Delete Radiograph</a></li>
+                    <li><a href="{{ route('register') }}">Add new Users</a></li>
+                    <li><a href="{{ route('image.create') }}">Add new Radiography</a></li>
+                    <li><a href="{{ route('user.index') }}">See all Users</a></li>
+                    <li><a href="{{ route('image.index') }}">See all Radiography</a></li>
                 </ul>
                 <ul class="nav nav-sidebar">
-                    <li><a href="">Add Admin User</a></li>
                     <li><a href="">Notify All Users</a></li>
-                    <li><a href="">Remove Admin User</a></li>
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

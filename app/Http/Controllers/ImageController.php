@@ -22,7 +22,7 @@ class ImageController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		//
+		return view('administrator.add_radiography_form');
 	}
 
 	/**
@@ -32,7 +32,11 @@ class ImageController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//
+		$image = new Image();
+		$path = $request->file('radiography')->store('radiography', 'public');
+		$image->path = $path;
+		$image->save();
+		return redirect('image');
 	}
 
 	/**

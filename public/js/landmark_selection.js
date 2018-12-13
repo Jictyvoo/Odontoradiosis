@@ -6,7 +6,9 @@ let curveBox = null;
 let boxPoints = null;
 let isInsideBox = false;
 let isOnBoxVertex = false;
+let isOnCurvePoints = null;
 let mousePosition = [x = null, y = null];
+const pointRadius = 4;
 
 let isCurveFunction = false;
 let isMouseDown = false;
@@ -16,6 +18,8 @@ document.onmousedown = function () {
 document.onmouseup = function () {
     isMouseDown = false;
     isInsideBox = false;
+    isOnBoxVertex = false;
+    isOnCurvePoints = null;
 
     mousePosition.x = null;
     mousePosition.y = null;
@@ -116,17 +120,8 @@ function coordinates(event) {
         hiddenForm.setAttribute("value", data_json);
 
         hiddenForm = document.getElementById("current_image");
-        let imageSource = image_url;
-        const splicedSource = imageSource.split("/");
-        imageSource = "";
-        for (let index = 0; index < splicedSource.length; index += 1) {
-            if (splicedSource[splicedSource.length - 1] === ".") {
-                index = splicedSource.length + 1;
-            } else {
-                imageSource += splicedSource[splicedSource.length - 1].charAt(index);
-            }
-        }
-        hiddenForm.setAttribute("value", imageSource);
+        const splicedSource = image_url.split("/");
+        hiddenForm.setAttribute("value", splicedSource[splicedSource.length - 2] + "/" + splicedSource[splicedSource.length - 1]);
     }
 }
 
@@ -203,26 +198,30 @@ function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
     ctx.stroke();
 }
 
+function drawCircle(context, x, y) {
+    context.beginPath();
+    const imageOffset = $("#image").offset();
+    const imgOfLf = imageOffset.left;
+    const imgOfTp = 10;//imageOffset.top;
+    context.moveTo(x + imgOfLf, y + imgOfTp);
+    context.arc(x + imgOfLf, y + imgOfTp, pointRadius, 0, 2 * Math.PI);
+    context.fillStyle = '#184bed';
+    context.fill();
+    context.lineWidth = 1;
+    context.strokeStyle = '#184bed';
+    context.stroke();
+}
+
 function drawPointCircle(curveName) {
     curveName = curveName.replace(" ", "-").toLowerCase();
     if (all_curves[curveName] != null) {
         const canvas = document.getElementById("bezier");
         const context = canvas.getContext("2d");
         context.beginPath();
-        const radius = 4;
-        const imageOffset = $("#image").offset();
-        const imgOfLf = imageOffset.left;
-        const imgOfTp = 10;//imageOffset.top;
         all_curves[curveName].forEach(function (element, index, array) {
             element.forEach(function (point, position, arr) {
                 if (position % 2 !== 0) {
-                    context.moveTo(element[position - 1] + imgOfLf, element[position] + imgOfTp);
-                    context.arc(element[position - 1] + imgOfLf, element[position] + imgOfTp, radius, 0, 2 * Math.PI);
-                    context.fillStyle = '#184bed';
-                    context.fill();
-                    context.lineWidth = 1;
-                    context.strokeStyle = '#184bed';
-                    context.stroke();
+                    drawCircle(context, element[position - 1], element[position]);
                 }
             });
         });
@@ -258,7 +257,7 @@ function getBoxDimensions(curveName, borderSize, recalculate) {
     let minX = points[0], minY = points[1];
     let maxX = points[2], maxY = points[3];
     let width = maxX - minX, height = maxY - minY;
-    return [minX - borderSize, minY - borderSize, width + borderSize, height + borderSize];
+    return [minX - borderSize, minY - borderSize, width + borderSize * 2, height + borderSize * 2];
 }
 
 function draw_all_curves() {
@@ -280,6 +279,17 @@ function draw_all_curves() {
     });
 }
 
+function drawBoxVertex(context) {
+    [
+        [curveBox[0], curveBox[1]],
+        [curveBox[0], curveBox[1] + curveBox[3]],
+        [curveBox[0] + curveBox[2], curveBox[1]],
+        [curveBox[0] + curveBox[2], curveBox[1] + curveBox[3]]
+    ].forEach(function (element, index, array) {
+        drawCircle(context, element[0], element[1]);
+    });
+}
+
 function bezier_curve(currentCurve, recalculate) {
     if (currentCurve != null) {
         currentCurve = currentCurve.replace(" ", "-").toLowerCase();
@@ -287,10 +297,12 @@ function bezier_curve(currentCurve, recalculate) {
         if (all_curves[currentCurve] != null) {
             curveBox = getBoxDimensions(currentCurve, null, recalculate);
             let context = document.getElementById('bezier').getContext('2d');
+            context.beginPath();
             const imgOfLf = $("#image").offset().left;
             const imgOfTp = 10;//imageOffset.top;
             context.rect(curveBox[0] + imgOfLf, curveBox[1] + imgOfTp, curveBox[2], curveBox[3]);
             context.stroke();
+            drawBoxVertex(context);
         }
     }
 }
@@ -362,8 +374,12 @@ function bezier_functions(event) {
             mousePosition.y = event.clientY;
         } else {
             if (isOnBoxVertex) {
-                // calculate scale distance
-                rescaleBezier(curveName, 1, 1);
+                /*still need to fix problem when rescale with top points*/
+                let scaleX = event.clientX / mousePosition.x;
+                let scaleY = event.clientY / mousePosition.y;
+                rescaleBezier(curveName, scaleX, scaleY);
+            } else if (isOnCurvePoints != null) {
+
             } else if (isInsideBox) {
                 translateBezier(curveName, mousePosition.x - event.clientX, mousePosition.y - event.clientY);
             } else {
@@ -386,26 +402,50 @@ function bezier_functions(event) {
     }
 }
 
-function verifyMouseOnBoxVertex(relativeMouse) {
-    return false;
+function verifyMouseOnBoxVertex(relativeMouse, curveName) {
+    let boxVertex = getBoxDimensions(curveName, null, true);
+    const canvas = document.getElementById("bezier");
+    const context = canvas.getContext("2d");
+    const imgOfLf = $("#image").offset().left;
+    const imgOfTp = 10;//imageOffset.top;
+    let isOn = false;
+    [
+        [boxVertex[0], boxVertex[1]],
+        [boxVertex[0], boxVertex[1] + boxVertex[3]],
+        [boxVertex[0] + boxVertex[2], boxVertex[1]],
+        [boxVertex[0] + boxVertex[2], boxVertex[1] + boxVertex[3]]
+    ].forEach(function (element, index, array) {
+        drawCircle(context, element[0], element[1]);
+        if (relativeMouse.x >= element[0] - pointRadius + imgOfLf && relativeMouse.x <= element[0] + pointRadius + imgOfLf
+            && relativeMouse.y >= element[1] - pointRadius + imgOfTp && relativeMouse.y <= element[1] + pointRadius + imgOfTp) {
+            isOn = true;
+        }
+    });
+    return isOn;
+}
+
+function verifyMouseOnCurvePoint(relativeMouse, curveName) {
+    return null;
 }
 
 // noinspection JSUnusedGlobalSymbols
 function bezier_coordinate(event) {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
+    const curveName = currentCurve.replace(" ", "-").toLowerCase();
     if (currentCurve === "Selecione") {
         isCurveFunction = false;
         coordinates(event);
-    } else if (all_curves[currentCurve.replace(" ", "-").toLowerCase()] != null) {
+    } else if (all_curves[curveName] != null) {
         isCurveFunction = true;
-        let points = getBoxDimensions(currentCurve.replace(" ", "-").toLowerCase());
+        let points = getBoxDimensions(curveName);
         const imgOfLf = $("#image").offset().left;
         const imgOfTp = 10;//imageOffset.top;
         const relativeMouse = getMousePos(document.getElementById('bezier'), event);
         isInsideBox = relativeMouse.x >= points[0] + imgOfLf && relativeMouse.x <= points[0] + points[2] + imgOfLf
             && relativeMouse.y >= points[1] + imgOfTp && relativeMouse.y <= points[1] + points[3] + imgOfTp;
-        isOnBoxVertex = verifyMouseOnBoxVertex(relativeMouse);
+        isOnBoxVertex = verifyMouseOnBoxVertex(relativeMouse, curveName);
+        isOnCurvePoints = verifyMouseOnCurvePoint(relativeMouse, curveName);
     }
 }
 

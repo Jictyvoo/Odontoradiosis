@@ -1,20 +1,21 @@
 <style>
-    img {
-        height: 100px;
-        margin: 5px;
-        border: 2px solid #fff;
-        cursor: pointer;
-    }
+	img {
+		height: 100px;
+		margin: 5px;
+		border: 2px solid #fff;
+		cursor: pointer;
+	}
 
-    img:hover {
-        border-color: #EA0404;
-    }
+	img:hover {
+		border-color: #EA0404;
+	}
 </style>
 
+<?php use Illuminate\Support\Facades\Storage; ?>
 @foreach($images as $imageLandmark)
-    <input type="hidden">
-    <?php $image = \App\Models\Image::find($imageLandmark->fk_id_image) ?>
-    <img src="{{ asset('radiografias/'.$image->path) }}" title="{{'Radiografia '.$image->id}}">
+	<input type="hidden">
+	<?php $image = \App\Models\Image::find($imageLandmark->fk_id_image); ?>
+	<img src="{{ Storage::url($image->path) }}" title="{{'Radiografia '.$image->id}}">
 @endforeach
 
 <script>

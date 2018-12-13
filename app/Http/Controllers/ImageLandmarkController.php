@@ -38,7 +38,7 @@ class ImageLandmarkController extends Controller {
 		$jsonReceived = $request->input('savedPoints');
 		$landmarksSaved = json_decode($jsonReceived);
 		if ($landmarksSaved) {
-			$image = Image::find($request->input('currentImage'));
+			$image = Image::where('path', '=', $request->input('currentImage'))->first();
 			$imageLandmark = ImageLandmark::all()->where('fk_id_image', '=', $image->id)->where('fk_id_doctor', '=', auth()->user()->id)->first();
 			if ($imageLandmark == null) {
 				$imageLandmark = new ImageLandmark();
