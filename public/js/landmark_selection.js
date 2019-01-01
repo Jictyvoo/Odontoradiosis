@@ -379,7 +379,9 @@ function bezier_functions(event) {
                 let scaleY = event.clientY / mousePosition.y;
                 rescaleBezier(curveName, scaleX, scaleY);
             } else if (isOnCurvePoints != null) {
-
+                isOnCurvePoints[0][isOnCurvePoints[1]] -= mousePosition.x - event.clientX;
+                isOnCurvePoints[0][isOnCurvePoints[2]] -= mousePosition.y - event.clientY;
+                bezier_curve(curveName, true);
             } else if (isInsideBox) {
                 translateBezier(curveName, mousePosition.x - event.clientX, mousePosition.y - event.clientY);
             } else {
@@ -425,7 +427,20 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
 }
 
 function verifyMouseOnCurvePoint(relativeMouse, curveName) {
-    return null;
+    const imgOfLf = $("#image").offset().left;
+    const imgOfTp = 10;//imageOffset.top;
+    let isOn = null;
+    all_curves[curveName].forEach(function (element, index, array) {
+        element.forEach(function (point, position, arr) {
+            if (position % 2 === 0) {
+                if (relativeMouse.x >= element[position] - pointRadius + imgOfLf && relativeMouse.x <= element[position] + pointRadius + imgOfLf
+                    && relativeMouse.y >= element[position + 1] - pointRadius + imgOfTp && relativeMouse.y <= element[position + 1] + pointRadius + imgOfTp) {
+                    isOn = [element, position, position + 1];
+                }
+            }
+        });
+    });
+    return isOn;
 }
 
 // noinspection JSUnusedGlobalSymbols
