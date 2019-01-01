@@ -101,6 +101,7 @@
                         <td>
                             <form method="post" action="{{ route('image_landmark.store') }}">
                                 @csrf
+                                <input type="hidden" name="bezierCurves" id="bezier_curves" value=""/>
                                 <input type="hidden" name="savedPoints" id="saved_points" value=""/>
                                 <input type="hidden" name="currentImage" id="current_image" value=""/>
                                 <input type="image" name="save" src="{{ asset('img/salvar.png') }}"

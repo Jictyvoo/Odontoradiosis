@@ -13,6 +13,9 @@ const pointRadius = 4;
 let isCurveFunction = false;
 let isMouseDown = false;
 document.onmousedown = function () {
+    let hiddenForm = document.getElementById("current_image");
+    const splicedSource = image_url.split("/");
+    hiddenForm.setAttribute("value", splicedSource[splicedSource.length - 2] + "/" + splicedSource[splicedSource.length - 1]);
     isMouseDown = true;
 };
 document.onmouseup = function () {
@@ -31,6 +34,32 @@ function getMousePos(canvas, evt) {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top
     };
+}
+
+function toJson(toConvertArray) {
+    let returnedJson = "{";
+    Object.keys(toConvertArray).forEach(function (element, index, array) {
+        if (index > 0) {
+            returnedJson += ",";
+        }
+        returnedJson += "\"" + element + "\":[";
+        toConvertArray[element].forEach(function (subElement, position, arr) {
+            if (position > 0) {
+                returnedJson += ",";
+            }
+            returnedJson += "[";
+            subElement.forEach(function (item, count, subArray) {
+                if (count > 0) {
+                    returnedJson += ",";
+                }
+                returnedJson += item;
+            });
+            returnedJson += "]";
+        });
+        returnedJson += "]";
+    });
+    returnedJson += "}";
+    return returnedJson;
 }
 
 function openImage(path, loadFunction) {
@@ -115,13 +144,9 @@ function coordinates(event) {
 
         redrawLandmark(div);
 
-        const data_json = toJSON(global_points);
+        const data_json = landmarksToJSON(global_points);
         let hiddenForm = document.getElementById("saved_points");
         hiddenForm.setAttribute("value", data_json);
-
-        hiddenForm = document.getElementById("current_image");
-        const splicedSource = image_url.split("/");
-        hiddenForm.setAttribute("value", splicedSource[splicedSource.length - 2] + "/" + splicedSource[splicedSource.length - 1]);
     }
 }
 
@@ -131,7 +156,7 @@ function desfazer() {
     /* will use global_effects array */
 }
 
-function toJSON(js_array) {
+function landmarksToJSON(js_array) {
     let returned_json = "{";
     for (let key in js_array) {
         if (returned_json.length > 1) {
@@ -373,6 +398,9 @@ function bezier_functions(event) {
             mousePosition.x = event.clientX;
             mousePosition.y = event.clientY;
         } else {
+            const curvesJson = toJson(all_curves);
+            let hiddenForm = document.getElementById("bezier_curves");
+            hiddenForm.setAttribute("value", curvesJson);
             if (isOnBoxVertex) {
                 /*still need to fix problem when rescale with top points*/
                 let scaleX = event.clientX / mousePosition.x;

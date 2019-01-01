@@ -37,6 +37,7 @@ class ImageLandmarkController extends Controller {
 	public function store(Request $request) {
 		$jsonReceived = $request->input('savedPoints');
 		$landmarksSaved = json_decode($jsonReceived);
+		$image = null;
 		if ($landmarksSaved) {
 			$image = Image::where('path', '=', $request->input('currentImage'))->first();
 			$imageLandmark = ImageLandmark::all()->where('fk_id_image', '=', $image->id)->where('fk_id_doctor', '=', auth()->user()->id)->first();
@@ -64,6 +65,7 @@ class ImageLandmarkController extends Controller {
 			DB::commit();
 			$imageLandmark->save();
 		}
+		(new BezierCurveController())->store($request, $image);
 		return redirect('home');
 	}
 
