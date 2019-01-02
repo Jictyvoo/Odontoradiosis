@@ -76,13 +76,52 @@ class BezierCurveController extends Controller {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Will convert required curve image into a JSON file
 	 *
-	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @param $path
+	 * @return string
 	 */
-	public function show($id) {
-		//
+	public function show($path) {
+		$path = str_replace("@", "/", $path);
+		$returnedJson = "{";
+		$image = Image::where('path', '=', $path)->first();
+		$bezierCurves = BezierCurve::where('image_id', '=', $image->id)->orderBy('name')->orderBy('id')->get();
+		$previousCurveName = null;
+		if ($bezierCurves->count() > 0) {
+			$first = true;
+			$initial = true;
+			foreach ($bezierCurves as $bezierCurve) {
+				if ($previousCurveName != $bezierCurve->name) {
+					$previousCurveName = $bezierCurve->name;
+					$initial = true;
+					if (!$first) {
+						$returnedJson = $returnedJson . "], ";
+					}
+					$returnedJson = $returnedJson . "\"" . $bezierCurve->name . "\":[";
+					$first = false;
+				}
+				$bezierPoint = BezierPoints::find($bezierCurve->bezier_point_id);
+				if (!$initial) {
+					$returnedJson = $returnedJson . ", ";
+				}
+				$initial = false;
+				$returnedJson = $returnedJson . "[";
+				$returnedJson = $returnedJson . $bezierPoint->x1;
+				$returnedJson = $returnedJson . ", " . $bezierPoint->y1;
+				$returnedJson = $returnedJson . ", " . $bezierPoint->cx1;
+				$returnedJson = $returnedJson . ", " . $bezierPoint->cy1;
+				$returnedJson = $returnedJson . ", " . $bezierPoint->cx2;
+				$returnedJson = $returnedJson . ", " . $bezierPoint->cy2;
+				if ($bezierPoint->x2 != null) {
+					$returnedJson = $returnedJson . ", " . $bezierPoint->x2;
+					$returnedJson = $returnedJson . ", " . $bezierPoint->y2;
+				}
+				$returnedJson = $returnedJson . "]";
+			}
+			$returnedJson = $returnedJson . "]}";
+			return $returnedJson;
+		}
+		return redirect(asset('js/bezier_curves.json'));
 	}
 
 	/**

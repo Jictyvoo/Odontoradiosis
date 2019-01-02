@@ -82,22 +82,32 @@ function openImage(path, loadFunction) {
             if (loadFunction) {
                 loadFunction();
             }
-            draw_all_curves();
+            loadJsonCurve().then(draw_all_curves);
         };
     }
     img.src = path;
 }
 
-function loadJsonCurve() {
-    $.getJSON(curves_url, function (data) {
+async function loadJsonCurve() {
+    const splicedSource = image_url.split("/");
+    const curveJson = curves_url.replace("%REPLACE%", splicedSource[splicedSource.length - 2] + "@" + splicedSource[splicedSource.length - 1]);
+    /*$.getJSON(curveJson, function (data) {
         all_curves = data;
+    });*/
+    fetch(curveJson)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            all_curves = data;
+        }).then(() => {
+        draw_all_curves();
     });
 }
 
 function image(path) {
     global_points = [];
     global_effects = [];
-    loadJsonCurve();
     openImage(path, null);
     reset();
 }
@@ -509,5 +519,3 @@ curveSelect.addEventListener("input", function () {
         document.getElementById('stack-canvas').style.cursor = "crosshair";
     }
 });
-
-loadJsonCurve();

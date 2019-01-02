@@ -128,6 +128,6 @@
             window.open("{{ route('image_landmark.index') }}", "_blank", "width=600, height=400");
         }
 
-        const curves_url = "{{ asset('js/bezier_curves.json') }}";
+        let curves_url = "{{ route('bezier_curve.show', "%REPLACE%") }}";
     </script>
 @endsection

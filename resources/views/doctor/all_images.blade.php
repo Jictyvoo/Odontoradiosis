@@ -17,11 +17,11 @@
 @endforeach
 
 <script>
-    var imgs = document.querySelectorAll("img");
+    const imgs = document.querySelectorAll("img");
 
-    for (var x = 0; x < imgs.length; x++) {
+    for (let x = 0; x < imgs.length; x++) {
         imgs[x].addEventListener("click", function () {
-            window.opener.image(this.src); // envia para a função a imagem escolhida 
+            window.opener.image(this.src); // envia para a função a imagem escolhida
             window.close(); // fecha a janela ao escolher uma imagem
         });
     }
