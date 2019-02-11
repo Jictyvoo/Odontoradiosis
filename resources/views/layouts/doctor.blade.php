@@ -74,7 +74,18 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script language="javascript" src="{{ asset('js/landmark_selection.js') }}"></script>
+
+<?php
+use Illuminate\Support\Facades\File;
+use MatthiasMullie\Minify;
+if (File::lastModified(public_path('js/landmark_selection.js')) > File::lastModified(public_path('js/landmark.min.js'))) {
+	File::delete(public_path('js/landmark.min.js'));
+	$minifier = new Minify\JS(File::get(public_path('js/landmark_selection.js')));
+	File::append(public_path('js/landmark.min.js'), $minifier->minify());
+}
+?>
+
+<script language="javascript" src="{{ asset('js/landmark.min.js') }}"></script>
 
 </body>
 </html>
