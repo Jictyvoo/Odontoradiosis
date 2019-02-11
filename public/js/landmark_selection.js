@@ -82,13 +82,13 @@ function openImage(path, loadFunction) {
             if (loadFunction) {
                 loadFunction();
             }
-            loadJsonCurve().then(draw_all_curves);
+            loadJsonCurve();
         };
     }
     img.src = path;
 }
 
-async function loadJsonCurve() {
+function loadJsonCurve() {
     const splicedSource = image_url.split("/");
     const curveJson = curves_url.replace("%REPLACE%", splicedSource[splicedSource.length - 2] + "@" + splicedSource[splicedSource.length - 1]);
     /*$.getJSON(curveJson, function (data) {
@@ -295,6 +295,12 @@ function getBoxDimensions(curveName, borderSize, recalculate) {
     return [minX - borderSize, minY - borderSize, width + borderSize * 2, height + borderSize * 2];
 }
 
+function saveBezierCurve() {
+    const curvesJson = toJson(all_curves);
+    let hiddenForm = document.getElementById("bezier_curves");
+    hiddenForm.setAttribute("value", curvesJson);
+}
+
 function draw_all_curves() {
     const canvas = document.getElementById('bezier');
     let context = canvas.getContext('2d');
@@ -312,6 +318,7 @@ function draw_all_curves() {
             }
         })
     });
+    saveBezierCurve();
 }
 
 function drawBoxVertex(context) {
@@ -408,9 +415,7 @@ function bezier_functions(event) {
             mousePosition.x = event.clientX;
             mousePosition.y = event.clientY;
         } else {
-            const curvesJson = toJson(all_curves);
-            let hiddenForm = document.getElementById("bezier_curves");
-            hiddenForm.setAttribute("value", curvesJson);
+            saveBezierCurve();
             if (isOnBoxVertex) {
                 /*still need to fix problem when rescale with top points*/
                 let scaleX = event.clientX / mousePosition.x;
