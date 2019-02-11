@@ -86,6 +86,7 @@ if (File::lastModified(public_path('js/landmark_selection.js')) > File::lastModi
 ?>
 
 <script language="javascript" src="{{ asset('js/landmark.min.js') }}"></script>
+<!--<script language="javascript" src="{{ asset('js/landmark_selection.js') }}"></script>-->
 
 </body>
 </html>
