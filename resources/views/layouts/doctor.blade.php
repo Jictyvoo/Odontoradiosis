@@ -92,6 +92,7 @@ if ($changed) {
 ?>
 
 <script language="javascript" src="{{ asset('js/landmark.min.js') }}"></script>
+<script language="javascript" src="{{ asset('js/semiautomaticLandmarksMarking.js') }}"></script>
 <!--<script language="javascript" src="{{ asset('js/landmark_selection.js') }}"></script>-->
 
 </body>

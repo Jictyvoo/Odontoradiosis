@@ -91,9 +91,9 @@
                             <input type="image" name="markStitch" src="{{ asset('img/Ponto.png') }}"
                                    onClick="openWindowSave()">
                         </td>
-                    <!--<td>
-                            <input type="image" name="generateMeasurement" src="{{ asset('img/Tracar.png') }}" onClick="this.form.submit()">
-                        </td>-->
+                        <td>
+                            <input type="image" name="generateMeasurement" src="{{ asset('img/Tracar.png') }}" onClick="calculateLandmarks()">
+                        </td>
                         <td>
                             <input type="image" name="unmake" src="{{ asset('img/Desfazer.png') }}"
                                    onClick="desfazer()">
