@@ -18,9 +18,10 @@
                             <option>Pório Anatômico</option>
                             <option>Maxila</option>
                             <option>Mandíbula</option>
-                            <option>Dentes</option>
-                            <option>Incisivos Centrais</option>
-                            <option>Dentes Posteriores</option>
+                            <option>Incisivo Central Superior</option>
+                            <option>Incisivo Central Inferior</option>
+                            <option>Dente Posterior Superior</option>
+                            <option>Dente Posterior Inferior</option>
                         </select>
                     </a></li>
                 <li class="active"><a href="#"><label class="filter-label">Pontos</label>
