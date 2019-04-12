@@ -248,7 +248,7 @@ function drawCircle(context, x, y) {
 }
 
 function drawPointCircle(curveName) {
-    curveName = curveName.replace(" ", "-").toLowerCase();
+    curveName = curveName.replace(/ /g,"-").toLowerCase();
     if (all_curves[curveName] != null) {
         const canvas = document.getElementById("bezier");
         const context = canvas.getContext("2d");
@@ -334,7 +334,7 @@ function drawBoxVertex(context) {
 
 function bezier_curve(currentCurve, recalculate) {
     if (currentCurve != null) {
-        currentCurve = currentCurve.replace(" ", "-").toLowerCase();
+        currentCurve = currentCurve.replace(/ /g,"-").toLowerCase();
         draw_all_curves();
         if (all_curves[currentCurve] != null) {
             curveBox = getBoxDimensions(currentCurve, null, recalculate);
@@ -365,7 +365,7 @@ function runPointsAndChange(curveName, callback_1, callback_2, recalculate) {
 }
 
 function translateBezier(curveName, amountX, amountY) {
-    curveName = curveName.replace(" ", "-").toLowerCase();
+    curveName = curveName.replace(/ /g,"-").toLowerCase();
     boxPoints[0] -= amountX;
     boxPoints[1] -= amountY;
     boxPoints[2] -= amountX;
@@ -378,7 +378,7 @@ function translateBezier(curveName, amountX, amountY) {
 }
 
 function rotateBezier(curveName, angle) {
-    curveName = curveName.replace(" ", "-").toLowerCase();
+    curveName = curveName.replace(/ /g,"-").toLowerCase();
     runPointsAndChange(curveName, function (pointX, pointY) {
         return (pointX * Math.cos(angle)) - (pointY * Math.sin(angle));
     }, function (pointY, pointX) {
@@ -387,7 +387,7 @@ function rotateBezier(curveName, angle) {
 }
 
 function rescaleBezier(curveName, scaleX, scaleY) {
-    curveName = curveName.replace(" ", "-").toLowerCase();
+    curveName = curveName.replace(/ /g,"-").toLowerCase();
     runPointsAndChange(curveName, function (pointX) {
         return pointX * scaleX;
     }, function (pointY) {
@@ -490,7 +490,7 @@ function verifyMouseOnCurvePoint(relativeMouse, curveName) {
 function bezier_coordinate(event) {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
-    const curveName = currentCurve.replace(" ", "-").toLowerCase();
+    const curveName = currentCurve.replace(/ /g,"-").toLowerCase();
     if (currentCurve === "Selecione") {
         isCurveFunction = false;
         coordinates(event);
