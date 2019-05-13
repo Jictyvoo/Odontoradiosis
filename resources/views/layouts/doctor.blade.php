@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@yield('page-title')</title>
+	<title>Odontoradiosis</title>
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/bezier.css') }}">
@@ -27,7 +27,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">@yield('page-title')</a>
+				<a class="navbar-brand" href="#">Odontoradiosis</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
