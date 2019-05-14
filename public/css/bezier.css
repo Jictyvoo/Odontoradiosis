@@ -4,6 +4,8 @@
 }
 
 #stack-canvas > canvas {
+	max-width: 100%;
+	height: auto;
     position: absolute;
     left: 0;
     top: 0;

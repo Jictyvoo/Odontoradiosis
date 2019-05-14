@@ -32,22 +32,18 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="{{ route('home') }}">Início</a></li>
-					<li><a href="#">Ajuda</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 											data-toggle="dropdown">Sair <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li class="">
 								<form method="POST" action="{{ route('logout') }}">
 									@csrf
-									<button class="btn btn-primary" type="submit">Logout</button>
+									<button type="submit">Logout</button>
 								</form>
 							</li>
 						</ul>
 					</li>
 				</ul>
-				<form class="navbar-form navbar-right">
-					<input type="text" class="form-control" placeholder="Search...">
-				</form>
 			</div>
 		</div>
 	</nav>

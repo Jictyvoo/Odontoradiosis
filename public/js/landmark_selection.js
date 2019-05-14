@@ -70,14 +70,14 @@ function openImage(path, loadFunction) {
     let ctx = document.getElementById('image');
     if (ctx.getContext) {
         ctx = ctx.getContext('2d');
-        ctx.canvas.width = window.innerWidth;
-        document.getElementById('landmarks').getContext('2d').canvas.width = window.innerWidth;
+        ctx.canvas.width = 1050;
+        document.getElementById('landmarks').getContext('2d').canvas.width = ctx.canvas.width;
         document.getElementById('landmarks').getContext('2d').canvas.height = 785;
-        document.getElementById('bezier').getContext('2d').canvas.width = window.innerWidth;
+        document.getElementById('bezier').getContext('2d').canvas.width = ctx.canvas.width;
         document.getElementById('bezier').getContext('2d').canvas.height = 785;
         ctx.canvas.height = 785;
         img.onload = function () {
-            ctx.drawImage(img, 0, 0, 1050, 785);    //draw background image
+            ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);    //draw background image
             ctx.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
             if (loadFunction) {
                 loadFunction();
