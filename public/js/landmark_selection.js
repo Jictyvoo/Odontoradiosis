@@ -114,19 +114,19 @@ function image(path) {
 
 function drawLandmark(div, landmarkName) {
     const locations = global_points[landmarkName];
-    let ctx = div.getContext('2d');
-    ctx.beginPath();
+    let context = div.getContext('2d');
+    context.beginPath();
     const imageOffset = $("#image").offset();
     const imgOfLf = imageOffset.left;
     const imgOfTp = imageOffset.top;
-    ctx.arc(Math.floor(parseInt(locations.X) - imgOfLf), Math.floor(parseInt(locations.Y) - imgOfTp), 4, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'red';
-    ctx.font = "10px Arial";
-    ctx.fillText(landmarkName, Math.floor(parseInt(locations.X) - imgOfLf - 15), Math.floor(parseInt(locations.Y) - imgOfTp + 15));
-    ctx.fill();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = '#330005';
-    ctx.stroke();
+    context.arc(locations.X - imgOfLf, locations.Y - imgOfTp, pointRadius, 0, 2 * Math.PI);
+    context.fillStyle = 'red';
+    context.font = "10px Arial";
+    context.fillText(landmarkName, Math.floor(parseInt(locations.X) - imgOfLf - 15), Math.floor(parseInt(locations.Y) - imgOfTp + 15));
+    context.fill();
+    context.lineWidth = 1;
+    context.strokeStyle = '#330005';
+    context.stroke();
 }
 
 function redrawLandmark(canvas) {
@@ -148,9 +148,13 @@ function coordinates(event) {
         if (!global_points[currentPoint]) {
             global_points[currentPoint] = [];
         }
-
-        global_points[currentPoint].X = x;
-        global_points[currentPoint].Y = y;
+        const mousePosition = getMousePos(div, event);
+        const offsets = {
+            left: $("#image").offset().left,
+            top: $("#image").offset().top
+        };
+        global_points[currentPoint].X = mousePosition.x + offsets.left;
+        global_points[currentPoint].Y = mousePosition.y + offsets.top;
 
         redrawLandmark(div);
 
@@ -161,7 +165,6 @@ function coordinates(event) {
 }
 
 function desfazer() {
-    global_points.htmlPoint.outerHTML = '';
     /*erase the point*/
     /* will use global_effects array */
 }
@@ -221,7 +224,7 @@ function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
     let ctx = div.getContext('2d');
     const imageOffset = $("#image").offset();
     const imgOfLf = imageOffset.left;
-    const imgOfTp = 10;//imageOffset.top;
+    const imgOfTp = imageOffset.top;//imageOffset.top;
     ctx.strokeStyle = '#e3ed5c';
     ctx.moveTo(x1 + imgOfLf, y1 + imgOfTp);
     ctx.bezierCurveTo(
@@ -237,7 +240,7 @@ function drawCircle(context, x, y) {
     context.beginPath();
     const imageOffset = $("#image").offset();
     const imgOfLf = imageOffset.left;
-    const imgOfTp = 10;//imageOffset.top;
+    const imgOfTp = imageOffset.top;//imageOffset.top;
     context.moveTo(x + imgOfLf, y + imgOfTp);
     context.arc(x + imgOfLf, y + imgOfTp, pointRadius, 0, 2 * Math.PI);
     context.fillStyle = '#184bed';
@@ -341,7 +344,7 @@ function bezier_curve(currentCurve, recalculate) {
             let context = document.getElementById('bezier').getContext('2d');
             context.beginPath();
             const imgOfLf = $("#image").offset().left;
-            const imgOfTp = 10;//imageOffset.top;
+            const imgOfTp = $("#image").offset().top;
             context.rect(curveBox[0] + imgOfLf, curveBox[1] + imgOfTp, curveBox[2], curveBox[3]);
             context.stroke();
             drawBoxVertex(context);
@@ -452,7 +455,7 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
     const canvas = document.getElementById("bezier");
     const context = canvas.getContext("2d");
     const imgOfLf = $("#image").offset().left;
-    const imgOfTp = 10;//imageOffset.top;
+    const imgOfTp = $("#image").offset().top;//imageOffset.top;
     let isOn = false;
     [
         [boxVertex[0], boxVertex[1]],
@@ -464,6 +467,7 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
         if (relativeMouse.x >= element[0] - pointRadius + imgOfLf && relativeMouse.x <= element[0] + pointRadius + imgOfLf
             && relativeMouse.y >= element[1] - pointRadius + imgOfTp && relativeMouse.y <= element[1] + pointRadius + imgOfTp) {
             isOn = true;
+            console.log(element, relativeMouse, imgOfLf, imgOfTp);
         }
     });
     return isOn;
@@ -471,7 +475,7 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
 
 function verifyMouseOnCurvePoint(relativeMouse, curveName) {
     const imgOfLf = $("#image").offset().left;
-    const imgOfTp = 10;//imageOffset.top;
+    const imgOfTp = $("#image").offset().top;//imageOffset.top;
     let isOn = null;
     all_curves[curveName].forEach(function (element, index, array) {
         element.forEach(function (point, position, arr) {
@@ -498,7 +502,7 @@ function bezier_coordinate(event) {
         isCurveFunction = true;
         let points = getBoxDimensions(curveName);
         const imgOfLf = $("#image").offset().left;
-        const imgOfTp = 10;//imageOffset.top;
+        const imgOfTp = $("#image").offset().top;//imageOffset.top;
         const relativeMouse = getMousePos(document.getElementById('bezier'), event);
         isInsideBox = relativeMouse.x >= points[0] + imgOfLf && relativeMouse.x <= points[0] + points[2] + imgOfLf
             && relativeMouse.y >= points[1] + imgOfTp && relativeMouse.y <= points[1] + points[3] + imgOfTp;
