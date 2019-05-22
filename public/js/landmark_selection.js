@@ -62,7 +62,7 @@ function toJson(toConvertArray) {
     return returnedJson;
 }
 
-function openImage(path, loadFunction) {
+function openImage(path, loadFunction) { 
     img = new Image();
     image_url = path;
     document.getElementById('stack-canvas').setAttribute("onmousedown", "bezier_coordinate(event)");
