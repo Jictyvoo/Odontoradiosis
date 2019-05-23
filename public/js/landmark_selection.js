@@ -208,6 +208,7 @@ function getValues() {
 function onChangeValue() {
     const imageDiv = document.getElementById('image');
     let filterValue = getValues();
+    console.log(filterValue);
     imageDiv.setAttribute("style", filterValue);
 }
 
@@ -511,9 +512,9 @@ function bezier_coordinate(event) {
     }
 }
 
-let elements = document.getElementsByTagName('input');
+let elements = ["contrast", "brightness", "invert", "grayscale"];//document.getElementsByTagName('input');
 for (let i = 0; i < elements.length; i++) {
-    elements[i].addEventListener("input", onChangeValue);
+    document.getElementById(elements[i]).addEventListener("input", onChangeValue);
 }
 
 let curveSelect = document.getElementById("curvesId");
