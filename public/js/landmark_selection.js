@@ -30,6 +30,11 @@ document.onmouseup = function () {
 
 function getMousePos(canvas, evt) {
     const rect = canvas.getBoundingClientRect();
+    const imageOffset = $("#image").offset();
+    console.log({
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    });
     return {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top
@@ -116,13 +121,10 @@ function drawLandmark(div, landmarkName) {
     const locations = global_points[landmarkName];
     let context = div.getContext('2d');
     context.beginPath();
-    const imageOffset = $("#image").offset();
-    const imgOfLf = imageOffset.left;
-    const imgOfTp = imageOffset.top;
-    context.arc(locations.X - imgOfLf, locations.Y - imgOfTp, pointRadius, 0, 2 * Math.PI);
+    context.arc(locations.X, locations.Y, pointRadius, 0, 2 * Math.PI);
     context.fillStyle = 'red';
     context.font = "10px Arial";
-    context.fillText(landmarkName, Math.floor(parseInt(locations.X) - imgOfLf - 15), Math.floor(parseInt(locations.Y) - imgOfTp + 15));
+    context.fillText(landmarkName, Math.floor(parseInt(locations.X) - 15), Math.floor(parseInt(locations.Y) + 15));
     context.fill();
     context.lineWidth = 1;
     context.strokeStyle = '#330005';
@@ -208,7 +210,6 @@ function getValues() {
 function onChangeValue() {
     const imageDiv = document.getElementById('image');
     let filterValue = getValues();
-    console.log(filterValue);
     imageDiv.setAttribute("style", filterValue);
 }
 
@@ -223,27 +224,16 @@ function reset() {
 function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
     const div = document.getElementById('bezier');
     let ctx = div.getContext('2d');
-    const imageOffset = $("#image").offset();
-    const imgOfLf = imageOffset.left;
-    const imgOfTp = imageOffset.top;//imageOffset.top;
     ctx.strokeStyle = '#e3ed5c';
-    ctx.moveTo(x1 + imgOfLf, y1 + imgOfTp);
-    ctx.bezierCurveTo(
-        cx1 + imgOfLf,
-        cy1 + imgOfTp,
-        cx2 + imgOfLf, cy2 + imgOfTp,
-        x2 + imgOfLf, y2 + imgOfTp
-    );
+    ctx.moveTo(x1, y1);
+    ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2);
     ctx.stroke();
 }
 
 function drawCircle(context, x, y) {
     context.beginPath();
-    const imageOffset = $("#image").offset();
-    const imgOfLf = imageOffset.left;
-    const imgOfTp = imageOffset.top;//imageOffset.top;
-    context.moveTo(x + imgOfLf, y + imgOfTp);
-    context.arc(x + imgOfLf, y + imgOfTp, pointRadius, 0, 2 * Math.PI);
+    context.moveTo(x, y);
+    context.arc(x, y, pointRadius, 0, 2 * Math.PI);
     context.fillStyle = '#184bed';
     context.fill();
     context.lineWidth = 1;
@@ -344,9 +334,7 @@ function bezier_curve(currentCurve, recalculate) {
             curveBox = getBoxDimensions(currentCurve, null, recalculate);
             let context = document.getElementById('bezier').getContext('2d');
             context.beginPath();
-            const imgOfLf = $("#image").offset().left;
-            const imgOfTp = $("#image").offset().top;
-            context.rect(curveBox[0] + imgOfLf, curveBox[1] + imgOfTp, curveBox[2], curveBox[3]);
+            context.rect(curveBox[0], curveBox[1], curveBox[2], curveBox[3]);
             context.stroke();
             drawBoxVertex(context);
         }
@@ -455,8 +443,6 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
     let boxVertex = getBoxDimensions(curveName, null, true);
     const canvas = document.getElementById("bezier");
     const context = canvas.getContext("2d");
-    const imgOfLf = $("#image").offset().left;
-    const imgOfTp = $("#image").offset().top;//imageOffset.top;
     let isOn = false;
     [
         [boxVertex[0], boxVertex[1]],
@@ -465,24 +451,21 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
         [boxVertex[0] + boxVertex[2], boxVertex[1] + boxVertex[3]]
     ].forEach(function (element, index, array) {
         drawCircle(context, element[0], element[1]);
-        if (relativeMouse.x >= element[0] - pointRadius + imgOfLf && relativeMouse.x <= element[0] + pointRadius + imgOfLf
-            && relativeMouse.y >= element[1] - pointRadius + imgOfTp && relativeMouse.y <= element[1] + pointRadius + imgOfTp) {
+        if (relativeMouse.x >= element[0] - pointRadius && relativeMouse.x <= element[0] + pointRadius
+            && relativeMouse.y >= element[1] - pointRadius && relativeMouse.y <= element[1] + pointRadius) {
             isOn = true;
-            console.log(element, relativeMouse, imgOfLf, imgOfTp);
         }
     });
     return isOn;
 }
 
 function verifyMouseOnCurvePoint(relativeMouse, curveName) {
-    const imgOfLf = $("#image").offset().left;
-    const imgOfTp = $("#image").offset().top;//imageOffset.top;
     let isOn = null;
     all_curves[curveName].forEach(function (element, index, array) {
         element.forEach(function (point, position, arr) {
             if (position % 2 === 0) {
-                if (relativeMouse.x >= element[position] - pointRadius + imgOfLf && relativeMouse.x <= element[position] + pointRadius + imgOfLf
-                    && relativeMouse.y >= element[position + 1] - pointRadius + imgOfTp && relativeMouse.y <= element[position + 1] + pointRadius + imgOfTp) {
+                if (relativeMouse.x >= element[position] - pointRadius && relativeMouse.x <= element[position] + pointRadius
+                    && relativeMouse.y >= element[position + 1] - pointRadius && relativeMouse.y <= element[position + 1] + pointRadius) {
                     isOn = [element, position, position + 1];
                 }
             }
@@ -502,11 +485,9 @@ function bezier_coordinate(event) {
     } else if (all_curves[curveName] != null) {
         isCurveFunction = true;
         let points = getBoxDimensions(curveName);
-        const imgOfLf = $("#image").offset().left;
-        const imgOfTp = $("#image").offset().top;//imageOffset.top;
         const relativeMouse = getMousePos(document.getElementById('bezier'), event);
-        isInsideBox = relativeMouse.x >= points[0] + imgOfLf && relativeMouse.x <= points[0] + points[2] + imgOfLf
-            && relativeMouse.y >= points[1] + imgOfTp && relativeMouse.y <= points[1] + points[3] + imgOfTp;
+        isInsideBox = relativeMouse.x >= points[0] && relativeMouse.x <= points[0] + points[2]
+            && relativeMouse.y >= points[1] && relativeMouse.y <= points[1] + points[3];
         isOnBoxVertex = verifyMouseOnBoxVertex(relativeMouse, curveName);
         isOnCurvePoints = verifyMouseOnCurvePoint(relativeMouse, curveName);
     }
