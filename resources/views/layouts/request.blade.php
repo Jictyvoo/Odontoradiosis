@@ -36,7 +36,7 @@
                 <a href="{{ route('home') }}" class="nav-link">Home</a>
             </li>
         </ul>
-     </nav>
+    </nav>
     <!-- /.navbar -->
 
     <!-- Content Wrapper. Contains page content -->
@@ -63,16 +63,17 @@
                                 <h5 class="m-0">Ortodontista</h5>
                             </div>
                             <div class="card-body">
-                                    <form method="POST" action="{{ action('RequestOrthodontistController@store') }}">
+                                <form method="POST" action="{{ action('RequestOrthodontistController@store') }}">
                                     @csrf
 
                                     <div class="form-group row">
-                                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome completo') }}</label>
+                                        <label for="name"
+                                               class="col-md-4 col-form-label text-md-right">{{ __('Nome completo') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="name" type="text"
-                                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                                name="name" value="{{ old('name') }}" required autofocus>
+                                                   class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                                   name="name" value="{{ old('name') }}" required autofocus>
 
                                             @if ($errors->has('name'))
                                                 <span class="invalid-feedback" role="alert">
@@ -84,12 +85,12 @@
 
                                     <div class="form-group row">
                                         <label for="email"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('E-mail') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('E-mail') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="email" type="email"
-                                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                                name="email" value="{{ old('email') }}" required>
+                                                   class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                                   name="email" value="{{ old('email') }}" required>
 
                                             @if ($errors->has('email'))
                                                 <span class="invalid-feedback" role="alert">
@@ -101,12 +102,12 @@
 
                                     <div class="form-group row">
                                         <label for="password"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Senha') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('Senha') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="password" type="password"
-                                                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                name="password" required>
+                                                   class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                   name="password" required>
 
                                             @if ($errors->has('password'))
                                                 <span class="invalid-feedback" role="alert">
@@ -118,31 +119,31 @@
 
                                     <div class="form-group row">
                                         <label for="password-confirm"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Confirmar senha') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('Confirmar senha') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="password-confirm" type="password" class="form-control"
-                                                name="password_confirmation" required>
+                                                   name="password_confirmation" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="cro"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('CRO') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('CRO') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="cro" type="text" class="form-control"
-                                                name="cro" required>
+                                                   name="cro" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="cpf"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('CPF') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('CPF') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="cpf" type="text" class="form-control"
-                                                name="cpf" required>
+                                                   name="cpf" required>
                                         </div>
                                     </div>
 
@@ -165,16 +166,18 @@
                                 <h5 class="m-0">Estudante</h5>
                             </div>
                             <div class="card-body">
-                            <form method="POST" action="{{ action('RequestStudentController@store') }}" enctype=”multipart/form-data”>
+                                <form method="POST" action="{{ action('RequestStudentController@store') }}"
+                                      enctype="multipart/form-data">
                                     @csrf
 
                                     <div class="form-group row">
-                                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome completo') }}</label>
+                                        <label for="name"
+                                               class="col-md-4 col-form-label text-md-right">{{ __('Nome completo') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="name" type="text"
-                                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                                name="name" value="{{ old('name') }}" required autofocus>
+                                                   class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                                   name="name" value="{{ old('name') }}" required autofocus>
 
                                             @if ($errors->has('name'))
                                                 <span class="invalid-feedback" role="alert">
@@ -186,12 +189,12 @@
 
                                     <div class="form-group row">
                                         <label for="email"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('E-mail') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('E-mail') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="email" type="email"
-                                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                                name="email" value="{{ old('email') }}" required>
+                                                   class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                                   name="email" value="{{ old('email') }}" required>
 
                                             @if ($errors->has('email'))
                                                 <span class="invalid-feedback" role="alert">
@@ -203,12 +206,12 @@
 
                                     <div class="form-group row">
                                         <label for="password"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Senha') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('Senha') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="password" type="password"
-                                                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                name="password" required>
+                                                   class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                   name="password" required>
 
                                             @if ($errors->has('password'))
                                                 <span class="invalid-feedback" role="alert">
@@ -220,30 +223,31 @@
 
                                     <div class="form-group row">
                                         <label for="password-confirm"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Confirmar senha') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('Confirmar senha') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="password-confirm" type="password" class="form-control"
-                                                name="password_confirmation" required>
+                                                   name="password_confirmation" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="registration_guide"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Guia de matrícula') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('Guia de matrícula') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="registration_guide" type="file" name="registration_guide" required>
+                                            <input id="registration_guide" type="file" name="registration_guide"
+                                                   required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="cpf"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('CPF') }}</label>
+                                               class="col-md-4 col-form-label text-md-right">{{ __('CPF') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="cpf" type="text" class="form-control"
-                                                name="cpf" required>
+                                                   name="cpf" required>
                                         </div>
                                     </div>
 
