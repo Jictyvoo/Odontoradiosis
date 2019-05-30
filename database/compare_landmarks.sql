@@ -54,7 +54,8 @@ DELIMITER ;
 DROP VIEW IF EXISTS Compare_Manual_Semiautomatic;
 
 CREATE VIEW Compare_Manual_Semiautomatic AS
-SELECT One_Diff((SELECT semiautomatic_doctor.fk_landmark_x), (SELECT real_doctor.fk_landmark_x), 1) AS Ba_X,
+SELECT real_doctor.fk_id_image AS id_image, real_doctor.fk_id_doctor AS id_doctor,
+One_Diff((SELECT semiautomatic_doctor.fk_landmark_x), (SELECT real_doctor.fk_landmark_x), 1) AS Ba_X,
 One_Diff((SELECT semiautomatic_doctor.fk_landmark_y), (SELECT real_doctor.fk_landmark_y), 1) AS Ba_Y,
 
 One_Diff((SELECT semiautomatic_doctor.fk_landmark_x), (SELECT real_doctor.fk_landmark_x), 2) AS S_X,
