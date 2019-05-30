@@ -154,16 +154,16 @@
         </li>
         <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
-                <form method="post" action="{{ route('image_landmark.store') }}">
-                    @csrf
-                    <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/save-button.png') }}"></i>
-                    <p onClick="this.form.submit()">
+            <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/save-button.png') }}"></i>
+                    <p>
                         Salvar
+                        <form method="post" action="{{ route('image_landmark.store') }}" onClick="this.form.submit()">
+                            @csrf
+                            <input type="hidden" name="bezierCurves" id="bezier_curves" value=""/>
+                            <input type="hidden" name="savedPoints" id="saved_points" value=""/>
+                            <input type="hidden" name="currentImage" id="current_image" value=""/>
+                        </form>
                     </p>
-                    <input type="hidden" name="bezierCurves" id="bezier_curves" value=""/>
-                    <input type="hidden" name="savedPoints" id="saved_points" value=""/>
-                    <input type="hidden" name="currentImage" id="current_image" value=""/>
-                </form>
             </a>
         </li>
     </ul>

@@ -50,7 +50,14 @@
                                 </a>
                             </div>
                         </div>
+
                     </form>
+                </div>
+                <div class="form-group row mb-0">
+                                <a class="submit btn btn-link" href="{{ route('request') }}">
+                                    {{ __('Solicitar acesso') }}
+                                </a>
+                            </div>
                 </div>
             </div>
         </div>

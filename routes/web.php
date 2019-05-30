@@ -18,8 +18,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/request', 'RequestAccess@index')->name('request');
+
 
 Route::resource('user', 'UsersController');
 Route::resource('image', 'ImageController');
 Route::resource('image_landmark', 'ImageLandmarkController');
 Route::resource('bezier_curve', 'BezierCurveController');
+Route::resource('request_orthodontist', 'RequestOrthodontistController');
+Route::resource('request_student', 'RequestStudentController');
