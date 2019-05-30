@@ -41,6 +41,58 @@ function getMousePos(canvas, evt) {
     };
 }
 
+function referenceLandmarks() {
+    const selectedIndex = document.getElementById("pointsId").selectedIndex;
+    const currentPoint = document.getElementById("pointsId").options[selectedIndex].text;
+    const imagePaths = [];
+    imagePaths["Sela (S)"] = "selaTurcica.png";
+    imagePaths["Násio (N)"] = "nasio.png";
+    imagePaths["Espinha nasal anterior (ENA)"] = "ENA.png";
+    imagePaths["Espinha nasal posterior (ENP)"] = "ENP.png";
+    imagePaths["Ponto subespinhal (A)"] = "A.png";
+    imagePaths["Ponto pupramental (B)"] = "B.png";
+    imagePaths["Pogônio (Pog)"] = "pogonio.png";
+    imagePaths["Gnátio (Gn)"] = "Gnatio.png";
+    imagePaths["Mento (Me)"] = "mento.png";
+    imagePaths["Condílio (Co)"] = "condilio.png";
+    imagePaths["Pró-nasal (Pn)"] = "proNasal.png";
+    imagePaths["Pogônio Mole (Pg’)"] = "pogonioMole.png";
+    imagePaths["Palato Mole (pm)"] = "palatoMole.png";
+    /*imagePaths["Columela (Cm)"] = "";
+    imagePaths["Básio (Ba)"] = "";
+    imagePaths["Subnasal (Sn)"] = "";
+    imagePaths["Lábio Superior (Ls)"] = "";
+    imagePaths["Stomion Superior (Sts)"] = "";
+    imagePaths["Adenóide (ad)"] = "";
+    imagePaths["Ponto bl (bl)"] = "";
+    imagePaths["Ponto bf (bf)"] = "";
+    imagePaths["Ponto D (D)"] = "";
+    imagePaths["Bolton (Bo)"] = "";
+    imagePaths["Articular (Ar)"] = "";
+    imagePaths["Pório (Po)"] = "";
+    imagePaths["Pterigóideo (Pt)"] = "";
+    imagePaths["Ponto E (E)"] = "";
+    imagePaths["Mentoniano (Men)"] = "";
+    imagePaths["Próstil (Pr)"] = "";
+    imagePaths["Infradental (Id)"] = "";*/
+    if (currentPoint !== "Selecione" && imagePaths[currentPoint]) {
+        let img = new Image();
+        let ctx = document.getElementById('referenceLandmark');
+        if (ctx.getContext) {
+            ctx = ctx.getContext('2d');
+            img.onload = function () {
+                ctx.canvas.width = this.width;
+                ctx.canvas.height = this.height;
+                document.getElementById("canvas-reference").setAttribute("style",
+                    "height: " + ctx.canvas.height + "px" + "width: " + ctx.canvas.width + "px");
+                ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);    //draw background image
+                ctx.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
+            };
+        }
+        img.src = reference_images_url + imagePaths[currentPoint];
+    }
+}
+
 function toJson(toConvertArray) {
     let returnedJson = "{";
     Object.keys(toConvertArray).forEach(function (element, index, array) {
@@ -67,21 +119,22 @@ function toJson(toConvertArray) {
     return returnedJson;
 }
 
-function openImage(path, loadFunction) { 
-    img = new Image();
+function openImage(path, loadFunction) {
+    let img = new Image();
     image_url = path;
     document.getElementById('stack-canvas').setAttribute("onmousedown", "bezier_coordinate(event)");
     document.getElementById('stack-canvas').setAttribute("onmousemove", "bezier_functions(event)");
     let ctx = document.getElementById('image');
     if (ctx.getContext) {
         ctx = ctx.getContext('2d');
-        ctx.canvas.width = 1050;
-        document.getElementById('landmarks').getContext('2d').canvas.width = ctx.canvas.width;
-        document.getElementById('landmarks').getContext('2d').canvas.height = 785;
-        document.getElementById('bezier').getContext('2d').canvas.width = ctx.canvas.width;
-        document.getElementById('bezier').getContext('2d').canvas.height = 785;
-        ctx.canvas.height = 785;
         img.onload = function () {
+            ctx.canvas.width = this.width;
+            ctx.canvas.height = this.height;
+            document.getElementById('landmarks').getContext('2d').canvas.width = ctx.canvas.width;
+            document.getElementById('landmarks').getContext('2d').canvas.height = ctx.canvas.height;
+            document.getElementById('bezier').getContext('2d').canvas.width = ctx.canvas.width;
+            document.getElementById('bezier').getContext('2d').canvas.height = ctx.canvas.height;
+            document.getElementById("card-canvas").setAttribute("style", "height: " + ctx.canvas.height + "px");
             ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);    //draw background image
             ctx.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
             if (loadFunction) {
@@ -242,7 +295,7 @@ function drawCircle(context, x, y) {
 }
 
 function drawPointCircle(curveName) {
-    curveName = curveName.replace(/ /g,"-").toLowerCase();
+    curveName = curveName.replace(/ /g, "-").toLowerCase();
     if (all_curves[curveName] != null) {
         const canvas = document.getElementById("bezier");
         const context = canvas.getContext("2d");
@@ -328,7 +381,7 @@ function drawBoxVertex(context) {
 
 function bezier_curve(currentCurve, recalculate) {
     if (currentCurve != null) {
-        currentCurve = currentCurve.replace(/ /g,"-").toLowerCase();
+        currentCurve = currentCurve.replace(/ /g, "-").toLowerCase();
         draw_all_curves();
         if (all_curves[currentCurve] != null) {
             curveBox = getBoxDimensions(currentCurve, null, recalculate);
@@ -357,7 +410,7 @@ function runPointsAndChange(curveName, callback_1, callback_2, recalculate) {
 }
 
 function translateBezier(curveName, amountX, amountY) {
-    curveName = curveName.replace(/ /g,"-").toLowerCase();
+    curveName = curveName.replace(/ /g, "-").toLowerCase();
     boxPoints[0] -= amountX;
     boxPoints[1] -= amountY;
     boxPoints[2] -= amountX;
@@ -370,7 +423,7 @@ function translateBezier(curveName, amountX, amountY) {
 }
 
 function rotateBezier(curveName, angle) {
-    curveName = curveName.replace(/ /g,"-").toLowerCase();
+    curveName = curveName.replace(/ /g, "-").toLowerCase();
     runPointsAndChange(curveName, function (pointX, pointY) {
         return (pointX * Math.cos(angle)) - (pointY * Math.sin(angle));
     }, function (pointY, pointX) {
@@ -379,7 +432,7 @@ function rotateBezier(curveName, angle) {
 }
 
 function rescaleBezier(curveName, scaleX, scaleY) {
-    curveName = curveName.replace(/ /g,"-").toLowerCase();
+    curveName = curveName.replace(/ /g, "-").toLowerCase();
     runPointsAndChange(curveName, function (pointX) {
         return pointX * scaleX;
     }, function (pointY) {
@@ -478,7 +531,7 @@ function verifyMouseOnCurvePoint(relativeMouse, curveName) {
 function bezier_coordinate(event) {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[selectedIndex].text;
-    const curveName = currentCurve.replace(/ /g,"-").toLowerCase();
+    const curveName = currentCurve.replace(/ /g, "-").toLowerCase();
     if (currentCurve === "Selecione") {
         isCurveFunction = false;
         coordinates(event);

@@ -101,9 +101,10 @@
                 <div class="row">
                     <div class="col-lg-10">
                         <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Radiografia</h5>
-
+                            <div class="card-header">
+                                <h5 class="m-0">Radiografia</h5>
+                            </div>
+                            <div id ="card-canvas" class="card-body">
                                 <div id="stack-canvas">
                                     <canvas id="image"></canvas>
                                     <canvas id="landmarks"></canvas>
@@ -119,8 +120,8 @@
                             <div class="card-header">
                                 <h5 class="m-0">Referência</h5>
                             </div>
-                            <div class="card-body">
-
+                            <div class="card-body" id="canvas-reference">
+                                <canvas id="referenceLandmark"></canvas>
                             </div>
                         </div>
                     </div>

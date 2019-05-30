@@ -30,7 +30,8 @@
         <a href="#" class="nav-link">
             <i class="fa fa-circle-o nav-icon"></i>
             <p>Pontos</p>
-            <select class="right fa fa-angle-left" id="pointsId" style="width: 60%; color:black">
+            <select class="right fa fa-angle-left" id="pointsId" style="width: 60%; color:black"
+                    onclick="referenceLandmarks()">
                 <option selected>Selecione</option>
                 <option>Básio (Ba)</option>
                 <option>Sela (S)</option>
@@ -111,6 +112,8 @@
         }
 
         let curves_url = "{{ route('bezier_curve.show', "%REPLACE%") }}";
+            <?php use Illuminate\Support\Facades\Storage; ?>
+        let reference_images_url = "{{ Storage::url("reference_landmarks") }}/";
     </script>
 @endsection
 
@@ -153,18 +156,18 @@
             </a>
         </li>
         <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-                <form method="post" action="{{ route('image_landmark.store') }}">
-                    @csrf
+            <form method="post" action="{{ route('image_landmark.store') }}">
+                @csrf
+                <input type="hidden" name="bezierCurves" id="bezier_curves" value=""/>
+                <input type="hidden" name="savedPoints" id="saved_points" value=""/>
+                <input type="hidden" name="currentImage" id="current_image" value=""/>
+                <button onClick="this.form.submit()" class="nav-link active">
                     <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/save-button.png') }}"></i>
-                    <p onClick="this.form.submit()">
+                    <p>
                         Salvar
                     </p>
-                    <input type="hidden" name="bezierCurves" id="bezier_curves" value=""/>
-                    <input type="hidden" name="savedPoints" id="saved_points" value=""/>
-                    <input type="hidden" name="currentImage" id="current_image" value=""/>
-                </form>
-            </a>
+                </button>
+            </form>
         </li>
     </ul>
 @endsection
