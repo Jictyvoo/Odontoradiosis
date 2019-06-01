@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="icon" href="{{ asset('img/favicon.ico') }}">
+    <link rel="icon" href="{{ asset('img/ico.png') }}">
 
     <title>Odontoradiosis | Home</title>
 
@@ -99,7 +99,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-10">
+                    <div class="col-lg-9">
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="m-0">Radiografia</h5>
@@ -115,7 +115,7 @@
 
                     </div>
                     <!-- /.col-md-6 -->
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="m-0">Referência</h5>

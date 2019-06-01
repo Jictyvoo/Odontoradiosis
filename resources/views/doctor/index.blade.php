@@ -22,7 +22,7 @@
                 <option>Incisivo Central Superior</option>
                 <option>Incisivo Central Inferior</option>
                 <option>Dente Posterior Superior</option>
-                <option>Dente Posterior Inferior</option>
+                <option>Dente Posterior Inferior</option> 
             </select>
         </a>
     </li>
@@ -33,18 +33,22 @@
             <select class="right fa fa-angle-left" id="pointsId" style="width: 60%; color:black"
                     onclick="referenceLandmarks()">
                 <option selected>Selecione</option>
-                <option>Básio (Ba)</option>
                 <option>Sela (S)</option>
                 <option>Násio (N)</option>
                 <option>Espinha nasal anterior (ENA)</option>
                 <option>Espinha nasal posterior (ENP)</option>
                 <option>Ponto subespinhal (A)</option>
                 <option>Ponto pupramental (B)</option>
-                <option>Próstil (Pr)</option>
-                <option>Infradental (Id)</option>
                 <option>Pogônio (Pog)</option>
                 <option>Gnátio (Gn)</option>
                 <option>Mento (Me)</option>
+                <option>Condílio (Co)</option>
+                <option>Pró-nasal (Pn)</option>
+                <option>Pogônio Mole (Pg’)</option>
+                <option>Palato Mole (pm)</option>
+                <!--
+                <option>Próstil (Pr)</option>
+                <option>Infradental (Id)</option>
                 <option>Ponto D (D)</option>
                 <option>Bolton (Bo)</option>
                 <option>Articular (Ar)</option>
@@ -52,17 +56,15 @@
                 <option>Pterigóideo (Pt)</option>
                 <option>Ponto E (E)</option>
                 <option>Mentoniano (Men)</option>
-                <option>Condílio (Co)</option>
-                <option>Pró-nasal (Pn)</option>
                 <option>Columela (Cm)</option>
                 <option>Subnasal (Sn)</option>
                 <option>Lábio Superior (Ls)</option>
                 <option>Stomion Superior (Sts)</option>
-                <option>Pogônio Mole (Pg’)</option>
-                <option>Palato Mole (pm)</option>
                 <option>Adenóide (ad)</option>
                 <option>Ponto bl (bl)</option>
                 <option>Ponto bf (bf)</option>
+                <option>Básio (Ba)</option>
+                -->
             </select>
         </a>
     </li>
