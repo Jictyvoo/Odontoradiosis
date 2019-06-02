@@ -164,25 +164,15 @@
 <script src="/js/app.js"></script>
 
 <?php
-use Illuminate\Support\Facades\File;
-use MatthiasMullie\Minify;
-$changed = false;
-if (File::isFile(public_path('js/landmark.min.js')) && File::lastModified(public_path('js/landmark_selection.js')) > File::lastModified(public_path('js/landmark.min.js'))) {
-    File::delete(public_path('js/landmark.min.js'));
-    $changed = true;
-} else if (!File::isFile(public_path('js/landmark.min.js'))) {
-    $changed = true;
-}
-if ($changed) {
-    $minifier = new Minify\JS(File::get(public_path('js/landmark_selection.js')));
-    File::append(public_path('js/landmark.min.js'), $minifier->minify());
-}
+use App\Http\Controllers\MinimizeJS;
+MinimizeJS::minimize('js/landmark_selection.js', 'js/landmark.min.js');
+MinimizeJS::minimize('js/semiautomaticLandmarksMarking.js', 'js/semiautomatic_landmark.min.js');
 ?>
 
 <script language="javascript" src="{{ asset('js/landmark.min.js') }}"></script>
-<script language="javascript" src="{{ asset('js/semiautomaticLandmarksMarking.js') }}"></script>
+<script language="javascript" src="{{ asset('js/semiautomatic_landmark.min.js') }}"></script>
+<!--<script language="javascript" src="{{ asset('js/semiautomaticLandmarksMarking.js') }}"></script> -->
 <!--<script language="javascript" src="{{ asset('js/landmark_selection.js') }}"></script>-->
-
 
 </body>
 </html>

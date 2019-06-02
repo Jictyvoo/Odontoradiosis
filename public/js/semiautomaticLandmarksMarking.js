@@ -76,8 +76,8 @@ function calculatePogonioMole(offset) {
     let curvePoints = all_curves["perfil-mole"];
     let x = curvePoints[5][4];
     let y = curvePoints[5][5];
-    global_points["Pogônio Mole (Pg’)"].X = x;
-    global_points["Pogônio Mole (Pg’)"].Y = y;
+    global_points["Pogônio Mole (Pg)"].X = x;
+    global_points["Pogônio Mole (Pg)"].Y = y;
 }
 
 function calculateENP(offset) {
@@ -137,10 +137,11 @@ function calculateMento(offset) {
 function calculateLandmarks() {
     const div = document.getElementById('pointsId');
     for (let count = 0; count < div.options.length; count += 1) {
-        if (!global_points[div.options[count].text]) {
-            global_points[div.options[count].text] = [];
-            global_points[div.options[count].text].X = 0;
-            global_points[div.options[count].text].Y = 0;
+        let landmarkName = div.options[count].text;
+        if (!global_points[landmarkName] && landmarkName !== "Selecione") {
+            global_points[landmarkName] = [];
+            global_points[landmarkName].X = 0;
+            global_points[landmarkName].Y = 0;
         }
     }
     const canvas = document.getElementById('landmarks');
@@ -162,4 +163,6 @@ function calculateLandmarks() {
     calculatePogonio(offsets);
     calculateMento(offsets);
     redrawLandmark(canvas);
+
+    saveLandmarks(global_points);
 }

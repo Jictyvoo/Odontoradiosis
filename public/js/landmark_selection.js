@@ -130,9 +130,9 @@ function openImage(path, loadFunction) {
         img.onload = function () {
             ctx.canvas.width = this.width;
             ctx.canvas.height = this.height;
-            document.getElementById('landmarks').getContext('2d').canvas.width = 1050;
+            document.getElementById('landmarks').getContext('2d').canvas.width = ctx.canvas.width;
             document.getElementById('landmarks').getContext('2d').canvas.height = ctx.canvas.height;
-            document.getElementById('bezier').getContext('2d').canvas.width = 1050;
+            document.getElementById('bezier').getContext('2d').canvas.width = ctx.canvas.width;
             document.getElementById('bezier').getContext('2d').canvas.height = ctx.canvas.height;
             document.getElementById("card-canvas").setAttribute("style", "height: " + ctx.canvas.height + "px");
             ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);    //draw background image
@@ -141,9 +141,25 @@ function openImage(path, loadFunction) {
                 loadFunction();
             }
             loadJsonCurve();
+            loadJsonLandmarks();
         };
     }
     img.src = path;
+}
+
+function loadJsonLandmarks() {
+    const splicedSource = image_url.split("/");
+    const landmarkJson = landmarks_url.replace("%REPLACE%", splicedSource[splicedSource.length - 2] + "@" + splicedSource[splicedSource.length - 1]);
+    fetch(landmarkJson)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            global_points = data;
+        })
+        .then(() => {
+            redrawLandmark(document.getElementById('landmarks'));
+        });
 }
 
 function loadJsonCurve() {
@@ -192,6 +208,12 @@ function redrawLandmark(canvas) {
     });
 }
 
+function saveLandmarks(landmarks) {
+    const data_json = landmarksToJSON(landmarks);
+    let hiddenForm = document.getElementById("saved_points");
+    hiddenForm.setAttribute("value", data_json);
+}
+
 function coordinates(event) {
     const selectedIndex = document.getElementById("pointsId").selectedIndex;
     const currentPoint = document.getElementById("pointsId").options[selectedIndex].text;
@@ -213,9 +235,7 @@ function coordinates(event) {
 
         redrawLandmark(div);
 
-        const data_json = landmarksToJSON(global_points);
-        let hiddenForm = document.getElementById("saved_points");
-        hiddenForm.setAttribute("value", data_json);
+        saveLandmarks(global_points);
     }
 }
 

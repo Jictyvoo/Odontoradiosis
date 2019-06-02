@@ -29,6 +29,13 @@ class ImageLandmarkController extends Controller {
 	}
 
 	/**
+	 * @return array
+	 */
+	private function getDictionaryLandmarks(){
+		return  array("Básio (Ba)" => "Ba", "Sela (S)" => "S", "Násio (N)" => "N", "Espinha nasal anterior (ENA)" => "ENA", "Espinha nasal posterior (ENP)" => "ENP", "Ponto subespinhal (A)" => "A", "Ponto pupramental (B)" => "PB", "Próstil (Pr)" => "Pr", "Infradental (Id)" => "Id", "Pogônio (Pog)" => "Pog", "Gnátio (Gn)" => "Gn", "Mento (Me)" => "Me", "Ponto D (D)" => "D", "Bolton (Bo)" => "Bo", "Articular (Ar)" => "Ar", "Pório (Po)" => "Po", "Pterigóideo (Pt)" => "Pt", "Ponto E (E)" => "E", "Mentoniano (Me)" => "Men", "Condílio (Co)" => "Co", "Pró-nasal (Pn)" => "Pn", "Columela (Cm)" => "Cm", "Subnasal (Sn)" => "Sn", "Lábio Superior (Ls)" => "Ls", "Stomion Superior (Sts)" => "Sts", "Pogônio Mole (Pg)" => "Pg", "Palato Mole (pm)" => "pm", "Adenóide (ad)" => "ad", "Ponto bl (bl)" => "bl", "Ponto bf (bf)" => "bf");
+	}
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request $request
@@ -53,7 +60,7 @@ class ImageLandmarkController extends Controller {
 				$imageLandmark->fk_id_doctor = auth()->user()->id;
 				$imageLandmark->save();
 			}
-			$dictionaryLandmarks = array("Básio (Ba)" => "Ba", "Sela (S)" => "S", "Násio (N)" => "N", "Espinha nasal anterior (ENA)" => "ENA", "Espinha nasal posterior (ENP)" => "ENP", "Ponto subespinhal (A)" => "A", "Ponto pupramental (B)" => "PB", "Próstil (Pr)" => "Pr", "Infradental (Id)" => "Id", "Pogônio (Pog)" => "Pog", "Gnátio (Gn)" => "Gn", "Mento (Me)" => "Me", "Ponto D (D)" => "D", "Bolton (Bo)" => "Bo", "Articular (Ar)" => "Ar", "Pório (Po)" => "Po", "Pterigóideo (Pt)" => "Pt", "Ponto E (E)" => "E", "Mentoniano (Me)" => "Men", "Condílio (Co)" => "Co", "Pró-nasal (Pn)" => "Pn", "Columela (Cm)" => "Cm", "Subnasal (Sn)" => "Sn", "Lábio Superior (Ls)" => "Ls", "Stomion Superior (Sts)" => "Sts", "Pogônio Mole (Pg’)" => "Pg'", "Palato Mole (pm)" => "pm", "Adenóide (ad)" => "ad", "Ponto bl (bl)" => "bl", "Ponto bf (bf)" => "bf");
+			$dictionaryLandmarks = $this->getDictionaryLandmarks();
 			$valuesX = [];
 			$valuesY = [];
 			foreach ($landmarksSaved as $key => $value) {
@@ -72,11 +79,30 @@ class ImageLandmarkController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @param  string $path
+	 * @return \Illuminate\Http\Response|string
 	 */
-	public function show($id) {
-		//
+	public function show($path) {
+		$path = str_replace("@", "/", $path);
+		$image = Image::where('path', '=', $path)->first();
+		$imageLandmark = ImageLandmark::all()->where('fk_id_image', '=', $image->id)->where('fk_id_doctor', '=', auth()->user()->id)->first();
+		if($imageLandmark) {
+			$landmarkX = Landmark::find($imageLandmark->fk_landmark_x);
+			$landmarkY = Landmark::find($imageLandmark->fk_landmark_y);
+			$dictionaryLandmarks = $this->getDictionaryLandmarks();
+			$landmarksJson = "{";
+			$count = 0;
+			foreach ($dictionaryLandmarks as $key => $value) {
+				if ($count >= 1) {
+					$landmarksJson = $landmarksJson . ", ";
+				}
+				$count += 1;
+				$landmarksJson = $landmarksJson . "\"" . $key . "\":{\"X\": " . ($landmarkX[$value] ? $landmarkX[$value] : 0) . ", \"Y\": " . ($landmarkY[$value] ? $landmarkY[$value] : 0) . "}";
+			}
+			$landmarksJson = $landmarksJson . "}";
+			return $landmarksJson;
+		}
+		return "{}";
 	}
 
 	/**

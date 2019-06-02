@@ -44,7 +44,7 @@
                 <option>Mento (Me)</option>
                 <option>Condílio (Co)</option>
                 <option>Pró-nasal (Pn)</option>
-                <option>Pogônio Mole (Pg’)</option>
+                <option>Pogônio Mole (Pg)</option>
                 <option>Palato Mole (pm)</option>
                 <!--
                 <option>Próstil (Pr)</option>
@@ -114,6 +114,7 @@
         }
 
         let curves_url = "{{ route('bezier_curve.show', "%REPLACE%") }}";
+        let landmarks_url = "{{ route('image_landmark.show', "%REPLACE%") }}";
             <?php use Illuminate\Support\Facades\Storage; ?>
         let reference_images_url = "{{ Storage::url("reference_landmarks") }}/";
     </script>
