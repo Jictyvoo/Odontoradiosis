@@ -1,59 +1,77 @@
 @extends('layouts.administrator')
 
 @section('content')
-    <h1 class="page-header">Dashboard</h1>
-
-    <div class="row placeholders">
-        <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
-                 height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-            <h4>Insert new User</h4>
-            <p><a class="btn btn-default" href="{{ route('register') }}" role="button">View details
-                    &raquo;</a></p>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
-                 height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-            <h4>Insert new Radiographs</h4>
-            <p><a class="btn btn-default" href="{{ route('image.create') }}" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
-                 height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-            <h4>Export Database</h4>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
-                 height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-            <h4>Edit Users</h4>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-    </div>
-
-    <h2 class="sub-header">Last Operations</h2>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Log ID</th>
-                <th>User ID</th>
-                <th>User Type</th>
-                <th>Operation</th>
-                <th>Date/Hour</th>
-            </tr>
-            </thead>
-            <tbody>
-			<?php for ($index = 0; $index < 2; $index += 1): ?>
-            <tr>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>sit</td>
-            </tr>
-			<?php endfor ?>
-            </tbody>
-        </table>
-    </div>
+    <?php use Illuminate\Support\Facades\Storage; ?>
+    @if((auth()->user()->access_level) > 0)
+                    <h2 class="sub-header">Solicitações Pendentes - Ortodontistas</h2>
+                    <div class="table-responsive">
+                        @if(isset($requests) and count($requests) > 0)
+                            <table class="table table-striped">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>CRO</th>
+                                    <th>CPF</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($requests as $request)
+                                    <tr>
+                                        <td>{{$request->id}}</td>
+                                        <td>{{$request->name}}</td>
+                                        <td>{{$request->email}}</td>
+                                        <td>{{$request->cro}}</td>
+                                        <td>{{$request->cpf}}</td>
+                                        <td>
+                                            <a href="{{route('approveOrthodontist', $request->id)}}"
+                                               class="btn btn-success">Aprovar</a>
+                                            <a href="{{route('refuseOrthodontist', $request->id)}}"
+                                               class="btn btn-danger">Recusar</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <span>Não existem solicitações pendentes</span>
+                        @endif
+                    </div>
+                    <h2 class="sub-header">Solicitações Pendentes - Estudantes</h2>
+                    <div class="table-responsive">
+                        @if(isset($students) and count($students) > 0)
+                            <table class="table table-striped">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Guia de matrícula</th>
+                                    <th>CPF</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($students as $student)
+                                    <tr>
+                                        <td>{{$student->id}}</td>
+                                        <td>{{$student->name}}</td>
+                                        <td>{{$student->email}}</td>
+                                        <td><a href={{ Storage::url($student->registration_guide) }}>Matrícula</a></td>
+                                        <td>{{$student->cpf}}</td>
+                                        <td>
+                                            <a href="{{route('approveStudent', $student->id)}}"
+                                               class="btn btn-success">Aprovar</a>
+                                            <a href="{{route('refuseStudent', $student->id)}}"
+                                               class="btn btn-danger">Recusar</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <span>Não existem solicitações pendentes</span>
+                        @endif
+                    </div>
+                @endif
 @endsection

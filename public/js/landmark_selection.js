@@ -130,9 +130,9 @@ function openImage(path, loadFunction) {
         img.onload = function () {
             ctx.canvas.width = this.width;
             ctx.canvas.height = this.height;
-            document.getElementById('landmarks').getContext('2d').canvas.width = ctx.canvas.width;
+            document.getElementById('landmarks').getContext('2d').canvas.width = 1050;
             document.getElementById('landmarks').getContext('2d').canvas.height = ctx.canvas.height;
-            document.getElementById('bezier').getContext('2d').canvas.width = ctx.canvas.width;
+            document.getElementById('bezier').getContext('2d').canvas.width = 1050;
             document.getElementById('bezier').getContext('2d').canvas.height = ctx.canvas.height;
             document.getElementById("card-canvas").setAttribute("style", "height: " + ctx.canvas.height + "px");
             ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);    //draw background image
