@@ -60,9 +60,8 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="{{ route('home') }}" class="brand-link">
-            <img src="img/odonto.png" alt="Odontoradiosis"
-                 style="opacity: .8">
+        <a  align="middle" href="{{ route('home') }}" class="brand-link">
+            <img src="img/odonto.png" alt="Odontoradiosis"  align="middle">
         </a>
 
         <!-- Sidebar -->
