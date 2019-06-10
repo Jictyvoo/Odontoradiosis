@@ -30,14 +30,27 @@ document.onmouseup = function () {
 
 function getMousePos(canvas, evt) {
     const rect = canvas.getBoundingClientRect();
-    const imageOffset = $("#image").offset();
-    console.log({
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-    });
+    const canvasDimensions = {
+        width: rect.width, height: rect.height
+    };
+    let ctx = document.getElementById('landmarks').getContext('2d');
+    const imageDimensions = {
+        width: ctx.canvas.width, height: ctx.canvas.height
+    };
+    const scales = function(mousePos, isX){
+        if (isX){
+            return (imageDimensions.width * mousePos) / canvasDimensions.width;
+        } else
+            //return ((imageDimensions.height * canvasDimensions.width / imageDimensions.width) * mousePos) / canvasDimensions.height;
+            return (imageDimensions.height * mousePos) / canvasDimensions.height;
+    };
+    /*console.log(canvasDimensions, imageDimensions, {
+        x: scales(evt.clientX - rect.left, true),
+        y: scales(evt.clientY - rect.top, false)
+    }, {x: evt.clientX - rect.left, y: evt.clientY - rect.top});*/
     return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
+        x: scales(evt.clientX - rect.left, true),
+        y: scales(evt.clientY - rect.top, false)
     };
 }
 
@@ -130,9 +143,9 @@ function openImage(path, loadFunction) {
         img.onload = function () {
             ctx.canvas.width = this.width;
             ctx.canvas.height = this.height;
-            document.getElementById('landmarks').getContext('2d').canvas.width = 1050;
+            document.getElementById('landmarks').getContext('2d').canvas.width = 1050;//ctx.canvas.width;
             document.getElementById('landmarks').getContext('2d').canvas.height = ctx.canvas.height;
-            document.getElementById('bezier').getContext('2d').canvas.width = 1050;
+            document.getElementById('bezier').getContext('2d').canvas.width = 1050;//ctx.canvas.width;
             document.getElementById('bezier').getContext('2d').canvas.height = ctx.canvas.height;
             document.getElementById("card-canvas").setAttribute("style", "height: " + ctx.canvas.height + "px");
             ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);    //draw background image
@@ -226,12 +239,8 @@ function coordinates(event) {
             global_points[currentPoint] = [];
         }
         const mousePosition = getMousePos(div, event);
-        const offsets = {
-            left: $("#image").offset().left,
-            top: $("#image").offset().top
-        };
-        global_points[currentPoint].X = mousePosition.x + offsets.left;
-        global_points[currentPoint].Y = mousePosition.y + offsets.top;
+        global_points[currentPoint].X = mousePosition.x;
+        global_points[currentPoint].Y = mousePosition.y;
 
         redrawLandmark(div);
 
