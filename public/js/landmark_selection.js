@@ -8,7 +8,8 @@ let isInsideBox = false;
 let isOnBoxVertex = false;
 let isOnCurvePoints = null;
 let mousePosition = [x = null, y = null];
-const pointRadius = 4;
+const scaleDrawValue = {pointRadius: 4, nameScale: 10};
+let pointRadius = 4; let nameScale = 10;
 
 let isCurveFunction = false;
 let isMouseDown = false;
@@ -41,13 +42,8 @@ function getMousePos(canvas, evt) {
         if (isX){
             return (imageDimensions.width * mousePos) / canvasDimensions.width;
         } else
-            //return ((imageDimensions.height * canvasDimensions.width / imageDimensions.width) * mousePos) / canvasDimensions.height;
             return (imageDimensions.height * mousePos) / canvasDimensions.height;
     };
-    /*console.log(canvasDimensions, imageDimensions, {
-        x: scales(evt.clientX - rect.left, true),
-        y: scales(evt.clientY - rect.top, false)
-    }, {x: evt.clientX - rect.left, y: evt.clientY - rect.top});*/
     return {
         x: scales(evt.clientX - rect.left, true),
         y: scales(evt.clientY - rect.top, false)
@@ -132,6 +128,24 @@ function toJson(toConvertArray) {
     return returnedJson;
 }
 
+function scaleDraw(canvas){
+    const rect = canvas.getBoundingClientRect();
+    const canvasDimensions = {
+        width: rect.width, height: rect.height
+    };
+    let ctx = document.getElementById('landmarks').getContext('2d');
+    const imageDimensions = {
+        width: ctx.canvas.width, height: ctx.canvas.height
+    };
+    if(imageDimensions.width > imageDimensions.height){
+        pointRadius = (imageDimensions.width * scaleDrawValue.pointRadius) / canvasDimensions.width;
+        nameScale = (imageDimensions.width * scaleDrawValue.nameScale) / canvasDimensions.width;
+    } else {
+        pointRadius = (imageDimensions.height * scaleDrawValue.pointRadius) / canvasDimensions.height;
+        nameScale = (imageDimensions.height * scaleDrawValue.nameScale) / canvasDimensions.height;
+    }
+}
+
 function openImage(path, loadFunction) {
     let img = new Image();
     image_url = path;
@@ -143,11 +157,14 @@ function openImage(path, loadFunction) {
         img.onload = function () {
             ctx.canvas.width = this.width;
             ctx.canvas.height = this.height;
-            document.getElementById('landmarks').getContext('2d').canvas.width = 1050;//ctx.canvas.width;
+            document.getElementById('landmarks').getContext('2d').canvas.width = ctx.canvas.width;
             document.getElementById('landmarks').getContext('2d').canvas.height = ctx.canvas.height;
-            document.getElementById('bezier').getContext('2d').canvas.width = 1050;//ctx.canvas.width;
+            document.getElementById('bezier').getContext('2d').canvas.width = ctx.canvas.width;
             document.getElementById('bezier').getContext('2d').canvas.height = ctx.canvas.height;
             document.getElementById("card-canvas").setAttribute("style", "height: " + ctx.canvas.height + "px");
+
+            scaleDraw(document.getElementById('landmarks'));
+
             ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);    //draw background image
             ctx.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
             if (loadFunction) {
@@ -205,8 +222,8 @@ function drawLandmark(div, landmarkName) {
     context.beginPath();
     context.arc(locations.X, locations.Y, pointRadius, 0, 2 * Math.PI);
     context.fillStyle = 'red';
-    context.font = "10px Arial";
-    context.fillText(landmarkName, Math.floor(parseInt(locations.X) - 15), Math.floor(parseInt(locations.Y) + 15));
+    context.font = nameScale + "px Arial";
+    context.fillText(landmarkName.match(/\(.+\)/), Math.floor(parseInt(locations.X) - 10), Math.floor(parseInt(locations.Y) + 20));
     context.fill();
     context.lineWidth = 1;
     context.strokeStyle = '#330005';
