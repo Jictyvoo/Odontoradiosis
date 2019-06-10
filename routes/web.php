@@ -19,6 +19,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/request', 'RequestAccess@index')->name('request');
+Route::get('/approveOrthodontist/{id}', 'HomeController@approveOrthodontist')->name('approveOrthodontist');
+Route::get('/refuseOrthodontist/{id}', 'HomeController@refuseOrthodontist')->name('refuseOrthodontist');
+Route::get('/approveStudent/{id}', 'HomeController@approveStudent')->name('approveStudent');
+Route::get('/refuseStudent/{id}', 'HomeController@refuseStudent')->name('refuseStudent');
+
 
 
 Route::resource('user', 'UsersController');

@@ -40,7 +40,7 @@ class RequestStudentController extends Controller {
 		$requestStudent->password = Hash::make($request->input('password'));
 		$requestStudent->access_level = 0;
 		$requestStudent->cpf = $request->input('cpf');
-		$requestStudent->registration_guide = $request->file('registration_guide')->store('public/guide');
+		$requestStudent->registration_guide = $request->file('registration_guide')->store('guide', "public");
 		$requestStudent->save();
 		return redirect('home');
 	}
