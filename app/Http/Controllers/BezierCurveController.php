@@ -6,12 +6,23 @@ use App\Models\BezierCurve;
 use App\Models\BezierPoints;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BezierCurveController extends Controller {
-	/**
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    /**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function index() {
 		//
@@ -20,7 +31,7 @@ class BezierCurveController extends Controller {
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function create() {
 		//
@@ -44,9 +55,9 @@ class BezierCurveController extends Controller {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
+	 * @param Request $request
 	 * @param Image|null $image
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function store(Request $request, Image $image = null) {
 		$bezierArrayCurves = json_decode($request->input('bezierCurves'));
@@ -128,7 +139,7 @@ class BezierCurveController extends Controller {
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function edit($id) {
 		//
@@ -137,9 +148,9 @@ class BezierCurveController extends Controller {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
+	 * @param Request $request
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function update(Request $request, $id) {
 		//
@@ -149,7 +160,7 @@ class BezierCurveController extends Controller {
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function destroy($id) {
 		//

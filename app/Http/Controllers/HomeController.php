@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\User;
 use App\Models\RequestOrthodontist;
 use App\Models\RequestStudent;
+use Illuminate\Http\Response;
 
 
 class HomeController extends Controller {
+
 	/**
 	 * Create a new controller instance.
 	 *
@@ -21,7 +23,7 @@ class HomeController extends Controller {
 	/**
 	 * Show the application dashboard.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function index() {
 		if (auth()->user()->access_level == 1) {
@@ -32,6 +34,10 @@ class HomeController extends Controller {
 		return view('doctor/index');
 	}
 
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
 	public function approveOrthodontist($id) {
 		$user = new User();
 		$request = RequestOrthodontist::find($id);
@@ -45,12 +51,20 @@ class HomeController extends Controller {
 		return redirect()->route('home');
 	}
 
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
 	public function refuseOrthodontist($id) {
 		$request = RequestOrthodontist::find($id);
 		$request->delete();
 		return redirect()->route('home');
 	}
 
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
 	public function approveStudent($id) {
 		$user = new User();
 		$request = RequestStudent::find($id);
@@ -64,6 +78,10 @@ class HomeController extends Controller {
 		return redirect()->route('home');
 	}
 
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
 	public function refuseStudent($id) {
 		$request = RequestStudent::find($id);
 		$request->delete();

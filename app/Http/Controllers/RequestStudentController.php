@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\RequestStudent;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class RequestStudentController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function index () {
 		//
@@ -20,7 +21,7 @@ class RequestStudentController extends Controller {
 	 * Show the form for creating a new resource.
 	 *
 	 * @param array $data
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function create (array $data) {
 		$access_level = 0;
@@ -30,8 +31,8 @@ class RequestStudentController extends Controller {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * @param Request $request
+	 * @return Response
 	 */
 	public function store (Request $request) {
 		$requestStudent = new RequestStudent();
@@ -68,7 +69,7 @@ class RequestStudentController extends Controller {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
+	 * @param Request $request
 	 * @param RequestStudent $requestStudent
 	 * @return void
 	 */

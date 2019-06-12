@@ -6,13 +6,24 @@ use App\Models\Image;
 use App\Models\ImageLandmark;
 use App\Models\Landmark;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class ImageLandmarkController extends Controller {
-	/**
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    /**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function index() {
         $imageLandmarks = ImageLandmark::all()->where('fk_id_doctor', auth()->user()->id);
@@ -22,7 +33,7 @@ class ImageLandmarkController extends Controller {
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function create() {
 		//
@@ -38,8 +49,8 @@ class ImageLandmarkController extends Controller {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * @param Request $request
+	 * @return Response
 	 */
 	public function store(Request $request) {
 		$jsonReceived = $request->input('savedPoints');
@@ -80,7 +91,7 @@ class ImageLandmarkController extends Controller {
 	 * Display the specified resource.
 	 *
 	 * @param  string $path
-	 * @return \Illuminate\Http\Response|string
+	 * @return Response|string
 	 */
 	public function show($path) {
 		$path = str_replace("@", "/", $path);
@@ -109,7 +120,7 @@ class ImageLandmarkController extends Controller {
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function edit($id) {
 		//
@@ -118,9 +129,9 @@ class ImageLandmarkController extends Controller {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
+	 * @param Request $request
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function update(Request $request, $id) {
 		//
@@ -130,7 +141,7 @@ class ImageLandmarkController extends Controller {
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function destroy($id) {
 		//

@@ -4,23 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\RequestOrthodontist;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class RequestOrthodontistController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function index () {
 		//
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param array $data
+     * @return Response
+     */
 	public function create (array $data) {
 		return view('layuouts/request');
 	}
@@ -28,8 +30,8 @@ class RequestOrthodontistController extends Controller {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * @param Request $request
+	 * @return Response
 	 */
 	public function store (Request $request) {
 		$requestOrthodontist = new RequestOrthodontist();
@@ -46,40 +48,40 @@ class RequestOrthodontistController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  \App\RequestOrthodontist $requestOrthodontist
-	 * @return \Illuminate\Http\Response
+	 * @param RequestOrthodontist $requestOrthodontist
+	 * @return Response
 	 */
 	public function show (RequestOrthodontist $requestOrthodontist) {
 		//
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  \App\RequestOrthodontist $requestOrthodontist
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param RequestOrthodontist $requestOrthodontist
+     * @return void
+     */
 	public function edit (RequestOrthodontist $requestOrthodontist) {
 		//
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request $request
-	 * @param  \App\RequestOrthodontist $requestOrthodontist
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param RequestOrthodontist $requestOrthodontist
+     * @return void
+     */
 	public function update (Request $request, RequestOrthodontist $requestOrthodontist) {
 		//
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\RequestOrthodontist $requestOrthodontist
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param RequestOrthodontist $requestOrthodontist
+     * @return void
+     */
 	public function destroy (RequestOrthodontist $requestOrthodontist) {
 		//
 	}
