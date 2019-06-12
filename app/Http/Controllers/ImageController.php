@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Models\ImageLandmark;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class ImageController extends Controller {
 
@@ -23,7 +25,8 @@ class ImageController extends Controller {
 	 * @return Response
 	 */
 	public function index() {
-		$images = Image::all();
+		/*$images = Image::all();*/
+        $images = DB::table('images')->whereNotIn('id', ImageLandmark::select('fk_id_image')->where('fk_id_doctor', auth()->user()->id)->get()->toArray())->get();
 		return view("doctor.all_images", compact('images'));
 	}
 

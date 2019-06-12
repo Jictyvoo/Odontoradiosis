@@ -8,8 +8,8 @@ let isInsideBox = false;
 let isOnBoxVertex = false;
 let isOnCurvePoints = null;
 let mousePosition = [x = null, y = null];
-const scaleDrawValue = {pointRadius: 4, nameScale: 10};
-let pointRadius = 4; let nameScale = 10;
+const scaleDrawValue = {pointRadius: 4, nameScale: 10, lineWidth: 1};
+let pointRadius = 4; let nameScale = 10; let lineWidth = 1;
 
 let isCurveFunction = false;
 let isMouseDown = false;
@@ -140,9 +140,11 @@ function scaleDraw(canvas){
     if(imageDimensions.width > imageDimensions.height){
         pointRadius = (imageDimensions.width * scaleDrawValue.pointRadius) / canvasDimensions.width;
         nameScale = (imageDimensions.width * scaleDrawValue.nameScale) / canvasDimensions.width;
+        lineWidth = (imageDimensions.width * scaleDrawValue.lineWidth) / canvasDimensions.width;
     } else {
         pointRadius = (imageDimensions.height * scaleDrawValue.pointRadius) / canvasDimensions.height;
         nameScale = (imageDimensions.height * scaleDrawValue.nameScale) / canvasDimensions.height;
+        lineWidth = (imageDimensions.height * scaleDrawValue.lineWidth) / canvasDimensions.height;
     }
 }
 
@@ -326,6 +328,7 @@ function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
     ctx.strokeStyle = '#e3ed5c';
     ctx.moveTo(x1, y1);
     ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2);
+    ctx.lineWidth = lineWidth;
     ctx.stroke();
 }
 
@@ -432,6 +435,7 @@ function bezier_curve(currentCurve, recalculate) {
         if (all_curves[currentCurve] != null) {
             curveBox = getBoxDimensions(currentCurve, null, recalculate);
             let context = document.getElementById('bezier').getContext('2d');
+            context.lineWidth = lineWidth;
             context.beginPath();
             context.rect(curveBox[0], curveBox[1], curveBox[2], curveBox[3]);
             context.stroke();

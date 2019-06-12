@@ -9,12 +9,34 @@
 	img:hover {
 		border-color: #EA0404;
 	}
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+    }
+
+    /* Clearfix (clear floats) */
+    .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
 </style>
 
 <?php use Illuminate\Support\Facades\Storage; ?>
+<div class="row">
 @foreach ($images as $image)
-	<img src="{{ Storage::url($image->path) }}" title="{{'Radiografia '.$image->id}}">
+        <div class="column">
+            <h3>{{'Radiografia '.$image->id}}</h3>
+            <img src="{{ Storage::url($image->path) }}" title="{{'Radiografia '.$image->id}}">
+        </div>
 @endforeach
+</div>
 
 <script>
     const imgs = document.querySelectorAll("img");
