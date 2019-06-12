@@ -29,8 +29,10 @@ document.onmouseup = function () {
     mousePosition.y = null;
 };
 
-function getMousePos(canvas, evt) {
-    const rect = canvas.getBoundingClientRect();
+const dynamicCanvasScale = function(valueToResize, isX, rect){
+    if(!rect){
+        rect = document.getElementById('landmarks').getBoundingClientRect();
+    }
     const canvasDimensions = {
         width: rect.width, height: rect.height
     };
@@ -38,15 +40,17 @@ function getMousePos(canvas, evt) {
     const imageDimensions = {
         width: ctx.canvas.width, height: ctx.canvas.height
     };
-    const scales = function(mousePos, isX){
-        if (isX){
-            return (imageDimensions.width * mousePos) / canvasDimensions.width;
-        } else
-            return (imageDimensions.height * mousePos) / canvasDimensions.height;
-    };
+    if (isX){
+        return (imageDimensions.width * valueToResize) / canvasDimensions.width;
+    } else
+        return (imageDimensions.height * valueToResize) / canvasDimensions.height;
+};
+
+function getMousePos(canvas, evt) {
+    const rect = canvas.getBoundingClientRect();
     return {
-        x: scales(evt.clientX - rect.left, true),
-        y: scales(evt.clientY - rect.top, false)
+        x: dynamicCanvasScale(evt.clientX - rect.left, true, rect),
+        y: dynamicCanvasScale(evt.clientY - rect.top, false, rect)
     };
 }
 
@@ -130,21 +134,18 @@ function toJson(toConvertArray) {
 
 function scaleDraw(canvas){
     const rect = canvas.getBoundingClientRect();
-    const canvasDimensions = {
-        width: rect.width, height: rect.height
-    };
     let ctx = document.getElementById('landmarks').getContext('2d');
     const imageDimensions = {
         width: ctx.canvas.width, height: ctx.canvas.height
     };
     if(imageDimensions.width > imageDimensions.height){
-        pointRadius = (imageDimensions.width * scaleDrawValue.pointRadius) / canvasDimensions.width;
-        nameScale = (imageDimensions.width * scaleDrawValue.nameScale) / canvasDimensions.width;
-        lineWidth = (imageDimensions.width * scaleDrawValue.lineWidth) / canvasDimensions.width;
+        pointRadius = dynamicCanvasScale(scaleDrawValue.pointRadius, true, rect);
+        nameScale = dynamicCanvasScale(scaleDrawValue.nameScale, true, rect);
+        lineWidth = dynamicCanvasScale(scaleDrawValue.lineWidth, true, rect);
     } else {
-        pointRadius = (imageDimensions.height * scaleDrawValue.pointRadius) / canvasDimensions.height;
-        nameScale = (imageDimensions.height * scaleDrawValue.nameScale) / canvasDimensions.height;
-        lineWidth = (imageDimensions.height * scaleDrawValue.lineWidth) / canvasDimensions.height;
+        pointRadius = dynamicCanvasScale(scaleDrawValue.pointRadius, false, rect);
+        nameScale = dynamicCanvasScale(scaleDrawValue.nameScale, false, rect);
+        lineWidth = dynamicCanvasScale(scaleDrawValue.lineWidth, false, rect);
     }
 }
 
@@ -257,9 +258,9 @@ function coordinates(event) {
         if (!global_points[currentPoint]) {
             global_points[currentPoint] = [];
         }
-        const mousePosition = getMousePos(div, event);
-        global_points[currentPoint].X = mousePosition.x;
-        global_points[currentPoint].Y = mousePosition.y;
+        const currentMousePosition = getMousePos(div, event);
+        global_points[currentPoint].X = currentMousePosition.x;
+        global_points[currentPoint].Y = currentMousePosition.y;
 
         redrawLandmark(div);
 
@@ -279,6 +280,7 @@ function landmarksToJSON(js_array) {
             returned_json = returned_json + ",";
         }
         returned_json = returned_json + "\"" + key + "\":{";
+        // noinspection JSUnfilteredForInLoop
         let internalArray = js_array[key];
         returned_json = returned_json + "\"X\":" + internalArray.X + ",\"Y\":" + internalArray.Y + "}";
     }
@@ -400,10 +402,9 @@ function saveBezierCurve() {
 function draw_all_curves() {
     const canvas = document.getElementById('bezier');
     let context = canvas.getContext('2d');
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    let w = canvas.width;
-    canvas.width = 1;
-    canvas.width = w;
+    /*context.clearRect(0, 0, canvas.width, canvas.height);*/
+    // noinspection SillyAssignmentJS
+    context.canvas.width = context.canvas.width;
     Object.keys(all_curves).forEach(function (element, index, array) {
         all_curves[element].forEach(function (points, position, arr) {
             if (position === 0) {
@@ -507,36 +508,37 @@ function bezier_functions(event) {
         const selectedIndex = document.getElementById("curvesId").selectedIndex;
         const curveName = document.getElementById("curvesId").options[selectedIndex].text;
         if (mousePosition.x == null) {
-            mousePosition.x = event.clientX;
-            mousePosition.y = event.clientY;
+            mousePosition.x = dynamicCanvasScale(event.clientX, true);
+            mousePosition.y = dynamicCanvasScale(event.clientY, false);
         } else {
+            let currentPosition = {x: dynamicCanvasScale(event.clientX, true), y: dynamicCanvasScale(event.clientY, false)};
             saveBezierCurve();
             if (isOnBoxVertex) {
                 /*still need to fix problem when rescale with top points*/
-                let scaleX = event.clientX / mousePosition.x;
-                let scaleY = event.clientY / mousePosition.y;
+                let scaleX = currentPosition.x / mousePosition.x;
+                let scaleY = currentPosition.y / mousePosition.y;
                 rescaleBezier(curveName, scaleX, scaleY);
             } else if (isOnCurvePoints != null) {
-                isOnCurvePoints[0][isOnCurvePoints[1]] -= mousePosition.x - event.clientX;
-                isOnCurvePoints[0][isOnCurvePoints[2]] -= mousePosition.y - event.clientY;
+                isOnCurvePoints[0][isOnCurvePoints[1]] -= mousePosition.x - currentPosition.x;
+                isOnCurvePoints[0][isOnCurvePoints[2]] -= mousePosition.y - currentPosition.y;
                 bezier_curve(curveName, true);
             } else if (isInsideBox) {
-                translateBezier(curveName, mousePosition.x - event.clientX, mousePosition.y - event.clientY);
+                translateBezier(curveName, mousePosition.x - currentPosition.x, mousePosition.y - currentPosition.y);
             } else {
                 // noinspection JSSuspiciousNameCombination
                 let productModule = {
-                    first: Math.sqrt(Math.pow(event.clientX, 2) + Math.pow(event.clientY, 2)),
+                    first: Math.sqrt(Math.pow(currentPosition.x, 2) + Math.pow(currentPosition.y, 2)),
                     second: Math.sqrt(Math.pow(mousePosition.x, 2) + Math.pow(mousePosition.y, 2))
                 };
-                let scaleProduct = Math.abs((event.clientX * mousePosition.x) + (event.clientY * mousePosition.y));
+                let scaleProduct = Math.abs((currentPosition.x * mousePosition.x) + (currentPosition.y * mousePosition.y));
                 let angle = Math.acos(scaleProduct / (productModule.first * productModule.second));
                 if (!isNaN(angle)) {
-                    angle *= highLowAngle(mousePosition, {x: event.clientX, y: event.clientY});
+                    angle *= highLowAngle(mousePosition, {x: currentPosition.x, y: currentPosition.y});
                     rotateBezier(curveName, angle);
                 }
             }
-            mousePosition.x = event.clientX;
-            mousePosition.y = event.clientY;
+            mousePosition.x = currentPosition.x;
+            mousePosition.y = currentPosition.y;
             drawPointCircle(curveName);
         }
     }

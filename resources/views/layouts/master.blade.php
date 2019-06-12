@@ -9,14 +9,10 @@
 
     <title>Odontoradiosis | Home</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <!-- IonIcons -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
@@ -51,7 +47,7 @@
             <!-- Messages Dropdown Menu -->
             <li class="nav-item">
                 <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-                            class="fa fa-th-large"><img src="img/mini-menu.png"></i></a>
+                            class="fa fa-th-large"><img src="{{ asset('img/mini-menu.png') }}"></i></a>
             </li>
         </ul>
     </nav>
@@ -61,7 +57,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a  align="middle" href="{{ route('home') }}" class="brand-link">
-            <img src="img/odonto.png" alt="Odontoradiosis"  align="middle">
+            <img src="{{ asset('img/odonto.png') }}" alt="Odontoradiosis"  align="middle">
         </a>
 
         <!-- Sidebar -->
@@ -160,7 +156,7 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <!--<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script> -->
-<script src="/js/app.js"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 
 <?php
 use App\Http\Controllers\MinimizeJS;
@@ -168,8 +164,8 @@ MinimizeJS::minimize('js/landmark_selection.js', 'js/landmark.min.js');
 MinimizeJS::minimize('js/semiautomaticLandmarksMarking.js', 'js/semiautomatic_landmark.min.js');
 ?>
 
-<script language="javascript" src="{{ asset('js/landmark.min.js') }}"></script>
-<script language="javascript" src="{{ asset('js/semiautomatic_landmark.min.js') }}"></script>
+<script src="{{ asset('js/landmark.min.js') }}"></script>
+<script src="{{ asset('js/semiautomatic_landmark.min.js') }}"></script>
 <!--<script language="javascript" src="{{ asset('js/semiautomaticLandmarksMarking.js') }}"></script> -->
 <!--<script language="javascript" src="{{ asset('js/landmark_selection.js') }}"></script>-->
 
