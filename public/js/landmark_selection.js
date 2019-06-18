@@ -226,7 +226,7 @@ function drawLandmark(div, landmarkName) {
     context.arc(locations.X, locations.Y, pointRadius, 0, 2 * Math.PI);
     context.fillStyle = 'red';
     context.font = nameScale + "px Arial";
-    context.fillText(landmarkName.match(/\(.+\)/), Math.floor(parseInt(locations.X) - 10), Math.floor(parseInt(locations.Y) + 20));
+    context.fillText(landmarkName.match(/\(.+\)/), Math.floor(parseInt(locations.X) - 40), Math.floor(parseInt(locations.Y) + 40));
     context.fill();
     context.lineWidth = 1;
     context.strokeStyle = '#330005';

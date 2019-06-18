@@ -40,11 +40,11 @@ function calculateGnatio(offset) {
 
 function calculatePalatoMole(offset) {
     let curvePoints_1 = all_curves["mandíbula"];
-    let curvePoints_2 = all_curves["perfil-mole"];
-    let x1 = curvePoints_2[5][4];
-    let y1 = curvePoints_2[5][5];
-    let x2 = curvePoints_1[4][4];
-    let y2 = curvePoints_1[4][5];
+    let curvePoints_2 = all_curves["maxila"];
+    let x1 = curvePoints_2[0][6];
+    let y1 = curvePoints_2[0][7];
+    let x2 = curvePoints_1[0][2];
+    let y2 = curvePoints_1[0][3];
     let x = (x1 + x2) / 2;
     let y = (y1 + y2) / 2;
     global_points["Palato Mole (pm)"].X = x;
@@ -89,9 +89,9 @@ function calculateENP(offset) {
 }
 
 function calculateCondilio(offset) {
-    let curvePoints = all_curves["mandíbula"];
-    let x = curvePoints[2][4];
-    let y = curvePoints[2][5];
+    let curvePoints = all_curves["pório-anatômico"];
+    let x = curvePoints[0][6];
+    let y = curvePoints[0][7];
     global_points["Condílio (Co)"].X = x;
     global_points["Condílio (Co)"].Y = y;
 }

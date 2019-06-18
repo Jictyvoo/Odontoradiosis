@@ -144,6 +144,15 @@
                                         <div class="col-md-6">
                                             <input id="cpf" type="text" class="form-control"
                                                    name="cpf" required>
+
+                                            @if ($errors->has('cpf'))
+                                                <script>
+                                                bootbox.alert({
+                                                    message: "CPF inválido!",
+                                                    backdrop: true
+                                                });
+                                                </script>
+                                            @endif
                                         </div>
                                     </div>
 
