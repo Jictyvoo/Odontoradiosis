@@ -35,7 +35,7 @@ class CreateLandmarksTable extends Migration {
 			$table->integer('Co')->nullable();
 			$table->integer('Pn')->nullable();
 			$table->integer('Cm')->nullable();
-			$table->integer('SnX')->nullable();
+			$table->integer('Sn')->nullable();
 			$table->integer('Ls')->nullable();
 			$table->integer('Sts')->nullable();
 			$table->integer('Pg')->nullable();

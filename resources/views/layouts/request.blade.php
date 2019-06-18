@@ -5,23 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('img/ico.png') }}">
 
     <title>Odontoradiosis | Solicitar acesso</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <!-- IonIcons -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
-    <!-- Main System CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bezier.css') }}">
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -67,11 +61,11 @@
                                     @csrf
 
                                     <div class="form-group row">
-                                        <label for="name"
+                                        <label for="name_orthodontist"
                                                class="col-md-4 col-form-label text-md-right">{{ __('Nome completo') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="name" type="text"
+                                            <input id="name_orthodontist" type="text"
                                                    class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                                    name="name" value="{{ old('name') }}" required autofocus>
 
@@ -84,11 +78,11 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="email"
+                                        <label for="email_orthodontist"
                                                class="col-md-4 col-form-label text-md-right">{{ __('E-mail') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="email" type="email"
+                                            <input id="email_orthodontist" type="email"
                                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                                    name="email" value="{{ old('email') }}" required>
 
@@ -101,11 +95,11 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="password"
+                                        <label for="password_orthodontist"
                                                class="col-md-4 col-form-label text-md-right">{{ __('Senha') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="password" type="password"
+                                            <input id="password_orthodontist" type="password"
                                                    class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                                    name="password" required>
 
@@ -118,41 +112,33 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="password-confirm"
+                                        <label for="password-confirm_orthodontist"
                                                class="col-md-4 col-form-label text-md-right">{{ __('Confirmar senha') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="password-confirm" type="password" class="form-control"
+                                            <input id="password-confirm_orthodontist" type="password"
+                                                   class="form-control"
                                                    name="password_confirmation" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="cro"
+                                        <label for="cro_orthodontist"
                                                class="col-md-4 col-form-label text-md-right">{{ __('CRO') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="cro" type="text" class="form-control"
+                                            <input id="cro_orthodontist" type="text" class="form-control"
                                                    name="cro" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="cpf"
+                                        <label for="cpf_orthodontist"
                                                class="col-md-4 col-form-label text-md-right">{{ __('CPF') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="cpf" type="text" class="form-control"
+                                            <input id="cpf_orthodontist" type="text" class="form-control"
                                                    name="cpf" required>
-
-                                            @if ($errors->has('cpf'))
-                                                <script>
-                                                bootbox.alert({
-                                                    message: "CPF inválido!",
-                                                    backdrop: true
-                                                });
-                                                </script>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -180,11 +166,11 @@
                                     @csrf
 
                                     <div class="form-group row">
-                                        <label for="name"
+                                        <label for="name_student"
                                                class="col-md-4 col-form-label text-md-right">{{ __('Nome completo') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="name" type="text"
+                                            <input id="name_student" type="text"
                                                    class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                                    name="name" value="{{ old('name') }}" required autofocus>
 
@@ -197,11 +183,11 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="email"
+                                        <label for="email_student"
                                                class="col-md-4 col-form-label text-md-right">{{ __('E-mail') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="email" type="email"
+                                            <input id="email_student" type="email"
                                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                                    name="email" value="{{ old('email') }}" required>
 
@@ -214,11 +200,11 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="password"
+                                        <label for="password_student"
                                                class="col-md-4 col-form-label text-md-right">{{ __('Senha') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="password" type="password"
+                                            <input id="password_student" type="password"
                                                    class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                                    name="password" required>
 
@@ -231,31 +217,31 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="password-confirm"
+                                        <label for="password-confirm_student"
                                                class="col-md-4 col-form-label text-md-right">{{ __('Confirmar senha') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="password-confirm" type="password" class="form-control"
+                                            <input id="password-confirm_student" type="password" class="form-control"
                                                    name="password_confirmation" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="registration_guide"
+                                        <label for="registration_guide_student"
                                                class="col-md-4 col-form-label text-md-right">{{ __('Guia de matrícula') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="registration_guide" type="file" name="registration_guide"
+                                            <input id="registration_guide_student" type="file" name="registration_guide"
                                                    required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="cpf"
+                                        <label for="cpf_student"
                                                class="col-md-4 col-form-label text-md-right">{{ __('CPF') }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="cpf" type="text" class="form-control"
+                                            <input id="cpf_student" type="text" class="form-control"
                                                    name="cpf" required>
                                         </div>
                                     </div>
@@ -297,7 +283,7 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <!--<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script> -->
-<script src="/js/app.js"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 
 </body>
 </html>

@@ -8,8 +8,8 @@ let isInsideBox = false;
 let isOnBoxVertex = false;
 let isOnCurvePoints = null;
 let mousePosition = [x = null, y = null];
-const scaleDrawValue = {pointRadius: 4, nameScale: 10, lineWidth: 1};
-let pointRadius = 4; let nameScale = 10; let lineWidth = 1;
+const scaleDrawValue = {pointRadius: 4, nameScale: 10, lineWidth: 1, textRelativePosition: {x: 15, y: 15}};
+let pointRadius = 4; let nameScale = 10; let lineWidth = 1; let textRelativePosition = {x: 15, y: 15};
 
 let isCurveFunction = false;
 let isMouseDown = false;
@@ -29,8 +29,8 @@ document.onmouseup = function () {
     mousePosition.y = null;
 };
 
-const dynamicCanvasScale = function(valueToResize, isX, rect){
-    if(!rect){
+const dynamicCanvasScale = function (valueToResize, isX, rect) {
+    if (!rect) {
         rect = document.getElementById('landmarks').getBoundingClientRect();
     }
     const canvasDimensions = {
@@ -40,7 +40,7 @@ const dynamicCanvasScale = function(valueToResize, isX, rect){
     const imageDimensions = {
         width: ctx.canvas.width, height: ctx.canvas.height
     };
-    if (isX){
+    if (isX) {
         return (imageDimensions.width * valueToResize) / canvasDimensions.width;
     } else
         return (imageDimensions.height * valueToResize) / canvasDimensions.height;
@@ -69,7 +69,7 @@ function referenceLandmarks() {
     imagePaths["Mento (Me)"] = "mento.png";
     imagePaths["Condílio (Co)"] = "condilio.png";
     imagePaths["Pró-nasal (Pn)"] = "proNasal.png";
-    imagePaths["Pogônio Mole (Pg’)"] = "pogonioMole.png";
+    imagePaths["Pogônio Mole (Pg)"] = "pogonioMole.png";
     imagePaths["Palato Mole (pm)"] = "palatoMole.png";
     /*imagePaths["Columela (Cm)"] = "";
     imagePaths["Básio (Ba)"] = "";
@@ -132,20 +132,24 @@ function toJson(toConvertArray) {
     return returnedJson;
 }
 
-function scaleDraw(canvas){
+function scaleDraw(canvas) {
     const rect = canvas.getBoundingClientRect();
     let ctx = document.getElementById('landmarks').getContext('2d');
     const imageDimensions = {
         width: ctx.canvas.width, height: ctx.canvas.height
     };
-    if(imageDimensions.width > imageDimensions.height){
+    if (imageDimensions.width > imageDimensions.height) {
         pointRadius = dynamicCanvasScale(scaleDrawValue.pointRadius, true, rect);
         nameScale = dynamicCanvasScale(scaleDrawValue.nameScale, true, rect);
         lineWidth = dynamicCanvasScale(scaleDrawValue.lineWidth, true, rect);
+        textRelativePosition.x = dynamicCanvasScale(scaleDrawValue.textRelativePosition.x, true, rect);
+        textRelativePosition.y = dynamicCanvasScale(scaleDrawValue.textRelativePosition.y, true, rect);
     } else {
         pointRadius = dynamicCanvasScale(scaleDrawValue.pointRadius, false, rect);
         nameScale = dynamicCanvasScale(scaleDrawValue.nameScale, false, rect);
         lineWidth = dynamicCanvasScale(scaleDrawValue.lineWidth, false, rect);
+        textRelativePosition.x = dynamicCanvasScale(scaleDrawValue.textRelativePosition.x, false, rect);
+        textRelativePosition.y = dynamicCanvasScale(scaleDrawValue.textRelativePosition.y, false, rect);
     }
 }
 
@@ -226,7 +230,7 @@ function drawLandmark(div, landmarkName) {
     context.arc(locations.X, locations.Y, pointRadius, 0, 2 * Math.PI);
     context.fillStyle = 'red';
     context.font = nameScale + "px Arial";
-    context.fillText(landmarkName.match(/\(.+\)/), Math.floor(parseInt(locations.X) - 40), Math.floor(parseInt(locations.Y) + 40));
+    context.fillText(landmarkName.match(/\(.+\)/), Math.floor(parseInt(locations.X) - textRelativePosition.x), Math.floor(parseInt(locations.Y) + textRelativePosition.y));
     context.fill();
     context.lineWidth = 1;
     context.strokeStyle = '#330005';
@@ -501,17 +505,23 @@ function highLowAngle(oldPosition, currentPosition) {
 
 // noinspection JSUnusedGlobalSymbols
 function bezier_functions(event) {
+    event.preventDefault();
+    event.stopPropagation(); // tell the browser we're handling this event
     const canvas = document.getElementById('bezier');
     let context = canvas.getContext('2d');
     context.translate(canvas.width / 2, canvas.height / 2);
     if (isMouseDown && isCurveFunction) { /* do drag things */
+        document.getElementById('bezier').style.cursor = "move";
         const selectedIndex = document.getElementById("curvesId").selectedIndex;
         const curveName = document.getElementById("curvesId").options[selectedIndex].text;
         if (mousePosition.x == null) {
             mousePosition.x = dynamicCanvasScale(event.clientX, true);
             mousePosition.y = dynamicCanvasScale(event.clientY, false);
         } else {
-            let currentPosition = {x: dynamicCanvasScale(event.clientX, true), y: dynamicCanvasScale(event.clientY, false)};
+            let currentPosition = {
+                x: dynamicCanvasScale(event.clientX, true),
+                y: dynamicCanvasScale(event.clientY, false)
+            };
             saveBezierCurve();
             if (isOnBoxVertex) {
                 /*still need to fix problem when rescale with top points*/
@@ -541,6 +551,8 @@ function bezier_functions(event) {
             mousePosition.y = currentPosition.y;
             drawPointCircle(curveName);
         }
+    } else if (isCurveFunction) {
+        document.getElementById('bezier').style.cursor = "crosshair";
     }
 }
 
@@ -555,7 +567,6 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
         [boxVertex[0] + boxVertex[2], boxVertex[1]],
         [boxVertex[0] + boxVertex[2], boxVertex[1] + boxVertex[3]]
     ].forEach(function (element, index, array) {
-        drawCircle(context, element[0], element[1]);
         if (relativeMouse.x >= element[0] - pointRadius && relativeMouse.x <= element[0] + pointRadius
             && relativeMouse.y >= element[1] - pointRadius && relativeMouse.y <= element[1] + pointRadius) {
             isOn = true;
