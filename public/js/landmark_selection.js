@@ -5,7 +5,7 @@ let all_curves = null;
 let curveBox = null;
 let boxPoints = null;
 let isInsideBox = false;
-let isOnBoxVertex = false;
+let isOnBoxVertex = {isOn: false, index: 0};
 let isOnCurvePoints = null;
 let mousePosition = [x = null, y = null];
 const scaleDrawValue = {pointRadius: 4, nameScale: 10, lineWidth: 1, textRelativePosition: {x: 15, y: 15}};
@@ -22,7 +22,7 @@ document.onmousedown = function () {
 document.onmouseup = function () {
     isMouseDown = false;
     isInsideBox = false;
-    isOnBoxVertex = false;
+    isOnBoxVertex = {isOn: false, index: 0};
     isOnCurvePoints = null;
 
     mousePosition.x = null;
@@ -523,10 +523,16 @@ function bezier_functions(event) {
                 y: dynamicCanvasScale(event.clientY, false)
             };
             saveBezierCurve();
-            if (isOnBoxVertex) {
+            if (isOnBoxVertex.isOn) {
                 /*still need to fix problem when rescale with top points*/
                 let scaleX = currentPosition.x / mousePosition.x;
+                if(isOnBoxVertex.index < 2){
+                    scaleX = mousePosition.x / currentPosition.x;
+                }
                 let scaleY = currentPosition.y / mousePosition.y;
+                if(isOnBoxVertex.index % 2 === 0){
+                    scaleY = mousePosition.y / currentPosition.y;
+                }
                 rescaleBezier(curveName, scaleX, scaleY);
             } else if (isOnCurvePoints != null) {
                 isOnCurvePoints[0][isOnCurvePoints[1]] -= mousePosition.x - currentPosition.x;
@@ -558,9 +564,7 @@ function bezier_functions(event) {
 
 function verifyMouseOnBoxVertex(relativeMouse, curveName) {
     let boxVertex = getBoxDimensions(curveName, null, true);
-    const canvas = document.getElementById("bezier");
-    const context = canvas.getContext("2d");
-    let isOn = false;
+    let isOn = false; let vertexIndex = 0;
     [
         [boxVertex[0], boxVertex[1]],
         [boxVertex[0], boxVertex[1] + boxVertex[3]],
@@ -569,10 +573,10 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
     ].forEach(function (element, index, array) {
         if (relativeMouse.x >= element[0] - pointRadius && relativeMouse.x <= element[0] + pointRadius
             && relativeMouse.y >= element[1] - pointRadius && relativeMouse.y <= element[1] + pointRadius) {
-            isOn = true;
+            isOn = true; vertexIndex = index;
         }
     });
-    return isOn;
+    return {isOn: isOn, index: vertexIndex};
 }
 
 function verifyMouseOnCurvePoint(relativeMouse, curveName) {
