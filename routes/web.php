@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/help', 'HomeController@help')->name('help');
 Route::get('/request', 'RequestAccess@index')->name('request');
 Route::get('/approveOrthodontist/{id}', 'HomeController@approveOrthodontist')->name('approveOrthodontist');
 Route::get('/refuseOrthodontist/{id}', 'HomeController@refuseOrthodontist')->name('refuseOrthodontist');

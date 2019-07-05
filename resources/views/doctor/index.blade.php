@@ -142,7 +142,7 @@
                 </p>
             </a>
         </li>
-        <li class="nav-item has-treeview menu-open">
+        <!--<li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
                 <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/setting.png') }}"></i>
                 <p onClick="calculateLandmarks()">
@@ -157,7 +157,7 @@
                     Desfazer
                 </p>
             </a>
-        </li>
+        </li>-->
         <li class="nav-item has-treeview menu-open">
             <form method="post" action="{{ route('image_landmark.store') }}">
                 @csrf

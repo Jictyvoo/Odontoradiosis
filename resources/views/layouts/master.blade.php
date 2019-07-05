@@ -35,6 +35,9 @@
                 <a href="{{ route('home') }}" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ route('help') }}" class="nav-link">Ajuda</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="btn btn-primary">Sair</button>
@@ -58,7 +61,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a  align="middle" href="{{ route('home') }}" class="brand-link">
-            <img src="{{ asset('img/odontoradiosis_logo.png') }}" alt="Odontoradiosis"  align="middle">
+            <img width="200" height="133" src="{{ asset('img/odontoradiosis_logo.png') }}" alt="Odontoradiosis"  align="middle">
         </a>
 
         <!-- Sidebar -->

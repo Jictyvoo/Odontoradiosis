@@ -67,7 +67,7 @@
                                         <div class="col-md-6">
                                             <input id="name_orthodontist" type="text"
                                                    class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                                   name="name" value="{{ old('name') }}" required autofocus>
+                                                   name="name" value="{{ old('name') }}" required autofocus placeholder="Nome completo">
 
                                             @if ($errors->has('name'))
                                                 <span class="invalid-feedback" role="alert">
@@ -128,7 +128,7 @@
 
                                         <div class="col-md-6">
                                             <input id="cro_orthodontist" type="text" class="form-control"
-                                                   name="cro" required>
+                                                   name="cro" required placeholder="Somente números">
                                         </div>
                                     </div>
 
@@ -138,7 +138,7 @@
 
                                         <div class="col-md-6">
                                             <input id="cpf_orthodontist" type="text" class="form-control"
-                                                   name="cpf" required>
+                                                   name="cpf" required placeholder="Somente números" maxlength="11">
                                         </div>
                                     </div>
 
@@ -172,7 +172,7 @@
                                         <div class="col-md-6">
                                             <input id="name_student" type="text"
                                                    class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                                   name="name" value="{{ old('name') }}" required autofocus>
+                                                   name="name" value="{{ old('name') }}" required autofocus placeholder="Nome completo">
 
                                             @if ($errors->has('name'))
                                                 <span class="invalid-feedback" role="alert">
@@ -242,7 +242,7 @@
 
                                         <div class="col-md-6">
                                             <input id="cpf_student" type="text" class="form-control"
-                                                   name="cpf" required>
+                                                   name="cpf" required placeholder="Somente números" maxlength="11>
                                         </div>
                                     </div>
 

@@ -87,4 +87,12 @@ class HomeController extends Controller {
 		$request->delete();
 		return redirect()->route('home');
 	}
+
+	/**
+     * @param $id
+     * @return RedirectResponse
+     */
+	public function help() {
+		return view('doctor/help');
+	}
 }
