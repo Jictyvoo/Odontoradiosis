@@ -23,7 +23,6 @@
 </header>
 <section class="login">
     <h1><img src="{{ asset('img/odontoradiosis_logo_b.png') }}"></h1>
-    <h1>Odontoradiosis</h1>
     @yield('content')
 </section>
 </body>
