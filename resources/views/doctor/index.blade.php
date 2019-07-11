@@ -89,7 +89,7 @@
             <input type="range" id="invert" min="0" max="100" value="0"/>
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item"> 
         <a href="#" class="nav-link">
             <i class="fa fa-circle-o nav-icon"></i>
             <label for="grayscale">Escala de Cinza</label><br>
@@ -164,13 +164,9 @@
                 <input type="hidden" name="bezierCurves" id="bezier_curves" value=""/>
                 <input type="hidden" name="savedPoints" id="saved_points" value=""/>
                 <input type="hidden" name="currentImage" id="current_image" value=""/>
-                <button onClick="this.form.submit()" class="nav-link active">
-                    <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/save-button.png') }}"></i>
-                    <p>
-                        Salvar
-                    </p>
-                </button>
+                <input type="button" value="Salvar" onClick="this.form.submit()" class="btn btn-primary">
             </form>
         </li>
+    </li>
     </ul>
 @endsection
