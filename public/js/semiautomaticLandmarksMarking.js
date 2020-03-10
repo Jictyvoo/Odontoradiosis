@@ -162,6 +162,12 @@ function calculateLandmarks() {
     calculateCondilio(offsets);
     calculatePogonio(offsets);
     calculateMento(offsets);
+    /*calculateGonio(offsets);
+    calculateOrbitale(offsets);
+    calculatePorio(offsets);
+    calculatePontaNariz(offsets);
+    calculateFossaPterigoMaxilar(offsets);
+    calculatePterigoide(offsets);*/
     redrawLandmark(canvas);
 
     saveLandmarks(global_points);

@@ -46,25 +46,12 @@
                 <option>Pró-nasal (Pn)</option>
                 <option>Pogônio Mole (Pg)</option>
                 <option>Palato Mole (pm)</option>
-                <!--
-                <option>Próstil (Pr)</option>
-                <option>Infradental (Id)</option>
-                <option>Ponto D (D)</option>
-                <option>Bolton (Bo)</option>
-                <option>Articular (Ar)</option>
+                <option>Gônio (Go)</option>
+                <option>Órbitário (Or)</option>
                 <option>Pório (Po)</option>
-                <option>Pterigóideo (Pt)</option>
-                <option>Ponto E (E)</option>
-                <option>Mentoniano (Men)</option>
-                <option>Columela (Cm)</option>
-                <option>Subnasal (Sn)</option>
-                <option>Lábio Superior (Ls)</option>
-                <option>Stomion Superior (Sts)</option>
-                <option>Adenóide (ad)</option>
-                <option>Ponto bl (bl)</option>
-                <option>Ponto bf (bf)</option>
-                <option>Básio (Ba)</option>
-                -->
+                <option>Ponta do Nariz (PN)</option>
+                <option>Fossa Ptérigo Maxilar (Fpm)</option>
+                <option>Pterigóide (Pt)</option>
             </select>
         </a>
     </li>
