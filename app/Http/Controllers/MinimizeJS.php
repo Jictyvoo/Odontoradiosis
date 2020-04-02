@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
-use MatthiasMullie\Minify;
+use MatthiasMullie\Minify\JS as MinifyJS;
 
 
 class MinimizeJS {
@@ -21,7 +21,7 @@ class MinimizeJS {
 			$changed = true;
 		}
 		if ($changed) {
-			$minimizer = new Minify\JS(File::get(public_path($original)));
+			$minimizer = new MinifyJS(File::get(public_path($original)));
 			File::append(public_path($minimized), $minimizer->minify());
 		}
 	}
