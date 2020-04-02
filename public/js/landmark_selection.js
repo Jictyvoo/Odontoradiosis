@@ -74,7 +74,7 @@ function referenceLandmarks() {
     /*imagePaths["Gônio (Go)"] = "";
     imagePaths["Órbitário (Or)"] = "";
     imagePaths["Pório (Po)"] = "";
-    imagePaths["Ponta do Nariz (PN)"] = "";
+    imagePaths["Ponta do Nariz (PtN)"] = "";
     imagePaths["Fossa Ptérigo Maxilar (Fpm)"] = "";
     imagePaths["Pterigóide (Pt)"] = "";*/
     if (currentPoint !== "Selecione" && imagePaths[currentPoint]) {

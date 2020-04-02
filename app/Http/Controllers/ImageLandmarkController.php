@@ -43,7 +43,17 @@ class ImageLandmarkController extends Controller {
 	 * @return array
 	 */
 	private function getDictionaryLandmarks(){
-		return  array("Básio (Ba)" => "Ba", "Sela (S)" => "S", "Násio (N)" => "N", "Espinha nasal anterior (ENA)" => "ENA", "Espinha nasal posterior (ENP)" => "ENP", "Ponto subespinhal (A)" => "A", "Ponto pupramental (B)" => "PB", "Próstil (Pr)" => "Pr", "Infradental (Id)" => "Id", "Pogônio (Pog)" => "Pog", "Gnátio (Gn)" => "Gn", "Mento (Me)" => "Me", "Ponto D (D)" => "D", "Bolton (Bo)" => "Bo", "Articular (Ar)" => "Ar", "Pório (Po)" => "Po", "Pterigóideo (Pt)" => "Pt", "Ponto E (E)" => "E", "Mentoniano (Me)" => "Men", "Condílio (Co)" => "Co", "Pró-nasal (Pn)" => "Pn", "Columela (Cm)" => "Cm", "Subnasal (Sn)" => "Sn", "Lábio Superior (Ls)" => "Ls", "Stomion Superior (Sts)" => "Sts", "Pogônio Mole (Pg)" => "Pg", "Palato Mole (pm)" => "pm", "Adenóide (ad)" => "ad", "Ponto bl (bl)" => "bl", "Ponto bf (bf)" => "bf");
+		return  array(
+			"Sela (S)" => "Sela_S", "Násio (N)" => "Nasio_N", "Espinha nasal anterior (ENA)" => "espinha_nasal_ENA", "Espinha nasal posterior (ENP)" => "espinha_nasal_ENP", "Ponto subespinhal (A)" => "ponto_subespinhal_A",
+			"Ponto pupramental (B)" => "ponto_pupramental_B", "Pogônio (Pog)" => "pogonio_Pog", "Gnátio (Gn)" => "gnatio_Gn", "Mento (Me)" => "mento_Me",
+			"Condílio (Co)" => "condilio_Co", "Pró-nasal (Pn)" => "pronasal_Pn", "Pogônio Mole (Pg)" => "pogonio_mole_Pg", "Palato Mole (pm)" => "palato_mole_pm",
+			"Gônio (Go)" => "gonio_Go", "Órbitário (Or)" => "orbitale_Or", "Pório (Po)" => "porio_Po", "Ponta do Nariz (PN)" => "ponta_nariz_PtN",
+			"Fossa Ptérigo Maxilar (Fpm)" => "pterigo_maxilar_Fpm", "Pterigóide (Pt)" => "pterigoide_Pt",
+			/*"Básio (Ba)" => "Ba", "Próstil (Pr)" => "Pr", "Infradental (Id)" => "Id", "Ponto D (D)" => "D",
+			"Bolton (Bo)" => "Bo", "Articular (Ar)" => "Ar", "Ponto E (E)" => "E", "Mentoniano (Me)" => "Men",
+			"Columela (Cm)" => "Cm", "Subnasal (Sn)" => "Sn", "Lábio Superior (Ls)" => "Ls", "Stomion Superior (Sts)" => "Sts",
+			"Adenóide (ad)" => "ad", "Ponto bl (bl)" => "bl", "Ponto bf (bf)" => "bf"*/
+		);
 	}
 
 	/**
