@@ -112,7 +112,7 @@
           <span class="text-primary"><b>RADIOSIS</b></span>
         </h1>
         <div class="subheading mb-5">Abel Ramalho Galvão¹ · João Victor Oliveira Couto² ·
-          <a href="mailto:name@email.com">abel.ramalho18@gmail.com¹ · jictyvoo.ecomp@gmail.com²</a>
+          <a href="mailto:abel.ramalho18@gmail.com">abel.ramalho18@gmail.com¹</a> · <a href="mailto:jictyvoo.ecomp@gmail.com">jictyvoo.ecomp@gmail.com²</a>
         </div>
         <p class="lead mb-5"><p align="justify">A cefalometria radiográfica consiste nas mensurações da radiografia cefalométrica lateral e é fundamental para o estudo da forma e do crescimento do crânio. As aplicações da cefalometria na Ortodontia possibilita a visualização dos chamados pontos de referência, faciais e cranianos.</p><br>
 
