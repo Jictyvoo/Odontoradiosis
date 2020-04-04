@@ -30,11 +30,15 @@
 
 <?php use Illuminate\Support\Facades\Storage; ?>
 <div class="row">
+<?php $counter = 0; ?>
 @foreach ($images as $image)
+    @if($counter < 16)
+    <?php $counter += 1; ?>
         <div class="column">
             <h3>{{'Radiografia '.$image->id}}</h3>
             <img src="{{ Storage::url($image->path) }}" title="{{'Radiografia '.$image->id}}">
         </div>
+    @endif
 @endforeach
 </div>
 
