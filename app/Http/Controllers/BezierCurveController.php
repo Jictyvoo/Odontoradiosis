@@ -94,6 +94,7 @@ class BezierCurveController extends Controller {
 	 */
 	public function show($path) {
 		$path = str_replace("@", "/", $path);
+		$path = $path . ".jpg";
 		$returnedJson = "{";
 		$image = Image::where('path', '=', $path)->first();
 		$bezierCurves = BezierCurve::where('image_id', '=', $image->id)->orderBy('name')->orderBy('id')->get();

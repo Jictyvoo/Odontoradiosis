@@ -24,7 +24,7 @@ class RequestOrthodontistController extends Controller {
      * @return Response
      */
 	public function create (array $data) {
-		return view('layuouts/request');
+		return view('layouts/request');
 	}
 
 	/**

@@ -174,7 +174,7 @@ function openImage(path, loadFunction) {
 }
 
 function loadJsonLandmarks() {
-    const splicedSource = image_url.split("/");
+    const splicedSource = image_url.replace(new RegExp('.jpg$'), '').split("/");
     const landmarkJson = landmarks_url.replace("%REPLACE%", splicedSource[splicedSource.length - 2] + "@" + splicedSource[splicedSource.length - 1]);
     fetch(landmarkJson)
         .then(response => {
@@ -189,7 +189,7 @@ function loadJsonLandmarks() {
 }
 
 function loadJsonCurve() {
-    const splicedSource = image_url.split("/");
+    const splicedSource = image_url.replace(new RegExp('.jpg$'), '').split("/");
     const curveJson = curves_url.replace("%REPLACE%", splicedSource[splicedSource.length - 2] + "@" + splicedSource[splicedSource.length - 1]);
     /*$.getJSON(curveJson, function (data) {
         all_curves = data;

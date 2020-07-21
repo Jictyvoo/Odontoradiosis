@@ -105,6 +105,7 @@ class ImageLandmarkController extends Controller {
 	 */
 	public function show($path) {
 		$path = str_replace("@", "/", $path);
+		$path = $path . ".jpg";
 		$image = Image::where('path', '=', $path)->first();
 		$imageLandmark = ImageLandmark::all()->where('fk_id_image', '=', $image->id)->where('fk_id_doctor', '=', auth()->user()->id)->first();
 		if($imageLandmark) {
