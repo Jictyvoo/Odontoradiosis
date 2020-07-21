@@ -56,7 +56,7 @@
 <div id="footer">
     <div class="container">
         <p align="center" class="text-muted">
-            © 2018 <a href="https://github.com/argalvao/">Abel Ramalho Galvão</a> and <a
+            © 2020 <a href="https://github.com/argalvao/">Abel Ramalho Galvão</a> and <a
                     href="https://github.com/jictyvoo/">João Victor Oliveira Couto</a>. Powered by <a
                     href="http://php.net"
                     target="_blank">PHP</a>

@@ -142,7 +142,7 @@ function scaleDraw(canvas) {
     }
 }
 
-function openImage(path, loadFunction) {
+function openImage(path='', loadFunction=null, id=-1) {
     let img = new Image();
     image_url = path;
     document.getElementById('stack-canvas').setAttribute("onmousedown", "bezier_coordinate(event)");
@@ -166,49 +166,52 @@ function openImage(path, loadFunction) {
             if (loadFunction) {
                 loadFunction();
             }
-            loadJsonCurve();
-            loadJsonLandmarks();
+            loadJsonCurve(id);
+            loadJsonLandmarks(id);
         };
     }
     img.src = path;
 }
 
-function loadJsonLandmarks() {
-    const splicedSource = image_url.replace(new RegExp('.jpg$'), '').split("/");
-    const landmarkJson = landmarks_url.replace("%REPLACE%", splicedSource[splicedSource.length - 2] + "@" + splicedSource[splicedSource.length - 1]);
-    fetch(landmarkJson)
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            global_points = data;
-        })
-        .then(() => {
-            redrawLandmark(document.getElementById('landmarks'));
-        });
+function loadJsonLandmarks(id) {
+    if(id && id > 0){
+        const landmarkJson = landmarks_url.replace("%REPLACE%", id);
+        fetch(landmarkJson)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                global_points = data;
+            })
+            .then(() => {
+                redrawLandmark(document.getElementById('landmarks'));
+            });
+    }
 }
 
-function loadJsonCurve() {
-    const splicedSource = image_url.replace(new RegExp('.jpg$'), '').split("/");
-    const curveJson = curves_url.replace("%REPLACE%", splicedSource[splicedSource.length - 2] + "@" + splicedSource[splicedSource.length - 1]);
-    /*$.getJSON(curveJson, function (data) {
-        all_curves = data;
-    });*/
-    fetch(curveJson)
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
+function loadJsonCurve(id) {
+    console.log(id);
+    if(id && id > 0){
+        const curveJson = curves_url.replace("%REPLACE%", id);
+        /*$.getJSON(curveJson, function (data) {
             all_curves = data;
-        }).then(() => {
-        draw_all_curves();
-    });
+        });*/
+        fetch(curveJson)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                all_curves = data;
+            }).then(() => {
+            draw_all_curves();
+        });
+    }
 }
 
-function image(path) {
+function image(path, id) {
     global_points = [];
     global_effects = [];
-    openImage(path, null);
+    openImage(path, null, id);
     reset();
 }
 

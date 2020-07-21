@@ -89,15 +89,12 @@ class BezierCurveController extends Controller {
 	/**
 	 * Will convert required curve image into a JSON file
 	 *
-	 * @param $path
+	 * @param $id
 	 * @return string
 	 */
-	public function show($path) {
-		$path = str_replace("@", "/", $path);
-		$path = $path . ".jpg";
+	public function show($id) {
 		$returnedJson = "{";
-		$image = Image::where('path', '=', $path)->first();
-		$bezierCurves = BezierCurve::where('image_id', '=', $image->id)->orderBy('name')->orderBy('id')->get();
+		$bezierCurves = BezierCurve::where('image_id', '=', $id)->orderBy('name')->orderBy('id')->get();
 		$previousCurveName = null;
 		if ($bezierCurves->count() > 0) {
 			$first = true;

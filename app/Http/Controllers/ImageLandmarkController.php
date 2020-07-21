@@ -100,14 +100,11 @@ class ImageLandmarkController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  string $path
+	 * @param  int $id
 	 * @return Response|string
 	 */
-	public function show($path) {
-		$path = str_replace("@", "/", $path);
-		$path = $path . ".jpg";
-		$image = Image::where('path', '=', $path)->first();
-		$imageLandmark = ImageLandmark::all()->where('fk_id_image', '=', $image->id)->where('fk_id_doctor', '=', auth()->user()->id)->first();
+	public function show($id) {
+		$imageLandmark = ImageLandmark::all()->where('fk_id_image', '=', $id)->where('fk_id_doctor', '=', auth()->user()->id)->first();
 		if($imageLandmark) {
 			$landmarkX = Landmark::find($imageLandmark->fk_landmark_x);
 			$landmarkY = Landmark::find($imageLandmark->fk_landmark_y);

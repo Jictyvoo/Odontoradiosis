@@ -34,7 +34,7 @@
     @if($image->id <= 16)
         <div class="column">
             <h3>{{'Radiografia '.$image->id}}</h3>
-            <img src="{{ Storage::url($image->path) }}" title="{{'Radiografia '.$image->id}}">
+            <img src="{{ Storage::url($image->path) }}" title="{{'Radiografia '.$image->id}}" alt="{{$image->id}}">
         </div>
     @endif
 @endforeach
@@ -45,7 +45,7 @@
 
     for (let x = 0; x < imgs.length; x++) {
         imgs[x].addEventListener("click", function () {
-            window.opener.image(this.src); // envia para a função a imagem escolhida
+            window.opener.image(this.src, this.alt); // envia para a função a imagem escolhida
             window.close(); // fecha a janela ao escolher uma imagem
         });
     }
