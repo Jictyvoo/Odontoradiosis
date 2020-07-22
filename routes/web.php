@@ -25,11 +25,10 @@ Route::get('/refuseOrthodontist/{id}', 'HomeController@refuseOrthodontist')->nam
 Route::get('/approveStudent/{id}', 'HomeController@approveStudent')->name('approveStudent');
 Route::get('/refuseStudent/{id}', 'HomeController@refuseStudent')->name('refuseStudent');
 
-
-
 Route::resource('user', 'UsersController');
 Route::resource('image', 'ImageController');
 Route::resource('image_landmark', 'ImageLandmarkController');
 Route::resource('bezier_curve', 'BezierCurveController');
 Route::resource('request_orthodontist', 'RequestOrthodontistController');
 Route::resource('request_student', 'RequestStudentController');
+Route::get('/validation/{toCompare}', 'AnalyzerController@compareLandmarks');
