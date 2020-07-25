@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\BezierCurveController;
 use App\Http\Controllers\ImageLandmarkController;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class SemiautomaticLandmarkController extends Controller {
@@ -163,6 +162,45 @@ class SemiautomaticLandmarkController extends Controller {
             return $globalPoints;
         });
 
+        /*calculateGonio*/
+        array_push($temporary, function (array $bezierCurves, $globalPoints) {
+            //not done
+            $curvePoints = $bezierCurves["mandíbula"];
+            $x1 = $curvePoints[3][4];
+            $y1 = $curvePoints[3][5];
+            $x2 = $curvePoints[4][0];
+            $y2 = $curvePoints[4][1];
+            $x3 = ($x1 + $x2) / 2;
+            $y3 = ($y1 + $y2) / 2;
+            $x = ($x1 + $x3) / 2;
+            $y = ($y1 + $y3) / 2;
+            $globalPoints["Gônio (Go)"] = array('x' => $x, 'y' => $y);
+            return $globalPoints;
+        });
+        /*calculateOrbitale*/
+        /*calculatePorio*/
+        array_push($temporary, function (array $bezierCurves, $globalPoints) {
+            //not done
+            $curvePoints = $bezierCurves["pório-anatômico"];
+            $total = 0;
+            $average = array('x' => 0, 'y' => 0);
+            for ($counter = 0; $counter < count($curvePoints); $counter++) {
+                $subCurve = $curvePoints[$counter];
+                for ($index = 0; $index < count($subCurve); $index += 2) {
+                    $average['x'] += $subCurve[$index];
+                    $average['y'] += $subCurve[$index + 1];
+                    $total += 1;
+                }
+            }
+            $x = $average['x'] / $total;
+            $y = $average['y'] / $total;
+            $globalPoints["Pório (Po)"] = array('x' => $x, 'y' => $y);
+            return $globalPoints;
+        });
+        /*calculatePontaNariz*/
+        /*calculateFossaPterigoMaxilar*/
+        /*calculatePterigoide*/
+
         return $temporary;
     }
 
@@ -234,7 +272,8 @@ class SemiautomaticLandmarkController extends Controller {
         foreach ($imageIds as $noCare => $imageObj) {
             if ($counter > $quantity) {
                 $this->saveLandmarks();
-                return response()->json($this->globalPoints);
+                //return response()->json($this->globalPoints);
+                return redirect('home');
             }
             $currentId = intval($imageObj->id);
             $this->globalPoints[$currentId] = array();
