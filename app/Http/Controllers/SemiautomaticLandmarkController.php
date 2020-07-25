@@ -115,6 +115,7 @@ class SemiautomaticLandmarkController extends Controller {
 
         /* calculateCondilio */
         array_push($temporary, function (array $bezierCurves, $globalPoints) {
+            //super error
             $curvePoints = $bezierCurves["pório-anatômico"];
             $x = $curvePoints[0][6];
             $y = $curvePoints[0][7];
@@ -178,9 +179,19 @@ class SemiautomaticLandmarkController extends Controller {
             return $globalPoints;
         });
         /*calculateOrbitale*/
+        array_push($temporary, function (array $bezierCurves, $globalPoints) {
+            $curvePoints = $bezierCurves["borda-póstero-inferior"];
+            $x1 = $curvePoints[0][4];
+            $y1 = $curvePoints[0][7];
+            $x2 = $curvePoints[0][0];
+            $y2 = $curvePoints[0][5];
+            $x = ($x1 + $x2) / 2;
+            $y = ($y1 * 0.9) + ($y2 * 0.1);
+            $globalPoints["Órbitário (Or)"] = array('x' => $x, 'y' => $y);
+            return $globalPoints;
+        });
         /*calculatePorio*/
         array_push($temporary, function (array $bezierCurves, $globalPoints) {
-            //not done
             $curvePoints = $bezierCurves["pório-anatômico"];
             $total = 0;
             $average = array('x' => 0, 'y' => 0);
