@@ -209,8 +209,23 @@ class SemiautomaticLandmarkController extends Controller {
             return $globalPoints;
         });
         /*calculatePontaNariz*/
+        //Ponta do Nariz (PtN)
+
         /*calculateFossaPterigoMaxilar*/
+        //Fossa Ptérigo Maxilar (Fpm)
+
         /*calculatePterigoide*/
+        array_push($temporary, function (array $bezierCurves, $globalPoints) {
+            $curvePoints = $bezierCurves["fissura-pterigomaxilar"];
+            $x1 = $curvePoints[0][4];
+            $y1 = $curvePoints[0][5];
+            $x2 = $curvePoints[0][6];
+            $y2 = $curvePoints[0][7];
+            $x = ($x1 * 0.1) + ($x2 * 0.9);
+            $y = ($y1 * 0.8) + ($y2 * 0.2);
+            $globalPoints["Pterigóide (Pt)"] = array('x' => $x, 'y' => $y);
+            return $globalPoints;
+        });
 
         return $temporary;
     }
