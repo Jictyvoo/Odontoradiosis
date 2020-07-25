@@ -9,10 +9,10 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
-	return redirect('home');
+    return redirect('home');
 });
 
 Auth::routes();
@@ -31,4 +31,8 @@ Route::resource('image_landmark', 'ImageLandmarkController');
 Route::resource('bezier_curve', 'BezierCurveController');
 Route::resource('request_orthodontist', 'RequestOrthodontistController');
 Route::resource('request_student', 'RequestStudentController');
+/**
+ * To validate landmarks
+ */
 Route::get('/validation/{toCompare}', 'AnalyzerController@compareLandmarks');
+Route::get('/semiautomatic/{quantity}', 'SemiautomaticLandmarkController@run');
