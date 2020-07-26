@@ -165,19 +165,17 @@ class SemiautomaticLandmarkController extends Controller {
 
         /*calculateGonio*/
         array_push($temporary, function (array $bezierCurves, $globalPoints) {
-            //not done
             $curvePoints = $bezierCurves["mandíbula"];
-            $x1 = $curvePoints[3][4];
-            $y1 = $curvePoints[3][5];
-            $x2 = $curvePoints[4][0];
-            $y2 = $curvePoints[4][1];
-            $x3 = ($x1 + $x2) / 2;
-            $y3 = ($y1 + $y2) / 2;
-            $x = ($x1 + $x3) / 2;
-            $y = ($y1 + $y3) / 2;
+            $x1 = $curvePoints[2][4];
+            $y1 = $curvePoints[2][5];
+            $x2 = $curvePoints[3][0];
+            $y2 = $curvePoints[3][1];
+            $x = ($x1 + $x2) / 2;
+            $y = $y2;
             $globalPoints["Gônio (Go)"] = array('x' => $x, 'y' => $y);
             return $globalPoints;
         });
+
         /*calculateOrbitale*/
         array_push($temporary, function (array $bezierCurves, $globalPoints) {
             $curvePoints = $bezierCurves["borda-póstero-inferior"];
@@ -190,6 +188,7 @@ class SemiautomaticLandmarkController extends Controller {
             $globalPoints["Órbitário (Or)"] = array('x' => $x, 'y' => $y);
             return $globalPoints;
         });
+
         /*calculatePorio*/
         array_push($temporary, function (array $bezierCurves, $globalPoints) {
             $curvePoints = $bezierCurves["pório-anatômico"];
