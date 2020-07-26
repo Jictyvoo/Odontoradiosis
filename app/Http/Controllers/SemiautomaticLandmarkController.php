@@ -212,7 +212,17 @@ class SemiautomaticLandmarkController extends Controller {
         //Ponta do Nariz (PtN)
 
         /*calculateFossaPterigoMaxilar*/
-        //Fossa Ptérigo Maxilar (Fpm)
+        array_push($temporary, function (array $bezierCurves, $globalPoints) {
+            $curvePoints = $bezierCurves["fissura-pterigomaxilar"];
+            $x1 = $curvePoints[0][4];
+            $y1 = $curvePoints[0][5];
+            $x2 = $curvePoints[0][6];
+            $y2 = $curvePoints[0][7];
+            $x = ($x1 * 0.25) + ($x2 * 0.75);
+            $y = ($y1 * 0.5) + ($y2 * 0.5);
+            $globalPoints["Fossa Ptérigo Maxilar (Fpm)"] = array('x' => $x, 'y' => $y);
+            return $globalPoints;
+        });
 
         /*calculatePterigoide*/
         array_push($temporary, function (array $bezierCurves, $globalPoints) {
