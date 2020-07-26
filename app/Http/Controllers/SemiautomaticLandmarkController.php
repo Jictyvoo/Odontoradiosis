@@ -115,10 +115,15 @@ class SemiautomaticLandmarkController extends Controller {
 
         /* calculateCondilio */
         array_push($temporary, function (array $bezierCurves, $globalPoints) {
-            //super error
-            $curvePoints = $bezierCurves["pório-anatômico"];
-            $x = $curvePoints[0][6];
-            $y = $curvePoints[0][7];
+            $curvePoints_1 = $bezierCurves["fissura-pterigomaxilar"];
+            $curvePoints_2 = $bezierCurves["mandíbula"];
+            $curvePoints_3 = $bezierCurves["pório-anatômico"];
+            $x1 = $curvePoints_3[0][6];
+            $y1 = $curvePoints_3[0][7];
+            $x2 = $curvePoints_1[0][2];
+            $y2 = $curvePoints_1[0][3];
+            $x = ($x1 + $x2) / 2;
+            $y = ($y1 + $y2) / 2;
             $globalPoints["Condílio (Co)"] = array('x' => $x, 'y' => $y);
             return $globalPoints;
         });
@@ -207,6 +212,7 @@ class SemiautomaticLandmarkController extends Controller {
             $globalPoints["Pório (Po)"] = array('x' => $x, 'y' => $y);
             return $globalPoints;
         });
+
         /*calculatePontaNariz*/
         //Ponta do Nariz (PtN)
 
