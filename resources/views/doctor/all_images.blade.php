@@ -45,8 +45,8 @@
 
     for (let x = 0; x < imgs.length; x++) {
         imgs[x].addEventListener("click", function () {
-            window.opener.image(this.src, this.alt); // envia para a função a imagem escolhida
-            window.close(); // fecha a janela ao escolher uma imagem
+            window.opener.image(this.src, this.alt); /*envia para a função a imagem escolhida*/
+            window.close(); /*fecha a janela ao escolher uma imagem*/
         });
     }
 </script>

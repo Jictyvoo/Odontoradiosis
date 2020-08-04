@@ -5,11 +5,11 @@ let all_curves = null;
 let curveBox = null;
 let boxPoints = null;
 let isInsideBox = false;
-let isOnBoxVertex = {isOn: false, index: 0};
+let isOnBoxVertex = { isOn: false, index: 0 };
 let isOnCurvePoints = null;
 let mousePosition = [x = null, y = null];
-const scaleDrawValue = {pointRadius: 4, nameScale: 10, lineWidth: 1, textRelativePosition: {x: 15, y: 15}};
-let pointRadius = 4; let nameScale = 10; let lineWidth = 1; let textRelativePosition = {x: 15, y: 15};
+const scaleDrawValue = { pointRadius: 4, nameScale: 10, lineWidth: 1, textRelativePosition: { x: 15, y: 15 } };
+let pointRadius = 4; let nameScale = 10; let lineWidth = 1; let textRelativePosition = { x: 15, y: 15 };
 
 let isCurveFunction = false;
 let isMouseDown = false;
@@ -22,7 +22,7 @@ document.onmousedown = function () {
 document.onmouseup = function () {
     isMouseDown = false;
     isInsideBox = false;
-    isOnBoxVertex = {isOn: false, index: 0};
+    isOnBoxVertex = { isOn: false, index: 0 };
     isOnCurvePoints = null;
 
     mousePosition.x = null;
@@ -142,7 +142,7 @@ function scaleDraw(canvas) {
     }
 }
 
-function openImage(path='', loadFunction=null, id=-1) {
+function openImage(path = '', loadFunction = null, id = -1) {
     let img = new Image();
     image_url = path;
     document.getElementById('stack-canvas').setAttribute("onmousedown", "bezier_coordinate(event)");
@@ -174,7 +174,7 @@ function openImage(path='', loadFunction=null, id=-1) {
 }
 
 function loadJsonLandmarks(id) {
-    if(id && id > 0){
+    if (id && id > 0) {
         const landmarkJson = landmarks_url.replace("%REPLACE%", id);
         fetch(landmarkJson)
             .then(response => {
@@ -190,8 +190,7 @@ function loadJsonLandmarks(id) {
 }
 
 function loadJsonCurve(id) {
-    console.log(id);
-    if(id && id > 0){
+    if (id && id > 0) {
         const curveJson = curves_url.replace("%REPLACE%", id);
         /*$.getJSON(curveJson, function (data) {
             all_curves = data;
@@ -203,8 +202,8 @@ function loadJsonCurve(id) {
             .then(data => {
                 all_curves = data;
             }).then(() => {
-            draw_all_curves();
-        });
+                draw_all_curves();
+            });
     }
 }
 
@@ -518,11 +517,11 @@ function bezier_functions(event) {
             if (isOnBoxVertex.isOn) {
                 /*still need to fix problem when rescale with top points*/
                 let scaleX = currentPosition.x / mousePosition.x;
-                if(isOnBoxVertex.index < 2){
+                if (isOnBoxVertex.index < 2) {
                     scaleX = mousePosition.x / currentPosition.x;
                 }
                 let scaleY = currentPosition.y / mousePosition.y;
-                if(isOnBoxVertex.index % 2 === 0){
+                if (isOnBoxVertex.index % 2 === 0) {
                     scaleY = mousePosition.y / currentPosition.y;
                 }
                 rescaleBezier(curveName, scaleX, scaleY);
@@ -541,7 +540,7 @@ function bezier_functions(event) {
                 let scaleProduct = Math.abs((currentPosition.x * mousePosition.x) + (currentPosition.y * mousePosition.y));
                 let angle = Math.acos(scaleProduct / (productModule.first * productModule.second));
                 if (!isNaN(angle)) {
-                    angle *= highLowAngle(mousePosition, {x: currentPosition.x, y: currentPosition.y});
+                    angle *= highLowAngle(mousePosition, { x: currentPosition.x, y: currentPosition.y });
                     rotateBezier(curveName, angle);
                 }
             }
@@ -568,7 +567,7 @@ function verifyMouseOnBoxVertex(relativeMouse, curveName) {
             isOn = true; vertexIndex = index;
         }
     });
-    return {isOn: isOn, index: vertexIndex};
+    return { isOn: isOn, index: vertexIndex };
 }
 
 function verifyMouseOnCurvePoint(relativeMouse, curveName) {
