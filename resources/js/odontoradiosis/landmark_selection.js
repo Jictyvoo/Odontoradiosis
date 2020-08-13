@@ -8,7 +8,7 @@ let isInsideBox = false;
 let isOnBoxVertex = { isOn: false, index: 0 };
 let isOnCurvePoints = null;
 let mousePosition = [x = null, y = null];
-const scaleDrawValue = { pointRadius: 4, nameScale: 10, lineWidth: 1, textRelativePosition: { x: 15, y: 15 } };
+const scaleDrawValue = { pointRadius: 4, nameScale: 10, lineWidth: 2, textRelativePosition: { x: 15, y: 15 } };
 let pointRadius = 4; let nameScale = 10; let lineWidth = 1; let textRelativePosition = { x: 15, y: 15 };
 
 let isCurveFunction = false;
@@ -322,7 +322,7 @@ function reset() {
 function drawBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
     const div = document.getElementById('bezier');
     let ctx = div.getContext('2d');
-    ctx.strokeStyle = '#e3ed5c';
+    ctx.strokeStyle = '#00e379';
     ctx.moveTo(x1, y1);
     ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2);
     ctx.lineWidth = lineWidth;
