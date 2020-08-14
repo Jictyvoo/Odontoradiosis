@@ -1,0 +1,12 @@
+{
+    "landmark": "Espinha nasal anterior (ENA)",
+    "accessed_curves": [
+        "maxila"
+    ],
+    "routines": [
+        ["load_curve", "maxila", null, "curvePoints"],
+        ["access_point", 7, "curvePoints", "foundedENA"],
+        ["point_to_var", "foundedNasio", null, {"x": "x", "y": "y"}],
+        ["return", "x", "y", null]
+    ]
+}
