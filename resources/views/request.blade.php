@@ -10,7 +10,7 @@
 
     <title>Odontoradiosis | Solicitar acesso</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/request_access.css') }}">
 
     <!-- IonIcons -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">

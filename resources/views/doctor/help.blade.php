@@ -149,7 +149,7 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/abrir_radiografia.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/abrir_radiografia.png') }}" alt="">
         </div>
 
         <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
@@ -159,7 +159,7 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/selecionar_radiografia.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/selecionar_radiografia.png') }}" alt="">
         </div>
 
       </div>
@@ -179,7 +179,7 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/efeitos.png') }}"  alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/efeitos.png') }}"  alt="">
         </div>
 
       </div>
@@ -198,7 +198,7 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/menu_curvas.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/menu_curvas.png') }}" alt="">
         </div>
 
         <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
@@ -208,7 +208,7 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/ajuste_curvas.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/ajuste_curvas.png') }}" alt="">
         </div>
       </div>
 
@@ -228,7 +228,7 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/menu_pontos.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/menu_pontos.png') }}" alt="">
         </div>
 
         <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
@@ -238,7 +238,7 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/marcar_ponto.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/marcar_ponto.png') }}" alt="">
         </div>
 
         <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
@@ -248,7 +248,7 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/salvar_marcacao.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/salvar_marcacao.png') }}" alt="">
         </div>
       </div>
 
@@ -268,10 +268,10 @@
           </div>
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/menu_edicao.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/menu_edicao.png') }}" alt="">
         </div>
         <div class="resume-content">
-            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/editar_radiografia.png') }}" alt="">
+            <img class="img-fluid img-profile mx-auto mb-2" src="{{ asset('img/tutorial/editar_radiografia.png') }}" alt="">
         </div>
       </div>
     </section>
