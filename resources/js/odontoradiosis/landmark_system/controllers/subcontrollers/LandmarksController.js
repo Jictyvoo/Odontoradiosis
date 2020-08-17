@@ -87,7 +87,7 @@ class LandmarksController {
     /**
      * Redraw all landmarks
      */
-    redrawLandmark() {
+    redrawLandmarks() {
         const landmarksCanvas = this.canvas.getCanvas("landmark");
         const context = landmarksCanvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);

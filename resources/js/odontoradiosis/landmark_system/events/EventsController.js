@@ -40,6 +40,9 @@ class EventsOdontoradiosis {
         };
     }
 
+    /**
+     * Add canvas events
+     */
     addCanvasEvents() {
         let curveSelect = document.getElementById("curvesId");
         const tracingController = this.mainController.tracingController;

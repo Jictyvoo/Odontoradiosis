@@ -17,7 +17,14 @@ const eventsController = new EventsOdontoradiosis(mainController, imageEffects);
 function openImage(path = "", id = -1) {
     mainController.tracingController.setBezierPoints([]);
     mainController.setUrl("image", path);
-    canvasOdontoradiosis.openImage(path, null, id);
+    canvasOdontoradiosis.openImage(
+        path,
+        function() {
+            mainController.loadJsonCurve(id);
+            mainController.loadJsonLandmarks(id);
+        },
+        id
+    );
     imageEffects.reset();
 }
 

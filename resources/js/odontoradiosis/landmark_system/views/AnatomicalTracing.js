@@ -129,12 +129,15 @@ class AnatomicalTracing {
      * Draw all curves
      */
     drawAllCurves() {
-        this.canvasOdontoradiosis.clearCanvas("bezier");
-        Object.keys(this.allCurves).forEach(function(element, index, array) {
-            this.allCurves[element].forEach(function(points, position, arr) {
+        this.canvas.clearCanvas("bezier");
+        const selfCanvas = this.canvas;
+        const selfCurves = this.allCurves;
+        Object.keys(this.allCurves).forEach(function(element, index, _array) {
+            selfCurves[element].forEach(function(points, position, arr) {
                 if (position === 0) {
-                    this.canvas.drawBezier(
-                        this.canvas.getContext("bezier"),
+                    selfCanvas.drawBezier.call(
+                        selfCanvas,
+                        selfCanvas.getContext.call(selfCanvas, "bezier"),
                         points[0],
                         points[1],
                         points[2],
@@ -146,9 +149,10 @@ class AnatomicalTracing {
                         "#00e379"
                     );
                 } else {
-                    let temporary = this.allCurves[element][position - 1];
-                    this.canvas.drawBezier(
-                        this.canvas.getContext("bezier"),
+                    let temporary = selfCurves[element][position - 1];
+                    selfCanvas.drawBezier.call(
+                        selfCanvas,
+                        selfCanvas.getContext.call(selfCanvas, "bezier"),
                         temporary[temporary.length - 2],
                         temporary[temporary.length - 1],
                         points[0],
