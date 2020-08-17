@@ -164,8 +164,9 @@
 
 <?php
 use App\Http\Controllers\MinimizeJSController;
-MinimizeJSController::minimize('js/odontoradiosis/landmark_selection.js', 'js/landmark.min.js');
+//MinimizeJSController::minimize('js/odontoradiosis/landmark_selection.js', 'js/landmark.min.js');
 MinimizeJSController::minimize('js/odontoradiosis/semiautomaticLandmarksMarking.js', 'js/semiautomatic_landmark.min.js');
+MinimizeJSController::minimizeAll('js/odontoradiosis/landmark_system', 'js/landmark.min.js');
 ?>
 
 <script src="{{ asset('js/landmark.min.js') }}"></script>
