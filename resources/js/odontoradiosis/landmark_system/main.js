@@ -1,8 +1,8 @@
-let canvasOdontoradiosis = new CanvasOdontoradiosis(
+const canvasOdontoradiosis = new CanvasOdontoradiosis(
     document.getElementById("stack-canvas")
 );
-let imageEffects = new ImageEffects(canvasOdontoradiosis);
-let mainController = new MainController(
+const imageEffects = new ImageEffects(canvasOdontoradiosis);
+const mainController = new MainController(
     {
         image: "",
         curves: curves_url,
@@ -14,7 +14,7 @@ let mainController = new MainController(
 
 const eventsController = new EventsOdontoradiosis(mainController, imageEffects);
 
-function image(path = "", id = -1) {
+function openImage(path = "", id = -1) {
     mainController.tracingController.setBezierPoints([]);
     mainController.setUrl("image", path);
     canvasOdontoradiosis.openImage(path, null, id);
