@@ -88,11 +88,12 @@ class LandmarksController {
      * Redraw all landmarks
      */
     redrawLandmarks() {
-        const landmarksCanvas = this.canvas.getCanvas("landmark");
+        const landmarksCanvas = this.canvas.getCanvas("landmarks");
         const context = landmarksCanvas.getContext("2d");
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(0, 0, landmarksCanvas.width, landmarksCanvas.height);
+        const self = this;
         Object.keys(this.landmarks).forEach(function(element, index, array) {
-            this.drawLandmark(context, element);
+            self.drawLandmark.call(self, context, element);
         });
     }
 }
