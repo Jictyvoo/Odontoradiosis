@@ -4,6 +4,7 @@ let canvasOdontoradiosis = new CanvasOdontoradiosis(
 let imageEffects = new ImageEffects(canvasOdontoradiosis);
 let mainController = new MainController(
     {
+        image: "",
         curves: curves_url,
         landmarks: landmarks_url,
         reference_images: reference_images_url
@@ -11,14 +12,11 @@ let mainController = new MainController(
     canvasOdontoradiosis
 );
 
-const eventsController = new EventsOdontoradiosis(
-    mainController.tracingController,
-    imageEffects
-);
+const eventsController = new EventsOdontoradiosis(mainController, imageEffects);
 
-function image(path, id) {
-    global_points = [];
-    global_effects = [];
+function image(path = "", id = -1) {
+    mainController.tracingController.setBezierPoints([]);
+    mainController.setUrl("image", path);
     canvasOdontoradiosis.openImage(path, null, id);
     imageEffects.reset();
 }

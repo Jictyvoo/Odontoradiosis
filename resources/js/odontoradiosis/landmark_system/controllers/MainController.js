@@ -13,6 +13,23 @@ class MainController {
     }
 
     /**
+     * @param {string} id
+     * @return {string}
+     */
+    getUrl(id) {
+        return this.urls[id];
+    }
+
+    /**
+     * Set the address of url with given id
+     * @param {string} id
+     * @param {string} address
+     */
+    setUrl(id, address) {
+        this.urls[id] = address;
+    }
+
+    /**
      * Loads json file with landmarks location
      * @param {int} id image id
      */

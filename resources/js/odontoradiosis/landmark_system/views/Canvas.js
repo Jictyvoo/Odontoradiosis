@@ -174,7 +174,7 @@ class CanvasOdontoradiosis {
      */
     scaleDraw(canvas) {
         const rect = canvas.getBoundingClientRect();
-        let ctx = this.getContext("landmarks");
+        let ctx = canvas.getContext("2d");
         const imageDimensions = {
             width: ctx.canvas.width,
             height: ctx.canvas.height
@@ -255,14 +255,15 @@ class CanvasOdontoradiosis {
      */
     openImage(path = "", loadFunction = null) {
         let imageObject = new Image();
-        image_url = path;
         if (this.existentCanvas["image"].getContext) {
             const context = this.existentCanvas["image"].getContext("2d");
+            const self = this;
+            //OnLoad Image here
             imageObject.onload = function() {
                 context.canvas.width = this.width;
                 context.canvas.height = this.height;
                 ["landmarks", "bezier"].forEach(element => {
-                    const temporaryContext = this.existentCanvas[
+                    const temporaryContext = self.existentCanvas[
                         element
                     ].getContext("2d");
                     temporaryContext.canvas.width = context.canvas.width;
@@ -275,7 +276,7 @@ class CanvasOdontoradiosis {
                         "height: " + context.canvas.height + "px"
                     );
                 }
-                this.scaleDraw(document.getElementById("landmarks"));
+                self.scaleDraw.call(self, self.existentCanvas["landmarks"]);
 
                 context.drawImage(
                     imageObject,
