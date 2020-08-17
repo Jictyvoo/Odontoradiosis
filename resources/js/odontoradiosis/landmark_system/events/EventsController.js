@@ -1,11 +1,11 @@
 class EventsOdontoradiosis {
     /**
      * Constructor
-     * @param {TracingController} tracingController
+     * @param {MainController} mainController
      * @param {ImageEffects} imageEffects
      */
-    constructor(tracingController, imageEffects) {
-        this.tracingController = tracingController;
+    constructor(mainController, imageEffects) {
+        this.mainController = mainController;
         this.imageEffects = imageEffects;
         this.isMouseDown = false;
         this.isInsideBox = false;
@@ -42,8 +42,8 @@ class EventsOdontoradiosis {
             const currentCurve = document.getElementById("curvesId").options[
                 selectedIndex
             ].text;
-            this.tracingController.drawCurveBox(currentCurve);
-            this.tracingController.drawPointCircle(currentCurve);
+            this.mainController.tracingController.drawCurveBox(currentCurve);
+            this.mainController.tracingController.drawPointCircle(currentCurve);
             if (currentCurve !== "Selecione") {
                 document.getElementById("stack-canvas").style.cursor = "move";
             } else {
@@ -60,7 +60,9 @@ class EventsOdontoradiosis {
         const currentObject = this;
         document.onmousedown = function() {
             let hiddenForm = document.getElementById("current_image");
-            const splicedSource = image_url.split("/");
+            const splicedSource = currentObject.mainController
+                .getUrl("image")
+                .split("/");
             hiddenForm.setAttribute(
                 "value",
                 splicedSource[splicedSource.length - 2] +
