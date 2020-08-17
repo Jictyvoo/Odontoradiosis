@@ -28,7 +28,7 @@ class CanvasOdontoradiosis {
      * @param {string} id
      */
     getCanvas(id) {
-        return this.allCanvas[id];
+        return this.existentCanvas[id];
     }
 
     /**
@@ -36,7 +36,7 @@ class CanvasOdontoradiosis {
      * @param {string} id
      */
     getContext(id) {
-        return this.allCanvas[id].getContext("2d");
+        return this.existentCanvas[id].getContext("2d");
     }
 
     /**

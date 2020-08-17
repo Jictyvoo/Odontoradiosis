@@ -8,7 +8,7 @@ class ImageEffects {
         this.contrast = document.getElementById("contrast");
         this.grayscale = document.getElementById("grayscale");
         this.invert = document.getElementById("invert");
-        this.canvas = canvas;
+        this.canvasManager = canvas;
     }
 
     /**
@@ -36,7 +36,7 @@ class ImageEffects {
      * Event function that apply read and apply effects on image
      */
     onChangeValue() {
-        const imageElement = this.canvas.getCanvas("image");
+        const imageElement = this.canvasManager.getCanvas("image");
         let filterValue = this.getValues();
         imageElement.setAttribute("style", filterValue);
     }
