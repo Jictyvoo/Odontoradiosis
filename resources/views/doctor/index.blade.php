@@ -22,7 +22,7 @@
                 <option>Incisivo Central Superior</option>
                 <option>Incisivo Central Inferior</option>
                 <option>Dente Posterior Superior</option>
-                <option>Dente Posterior Inferior</option> 
+                <option>Dente Posterior Inferior</option>
             </select>
         </a>
     </li>
@@ -31,7 +31,7 @@
             <i class="fa fa-circle-o nav-icon"></i>
             <p>Pontos</p>
             <select class="right fa fa-angle-left" id="pointsId" style="width: 60%; color:black"
-                    onclick="referenceLandmarks()">
+                onclick="referenceLandmarks()">
                 <option selected>Selecione</option>
                 <option>Sela (S)</option>
                 <option>Násio (N)</option>
@@ -59,34 +59,36 @@
         <a href="#" class="nav-link">
             <i class="fa fa-circle-o nav-icon"></i>
             <label for="contrast">Contraste</label><br>
-            <input type="range" id="contrast" min="0" max="200" value="100"/>
+            <input type="range" id="contrast" min="0" max="200" value="100" />
         </a>
     </li>
     <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="fa fa-circle-o nav-icon"></i>
             <label for="brightness">Brilho</label><br>
-            <input type="range" id="brightness" min="0" max="200" value="100"/>
+            <input type="range" id="brightness" min="0" max="200" value="100" />
         </a>
     </li>
     <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="fa fa-circle-o nav-icon"></i>
             <label for="invert">Negativo</label><br>
-            <input type="range" id="invert" min="0" max="100" value="0"/>
+            <input type="range" id="invert" min="0" max="100" value="0" />
         </a>
     </li>
-    <li class="nav-item"> 
+    <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="fa fa-circle-o nav-icon"></i>
             <label for="grayscale">Escala de Cinza</label><br>
-            <input type="range" id="grayscale" min="0" max="100" value="0"/>
+            <input type="range" id="grayscale" min="0" max="100" value="0" />
         </a>
     </li>
     <li class="active"><a href="#">
-            <label class="filter-label"><font color="#696969"><input class="btn btn-primary" type="button"
-                                                                     value="Desfazer"
-                                                                     onclick="reset()"/></font></label>
+            <label class="filter-label">
+                <font color="#696969">
+                    <input class="btn btn-primary" type="button" value="Desfazer" id="undone-effects" />
+                </font>
+            </label>
         </a></li>
     </li>
 
@@ -100,10 +102,12 @@
             window.open("{{ route('image_landmark.index') }}", "_blank", "width=600, height=400");
         }
 
-        let curves_url = "{{ route('bezier_curve.show', "%REPLACE%") }}";
-        let landmarks_url = "{{ route('image_landmark.show', "%REPLACE%") }}";
-            <?php use Illuminate\Support\Facades\Storage; ?>
-        let reference_images_url = "{{ Storage::url("reference_landmarks") }}/";
+        let curves_url = "{{ route('bezier_curve.show', '%REPLACE%') }}";
+        let landmarks_url = "{{ route('image_landmark.show', '%REPLACE%') }}";
+        <?php
+        use Illuminate\ Support\ Facades\ Storage; ?>
+        let reference_images_url = "{{ Storage::url('reference_landmarks') }}/";
+
     </script>
 @endsection
 
@@ -112,7 +116,7 @@
 
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
-             with font-awesome or any other icon font library -->
+                                 with font-awesome or any other icon font library -->
         <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
                 <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/open-folder.png') }}"></i>
@@ -130,30 +134,30 @@
             </a>
         </li>
         <!--<li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-                <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/setting.png') }}"></i>
-                <p onClick="calculateLandmarks()">
-                    Marcação automática
-                </p>
-            </a>
-        </li>
-        <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-                <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/invert-tool.png') }}"></i>
-                <p onClick="desfazer()">
-                    Desfazer
-                </p>
-            </a>
-        </li>-->
+                                <a href="#" class="nav-link active">
+                                    <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/setting.png') }}"></i>
+                                    <p onClick="calculateLandmarks()">
+                                        Marcação automática
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item has-treeview menu-open">
+                                <a href="#" class="nav-link active">
+                                    <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/invert-tool.png') }}"></i>
+                                    <p onClick="desfazer()">
+                                        Desfazer
+                                    </p>
+                                </a>
+                            </li>-->
         <li class="nav-item has-treeview menu-open">
             <form method="post" action="{{ route('image_landmark.store') }}">
                 @csrf
-                <input type="hidden" name="bezierCurves" id="bezier_curves" value=""/>
-                <input type="hidden" name="savedPoints" id="saved_points" value=""/>
-                <input type="hidden" name="currentImage" id="current_image" value=""/>
+                <input type="hidden" name="bezierCurves" id="bezier_curves" value="" />
+                <input type="hidden" name="savedPoints" id="saved_points" value="" />
+                <input type="hidden" name="currentImage" id="current_image" value="" />
                 <input type="button" value="Salvar" onClick="this.form.submit()" class="btn btn-primary">
             </form>
         </li>
-    </li>
+        </li>
     </ul>
 @endsection

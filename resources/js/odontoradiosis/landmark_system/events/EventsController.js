@@ -27,23 +27,36 @@ class EventsOdontoradiosis {
     addEffectsEvent() {
         let elements = ["contrast", "brightness", "invert", "grayscale"];
         //document.getElementsByTagName('input');
+        const selfImageEffects = this.imageEffects;
         for (let i = 0; i < elements.length; i++) {
             document
                 .getElementById(elements[i])
-                .addEventListener("input", this.imageEffects.onChangeValue);
+                .addEventListener("input", function() {
+                    selfImageEffects.onChangeValue.call(selfImageEffects);
+                });
         }
+        document.getElementById("undone-effects").onclick = function() {
+            selfImageEffects.reset.call(selfImageEffects);
+        };
     }
 
     addCanvasEvents() {
         let curveSelect = document.getElementById("curvesId");
+        const tracingController = this.mainController.tracingController;
         curveSelect.addEventListener("input", function() {
             const selectedIndex = document.getElementById("curvesId")
                 .selectedIndex;
             const currentCurve = document.getElementById("curvesId").options[
                 selectedIndex
             ].text;
-            this.mainController.tracingController.drawCurveBox(currentCurve);
-            this.mainController.tracingController.drawPointCircle(currentCurve);
+            tracingController.drawCurveBox.call(
+                tracingController,
+                currentCurve
+            );
+            tracingController.drawPointCircle.call(
+                tracingController,
+                currentCurve
+            );
             if (currentCurve !== "Selecione") {
                 document.getElementById("stack-canvas").style.cursor = "move";
             } else {
@@ -87,6 +100,7 @@ class EventsOdontoradiosis {
      */
     applyAllEvents() {
         this.addEffectsEvent();
+        this.addCanvasEvents();
         this.generateMouseEvents();
     }
 }
