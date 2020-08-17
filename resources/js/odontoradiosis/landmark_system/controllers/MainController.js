@@ -39,15 +39,21 @@ class MainController {
                 "%REPLACE%",
                 id
             );
+            const selfLandmarksController = this.landmarksController;
             fetch(landmarkJson)
                 .then(response => {
                     return response.json();
                 })
                 .then(data => {
-                    this.landmarksController.setLandmarks(data);
+                    selfLandmarksController.setLandmarks.call(
+                        selfLandmarksController,
+                        data
+                    );
                 })
                 .then(() => {
-                    this.landmarksController.redrawLandmarks();
+                    selfLandmarksController.redrawLandmarks.call(
+                        selfLandmarksController
+                    );
                 });
         }
     }
@@ -59,15 +65,22 @@ class MainController {
     loadJsonCurve(id) {
         if (id && id > 0) {
             const curveJson = this.urls["curves"].replace("%REPLACE%", id);
+            const selfTracingController = this.tracingController;
+            selfTracingController.drawAllCurves.call(selfTracingController);
             fetch(curveJson)
                 .then(response => {
                     return response.json();
                 })
                 .then(data => {
-                    this.tracingController.setBezierPoints(data);
+                    selfTracingController.setBezierPoints.call(
+                        selfTracingController,
+                        data
+                    );
                 })
                 .then(() => {
-                    this.tracingController.drawAllCurves();
+                    selfTracingController.drawAllCurves.call(
+                        selfTracingController
+                    );
                 });
         }
     }

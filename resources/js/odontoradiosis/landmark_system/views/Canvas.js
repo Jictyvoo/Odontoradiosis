@@ -288,10 +288,6 @@ class CanvasOdontoradiosis {
                 context.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
                 if (loadFunction) {
                     loadFunction();
-                    /**
-                     * loadJsonCurve(id);
-                     * loadJsonLandmarks(id);
-                     */
                 }
             };
         }
