@@ -37,7 +37,7 @@ class ImageEffects {
      */
     onChangeValue() {
         const imageElement = this.canvas.getCanvas("image");
-        let filterValue = getValues();
+        let filterValue = this.getValues();
         imageElement.setAttribute("style", filterValue);
     }
 
