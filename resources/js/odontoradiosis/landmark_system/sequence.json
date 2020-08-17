@@ -1,0 +1,12 @@
+[
+    "util/UsefulMethods.js",
+    "util/ScaleManager.js",
+    "views/Canvas.js",
+    "views/AnatomicalTracing.js",
+    "controllers/ImageEffects.js",
+    "controllers/subcontrollers/TracingController.js",
+    "controllers/subcontrollers/LandmarksController.js",
+    "controllers/MainController.js",
+    "events/EventsController.js",
+    "main.js"
+]
