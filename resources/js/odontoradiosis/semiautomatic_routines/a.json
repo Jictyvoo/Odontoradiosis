@@ -3,7 +3,7 @@
     "accessed_curves": ["maxila"],
     "routines": [
         ["load_curve", "maxila", null, "curvePoints"],
-        ["access_point", 7, "curvePoints", "foundedA"],
+        ["access_point", 8, "curvePoints", "foundedA"],
         ["point_to_var", "foundedA", null, { "x": "x", "y": "y" }],
         ["return", "x", "y", null]
     ]

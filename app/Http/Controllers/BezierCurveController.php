@@ -93,7 +93,7 @@ class BezierCurveController extends Controller {
      * @param $id
      * @return string
      */
-    public static function toJsonCurve($id, bool $toRedirect) {
+    public static function toJsonCurve(int $id, bool $toRedirect) {
         $returnedJson = "{";
         $bezierCurves = BezierCurve::where('image_id', '=', $id)->orderBy('name')->orderBy('id')->get();
         $previousCurveName = null;
@@ -132,9 +132,9 @@ class BezierCurveController extends Controller {
             return $returnedJson;
         }
         if ($toRedirect) {
-            return redirect(asset('js/bezier_curves.json'));
+            return File::get(resource_path('js/odontoradiosis/bezier_curves.json'));
         }
-        return File::get(public_path('js/bezier_curves.json'));
+        return File::get(resource_path('js/odontoradiosis/bezier_curves.json'));
     }
 
     /**
