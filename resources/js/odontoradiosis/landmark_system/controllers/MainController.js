@@ -6,6 +6,7 @@ class MainController {
      */
     constructor(urls, canvasOdontoradiosis) {
         this.urls = urls;
+        this.canvasOdontoradiosis = canvasOdontoradiosis;
         this.tracingController = new TracingController(canvasOdontoradiosis);
         this.landmarksController = new LandmarksController(
             canvasOdontoradiosis
@@ -150,7 +151,7 @@ class MainController {
      *
      * @param {*} event
      */
-    coordinates(event) {
+    markLandmarkPoint(event) {
         const selectedIndex = document.getElementById("pointsId").selectedIndex;
         const currentPoint = document.getElementById("pointsId").options[
             selectedIndex
@@ -159,17 +160,19 @@ class MainController {
             x = event.pageX;
             y = event.pageY;
 
-            const div = document.getElementById("landmarks");
-            if (!global_points[currentPoint]) {
-                global_points[currentPoint] = [];
-            }
-            const currentMousePosition = getMousePos(div, event);
-            global_points[currentPoint].X = currentMousePosition.x;
-            global_points[currentPoint].Y = currentMousePosition.y;
+            const landmarkCanvas = this.canvasOdontoradiosis.getCanvas(
+                "landmarks"
+            );
+            currentLandmark = this.landmarksController.verifyLandmark(
+                currentPoint,
+                true
+            );
+            const currentMousePosition = getMousePos(landmarkCanvas, event);
+            currentLandmark.X = currentMousePosition.x;
+            currentLandmark.Y = currentMousePosition.y;
 
-            redrawLandmark(div);
-
-            saveLandmarks(global_points);
+            this.landmarksController.redrawLandmark();
+            this.landmarksController.saveLandmarks();
         }
     }
 
@@ -255,7 +258,7 @@ class MainController {
         const curveName = currentCurve.replace(/ /g, "-").toLowerCase();
         if (currentCurve === "Selecione") {
             isCurveFunction = false;
-            coordinates(event);
+            markLandmarkPoint(event);
         } else if (all_curves[curveName] != null) {
             isCurveFunction = true;
             let points = getBoxDimensions(curveName);
