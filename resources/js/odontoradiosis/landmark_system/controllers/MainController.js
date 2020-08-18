@@ -190,24 +190,49 @@ class MainController {
         const canvas = document.getElementById("bezier");
         let context = canvas.getContext("2d");
         context.translate(canvas.width / 2, canvas.height / 2);
-        if (isMouseDown && isCurveFunction) {
+        if (this.infoKeeper.isMouseDown && this.infoKeeper.isCurveFunction) {
             /* do drag things */
-            document.getElementById("bezier").style.cursor = "move";
-            const selectedIndex = document.getElementById("curvesId")
-                .selectedIndex;
-            const curveName = document.getElementById("curvesId").options[
-                selectedIndex
-            ].text;
-            if (mousePosition.x == null) {
-                mousePosition.x = dynamicCanvasScale(event.clientX, true);
-                mousePosition.y = dynamicCanvasScale(event.clientY, false);
+            this.canvasOdontoradiosis.getCanvas("bezier").style.cursor = "move";
+            const curveSelectObj = document.getElementById("curvesId");
+            const selectedIndex = curveSelectObj.selectedIndex;
+            const curveName = UsefulMethods.normalizeTracingName(
+                curveSelectObj.options[selectedIndex].text
+            );
+            const referenceCanvas = this.canvasOdontoradiosis.getCanvas(
+                "landmarks"
+            );
+            const referenceContext = referenceCanvas.getContext("2d");
+            const refrenceRect = referenceCanvas.getBoundingClientRect();
+            if (this.infoKeeper.mousePosition.x == null) {
+                this.infoKeeper.mousePosition.x = this.scaleManager.dynamicCanvasScale(
+                    event.clientX,
+                    true,
+                    referenceContext,
+                    refrenceRect
+                );
+                this.infoKeeper.mousePosition.y = this.scaleManager.dynamicCanvasScale(
+                    event.clientY,
+                    false,
+                    referenceContext,
+                    refrenceRect
+                );
             } else {
                 let currentPosition = {
-                    x: dynamicCanvasScale(event.clientX, true),
-                    y: dynamicCanvasScale(event.clientY, false)
+                    x: this.scaleManager.dynamicCanvasScale(
+                        event.clientX,
+                        true,
+                        referenceContext,
+                        refrenceRect
+                    ),
+                    y: this.scaleManager.dynamicCanvasScale(
+                        event.clientY,
+                        false,
+                        referenceContext,
+                        refrenceRect
+                    )
                 };
-                saveBezierCurve();
-                if (isOnBoxVertex.isOn) {
+                this.tracingController.saveBezierCurve();
+                if (this.infoKeeper.isOnBoxVertex.isOn) {
                     /*still need to fix problem when rescale with top points*/
                     let scaleX = currentPosition.x / mousePosition.x;
                     if (isOnBoxVertex.index < 2) {
@@ -217,36 +242,51 @@ class MainController {
                     if (isOnBoxVertex.index % 2 === 0) {
                         scaleY = mousePosition.y / currentPosition.y;
                     }
-                    rescaleBezier(curveName, scaleX, scaleY);
-                } else if (isOnCurvePoints != null) {
-                    isOnCurvePoints[0][isOnCurvePoints[1]] -=
-                        mousePosition.x - currentPosition.x;
-                    isOnCurvePoints[0][isOnCurvePoints[2]] -=
-                        mousePosition.y - currentPosition.y;
-                    bezier_curve(curveName, true);
-                } else if (isInsideBox) {
-                    translateBezier(
+                    this.tracingController.rescaleBezier(
                         curveName,
-                        mousePosition.x - currentPosition.x,
-                        mousePosition.y - currentPosition.y
+                        scaleX,
+                        scaleY
+                    );
+                } else if (this.infoKeeperisOnCurvePoints != null) {
+                    this.infoKeeperisOnCurvePoints[0][
+                        this.infoKeeperisOnCurvePoints[1]
+                    ] -= this.infoKeeper.mousePosition.x - currentPosition.x;
+                    this.infoKeeperisOnCurvePoints[0][
+                        this.infoKeeperisOnCurvePoints[2]
+                    ] -= this.infoKeeper.mousePosition.y - currentPosition.y;
+                    bezier_curve(curveName, true);
+                } else if (this.infoKeeper.isInsideBox) {
+                    this.tracingController.translateBezier(
+                        curveName,
+                        this.infoKeeper.mousePosition.x - currentPosition.x,
+                        this.infoKeeper.mousePosition.y - currentPosition.y
                     );
                 } else {
                     // noinspection JSSuspiciousNameCombination
-                    let angle = calculateAngle(currentPosition, mousePosition);
+                    let angle = UsefulMethods.calculateAngle(
+                        currentPosition,
+                        this.infoKeeper.mousePosition
+                    );
                     if (!isNaN(angle)) {
-                        angle *= highLowAngle(mousePosition, {
-                            x: currentPosition.x,
-                            y: currentPosition.y
-                        });
-                        rotateBezier(curveName, angle);
+                        angle *= UsefulMethods.highLowAngle(
+                            this.infoKeeper.mousePosition,
+                            {
+                                x: currentPosition.x,
+                                y: currentPosition.y
+                            }
+                        );
+                        this.tracingController.rotateBezier(curveName, angle);
                     }
                 }
-                mousePosition.x = currentPosition.x;
-                mousePosition.y = currentPosition.y;
-                drawPointCircle(curveName);
+                this.infoKeeper.mousePosition.x = currentPosition.x;
+                this.infoKeeper.mousePosition.y = currentPosition.y;
+                this.tracingController.drawAllCurves();
+                this.tracingController.drawCurveBox(curveName, true);
+                this.tracingController.drawPointCircle(curveName);
             }
-        } else if (isCurveFunction) {
-            document.getElementById("bezier").style.cursor = "crosshair";
+        } else if (this.infoKeeper.isCurveFunction) {
+            this.canvasOdontoradiosis.getCanvas("bezier").style.cursor =
+                "crosshair";
         }
     }
 
@@ -259,7 +299,7 @@ class MainController {
         const currentCurve = document.getElementById("curvesId").options[
             selectedIndex
         ].text;
-        const curveName = currentCurve.replace(/ /g, "-").toLowerCase();
+        const curveName = UsefulMethods.normalizeTracingName(currentCurve);
         if (currentCurve === "Selecione") {
             this.infoKeeper.isCurveFunction = false;
             this.markLandmarkPoint(event);

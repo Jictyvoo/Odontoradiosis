@@ -182,8 +182,12 @@ class TracingController {
      * @param {boolean} recalculate
      */
     runPointsAndChange(curveName, callback_1, callback_2, recalculate) {
-        if (this.allCurves[curveName] != null) {
-            this.allCurves[curveName].forEach(function(points, index, array) {
+        if (this.bezierPoints[curveName] != null) {
+            this.bezierPoints[curveName].forEach(function(
+                points,
+                index,
+                array
+            ) {
                 points.forEach(function(point, position, arr) {
                     if (position % 2 === 0) {
                         points[position] = callback_1(
@@ -198,7 +202,7 @@ class TracingController {
                     }
                 });
             });
-            this.anatomicalTracing.drawCurveBox(curveName, recalculate);
+            //this.anatomicalTracing.setAllCurves(this.bezierPoints);
         }
     }
 
@@ -209,11 +213,10 @@ class TracingController {
      * @param {float} amountY
      */
     translateBezier(curveName, amountX, amountY) {
-        curveName = curveName.replace(/ /g, "-").toLowerCase();
-        boxPoints[0] -= amountX;
-        boxPoints[1] -= amountY;
-        boxPoints[2] -= amountX;
-        boxPoints[3] -= amountY;
+        this.currentBoxPoints[0] -= amountX;
+        this.currentBoxPoints[1] -= amountY;
+        this.currentBoxPoints[2] -= amountX;
+        this.currentBoxPoints[3] -= amountY;
         this.runPointsAndChange(
             curveName,
             function(pointX) {
@@ -232,7 +235,6 @@ class TracingController {
      * @param {float} angle
      */
     rotateBezier(curveName, angle) {
-        curveName = curveName.replace(/ /g, "-").toLowerCase();
         this.runPointsAndChange(
             curveName,
             function(pointX, pointY) {
@@ -252,7 +254,6 @@ class TracingController {
      * @param {float} scaleY
      */
     rescaleBezier(curveName, scaleX, scaleY) {
-        curveName = curveName.replace(/ /g, "-").toLowerCase();
         this.runPointsAndChange(
             curveName,
             function(pointX) {
