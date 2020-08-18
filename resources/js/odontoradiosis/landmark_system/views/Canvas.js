@@ -2,9 +2,11 @@ class CanvasOdontoradiosis {
     /**
      * Constructor
      * @param {HTMLElement} stackCanvas
+     * @param {array} layerSequence
      */
-    constructor(stackCanvas) {
+    constructor(stackCanvas, layerSequence = []) {
         this.stackCanvas = stackCanvas;
+        this.layerSequence = layerSequence;
         this.existentCanvas = [];
         this.pointRadius = 4;
         this.lineWidth = 1;
@@ -13,7 +15,12 @@ class CanvasOdontoradiosis {
         let allCanvas = this.stackCanvas.getElementsByTagName("canvas");
         for (let index = 0; index < allCanvas.length; index++) {
             const element = allCanvas[index];
-            this.existentCanvas[element.getAttribute("id")] = element;
+            const canvasName = element.getAttribute("id");
+            this.existentCanvas[canvasName] = element;
+            element.setAttribute(
+                "style",
+                UsefulMethods.canvasStyle(layerSequence[canvasName])
+            );
         }
         this.scaleDrawValue = Object.freeze({
             pointRadius: 4,
@@ -37,6 +44,18 @@ class CanvasOdontoradiosis {
      */
     getContext(id) {
         return this.existentCanvas[id].getContext("2d");
+    }
+
+    /**
+     * Apply a style to the canvas using UsefulMethods
+     * @param {string} id
+     * @param {string} newStyle
+     */
+    setStyle(id, newStyle) {
+        this.getCanvas(id).setAttribute(
+            "style",
+            UsefulMethods.canvasStyle(this.layerSequence[id]) + newStyle
+        );
     }
 
     /**

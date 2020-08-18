@@ -1,5 +1,6 @@
 const canvasOdontoradiosis = new CanvasOdontoradiosis(
-    document.getElementById("stack-canvas")
+    document.getElementById("stack-canvas"),
+    { image: 0, bezier: 1, landmarks: 2 }
 );
 const imageEffects = new ImageEffects(canvasOdontoradiosis);
 const mainController = new MainController(

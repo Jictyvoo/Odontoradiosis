@@ -9,11 +9,31 @@ class LandmarksController {
     }
 
     /**
+     * @returns {array} this.landmarks
+     */
+    getLandmarks() {
+        return this.landmarks;
+    }
+
+    /**
      * Lardmarks setter
      * @param {array} newLandmarks
      */
     setLandmarks(newLandmarks) {
         this.landmarks = newLandmarks;
+    }
+
+    /**
+     * Verify if landmark exists. If not and toCreate is true, it'll create
+     * @param {string} name
+     * @param {bool} toCreate
+     * @returns {array} current object
+     */
+    verifyLandmark(name, toCreate = false) {
+        if (!this.landmarks[name] && toCreate) {
+            this.landmarks[name] = [];
+        }
+        return this.landmarks[name];
     }
 
     /**
@@ -43,10 +63,9 @@ class LandmarksController {
 
     /**
      * Save all landmarks in a hidden form
-     * @param {array} landmarks
      */
-    saveLandmarks(landmarks) {
-        const data_json = this.landmarksToJSON(landmarks);
+    saveLandmarks() {
+        const data_json = this.landmarksToJSON(this.landmarks);
         let hiddenForm = document.getElementById("saved_points");
         hiddenForm.setAttribute("value", data_json);
     }

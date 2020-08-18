@@ -36,9 +36,8 @@ class ImageEffects {
      * Event function that apply read and apply effects on image
      */
     onChangeValue() {
-        const imageElement = this.canvasManager.getCanvas("image");
         let filterValue = this.getValues();
-        imageElement.setAttribute("style", filterValue);
+        this.canvasManager.setStyle("image", filterValue);
     }
 
     /**

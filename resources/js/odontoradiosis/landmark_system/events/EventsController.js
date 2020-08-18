@@ -13,12 +13,12 @@ class EventsOdontoradiosis {
         this.isOnCurvePoints = null;
         this.mousePosition = { x: null, y: null };
 
-        document
-            .getElementById("stack-canvas")
-            .setAttribute("onmousedown", "bezier_coordinate(event)");
-        document
-            .getElementById("stack-canvas")
-            .setAttribute("onmousemove", "bezier_functions(event)");
+        document.getElementById("stack-canvas").onmousedown = function(event) {
+            console.log("bezier_coordinate(event)");
+        };
+        document.getElementById("stack-canvas").onmousemove = function(event) {
+            console.log("bezier_functions(event)");
+        };
     }
 
     /**
