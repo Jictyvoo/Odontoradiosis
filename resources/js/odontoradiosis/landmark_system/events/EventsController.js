@@ -14,7 +14,7 @@ class EventsOdontoradiosis {
         this.mousePosition = { x: null, y: null };
 
         document.getElementById("stack-canvas").onmousedown = function(event) {
-            console.log("bezier_coordinate(event)");
+            mainController.manageMouseDown.call(mainController, event);
         };
         document.getElementById("stack-canvas").onmousemove = function(event) {
             console.log("bezier_functions(event)");

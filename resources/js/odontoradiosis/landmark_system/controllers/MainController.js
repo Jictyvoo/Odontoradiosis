@@ -11,6 +11,10 @@ class MainController {
         this.landmarksController = new LandmarksController(
             canvasOdontoradiosis
         );
+        this.isCurveFunction = false;
+        this.isInsideBox = false;
+        this.isOnBoxVertex = false;
+        this.isOnCurvePoints = false;
     }
 
     /**
@@ -148,7 +152,7 @@ class MainController {
     }
 
     /**
-     *
+     * Change or set point location on current mouse position
      * @param {*} event
      */
     markLandmarkPoint(event) {
@@ -157,22 +161,22 @@ class MainController {
             selectedIndex
         ].text;
         if (currentPoint !== "Selecione") {
-            x = event.pageX;
-            y = event.pageY;
-
             const landmarkCanvas = this.canvasOdontoradiosis.getCanvas(
                 "landmarks"
             );
-            currentLandmark = this.landmarksController.verifyLandmark(
+            const currentLandmark = this.landmarksController.verifyLandmark(
                 currentPoint,
                 true
             );
-            const currentMousePosition = getMousePos(landmarkCanvas, event);
+            const currentMousePosition = this.canvasOdontoradiosis.scaleManager.getMousePos(
+                landmarkCanvas,
+                event
+            );
             currentLandmark.X = currentMousePosition.x;
             currentLandmark.Y = currentMousePosition.y;
 
-            this.landmarksController.redrawLandmark();
             this.landmarksController.saveLandmarks();
+            this.landmarksController.redrawLandmarks();
         }
     }
 
@@ -250,29 +254,35 @@ class MainController {
      *
      * @param {*} event
      */
-    bezier_coordinate(event) {
+    manageMouseDown(event) {
         const selectedIndex = document.getElementById("curvesId").selectedIndex;
         const currentCurve = document.getElementById("curvesId").options[
             selectedIndex
         ].text;
         const curveName = currentCurve.replace(/ /g, "-").toLowerCase();
         if (currentCurve === "Selecione") {
-            isCurveFunction = false;
-            markLandmarkPoint(event);
+            this.isCurveFunction = false;
+            this.markLandmarkPoint(event);
         } else if (all_curves[curveName] != null) {
-            isCurveFunction = true;
+            this.isCurveFunction = true;
             let points = getBoxDimensions(curveName);
             const relativeMouse = getMousePos(
                 document.getElementById("bezier"),
                 event
             );
-            isInsideBox =
+            this.isInsideBox =
                 relativeMouse.x >= points[0] &&
                 relativeMouse.x <= points[0] + points[2] &&
                 relativeMouse.y >= points[1] &&
                 relativeMouse.y <= points[1] + points[3];
-            isOnBoxVertex = verifyMouseOnBoxVertex(relativeMouse, curveName);
-            isOnCurvePoints = verifyMouseOnCurvePoint(relativeMouse, curveName);
+            this.isOnBoxVertex = this.tracingController.verifyMouseOnBoxVertex(
+                relativeMouse,
+                curveName
+            );
+            this.isOnCurvePoints = this.tracingController.verifyMouseOnCurvePoint(
+                relativeMouse,
+                curveName
+            );
         }
     }
 

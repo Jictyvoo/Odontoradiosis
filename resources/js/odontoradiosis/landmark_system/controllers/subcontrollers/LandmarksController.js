@@ -37,35 +37,10 @@ class LandmarksController {
     }
 
     /**
-     * Convert the landmarks array into a json string
-     * @param {array} js_array
-     */
-    landmarksToJSON(js_array) {
-        let returned_json = "{";
-        for (let key in js_array) {
-            if (returned_json.length > 1) {
-                returned_json = returned_json + ",";
-            }
-            returned_json = returned_json + '"' + key + '":{';
-            // noinspection JSUnfilteredForInLoop
-            let internalArray = js_array[key];
-            returned_json =
-                returned_json +
-                '"X":' +
-                internalArray.X +
-                ',"Y":' +
-                internalArray.Y +
-                "}";
-        }
-        returned_json = returned_json + "}";
-        return returned_json;
-    }
-
-    /**
      * Save all landmarks in a hidden form
      */
     saveLandmarks() {
-        const data_json = this.landmarksToJSON(this.landmarks);
+        const data_json = JSON.stringify(this.landmarks);
         let hiddenForm = document.getElementById("saved_points");
         hiddenForm.setAttribute("value", data_json);
     }
