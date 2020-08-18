@@ -121,7 +121,6 @@ class AnatomicalTracing {
      */
     drawCurveBox(currentCurve, boxDimensions) {
         if (currentCurve != null) {
-            this.drawAllCurves();
             let context = this.canvas.getContext("bezier");
             context.beginPath();
             context.lineWidth = this.canvas.scaleManager.lineWidth;

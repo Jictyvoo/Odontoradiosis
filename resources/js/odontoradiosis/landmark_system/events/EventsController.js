@@ -52,20 +52,20 @@ class EventsOdontoradiosis {
             let currentSelection = document.getElementById("curvesId").options[
                 selectedIndex
             ].text;
-
-            const currentCurve = currentSelection
-                .replace(/ /g, "-")
-                .toLowerCase();
-            tracingController.drawCurveBox.call(
-                tracingController,
-                currentCurve,
-                true
-            );
-            tracingController.drawPointCircle.call(
-                tracingController,
-                currentCurve
-            );
+            tracingController.drawAllCurves();
             if (currentSelection !== "Selecione") {
+                const currentCurve = currentSelection
+                    .replace(/ /g, "-")
+                    .toLowerCase();
+                tracingController.drawCurveBox.call(
+                    tracingController,
+                    currentCurve,
+                    true
+                );
+                tracingController.drawPointCircle.call(
+                    tracingController,
+                    currentCurve
+                );
                 document.getElementById("stack-canvas").style.cursor = "move";
             } else {
                 document.getElementById("stack-canvas").style.cursor =
