@@ -50,69 +50,37 @@ class ScaleManager {
             width: context.canvas.width,
             height: context.canvas.height
         };
-        if (imageDimensions.width > imageDimensions.height) {
-            this.pointRadius = this.dynamicCanvasScale(
-                this.scaleDrawValue.pointRadius,
-                true,
-                context,
-                rect
-            );
-            this.nameScale = this.dynamicCanvasScale(
-                this.scaleDrawValue.nameScale,
-                true,
-                context,
-                rect
-            );
-            this.lineWidth = this.dynamicCanvasScale(
-                this.scaleDrawValue.lineWidth,
-                true,
-                context,
-                rect
-            );
-            this.textRelativePosition.x = this.dynamicCanvasScale(
-                this.scaleDrawValue.textRelativePosition.x,
-                true,
-                context,
-                rect
-            );
-            this.textRelativePosition.y = this.dynamicCanvasScale(
-                this.scaleDrawValue.textRelativePosition.y,
-                true,
-                context,
-                rect
-            );
-        } else {
-            this.pointRadius = this.dynamicCanvasScale(
-                this.scaleDrawValue.pointRadius,
-                false,
-                context,
-                rect
-            );
-            this.nameScale = this.dynamicCanvasScale(
-                this.scaleDrawValue.nameScale,
-                false,
-                context,
-                rect
-            );
-            this.lineWidth = this.dynamicCanvasScale(
-                this.scaleDrawValue.lineWidth,
-                false,
-                context,
-                rect
-            );
-            this.textRelativePosition.x = this.dynamicCanvasScale(
-                this.scaleDrawValue.textRelativePosition.x,
-                false,
-                context,
-                rect
-            );
-            this.textRelativePosition.y = this.dynamicCanvasScale(
-                this.scaleDrawValue.textRelativePosition.y,
-                false,
-                context,
-                rect
-            );
-        }
+        const isX = imageDimensions.width > imageDimensions.height;
+        this.pointRadius = this.dynamicCanvasScale(
+            this.scaleDrawValue.pointRadius,
+            isX,
+            context,
+            rect
+        );
+        this.nameScale = this.dynamicCanvasScale(
+            this.scaleDrawValue.nameScale,
+            isX,
+            context,
+            rect
+        );
+        this.lineWidth = this.dynamicCanvasScale(
+            this.scaleDrawValue.lineWidth,
+            isX,
+            context,
+            rect
+        );
+        this.textRelativePosition.x = this.dynamicCanvasScale(
+            this.scaleDrawValue.textRelativePosition.x,
+            isX,
+            context,
+            rect
+        );
+        this.textRelativePosition.y = this.dynamicCanvasScale(
+            this.scaleDrawValue.textRelativePosition.y,
+            isX,
+            context,
+            rect
+        );
     }
 
     /**
