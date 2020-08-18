@@ -49,18 +49,23 @@ class EventsOdontoradiosis {
         curveSelect.addEventListener("input", function() {
             const selectedIndex = document.getElementById("curvesId")
                 .selectedIndex;
-            const currentCurve = document.getElementById("curvesId").options[
+            let currentSelection = document.getElementById("curvesId").options[
                 selectedIndex
             ].text;
+
+            const currentCurve = currentSelection
+                .replace(/ /g, "-")
+                .toLowerCase();
             tracingController.drawCurveBox.call(
                 tracingController,
-                currentCurve
+                currentCurve,
+                true
             );
             tracingController.drawPointCircle.call(
                 tracingController,
                 currentCurve
             );
-            if (currentCurve !== "Selecione") {
+            if (currentSelection !== "Selecione") {
                 document.getElementById("stack-canvas").style.cursor = "move";
             } else {
                 document.getElementById("stack-canvas").style.cursor =

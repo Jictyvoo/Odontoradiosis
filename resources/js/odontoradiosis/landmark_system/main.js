@@ -1,5 +1,7 @@
+const scaleManager = new ScaleManager();
 const canvasOdontoradiosis = new CanvasOdontoradiosis(
     document.getElementById("stack-canvas"),
+    scaleManager,
     { image: 0, bezier: 1, landmarks: 2 }
 );
 const imageEffects = new ImageEffects(canvasOdontoradiosis);
@@ -10,7 +12,8 @@ const mainController = new MainController(
         landmarks: landmarks_url,
         reference_images: reference_images_url
     },
-    canvasOdontoradiosis
+    canvasOdontoradiosis,
+    scaleManager
 );
 
 const eventsController = new EventsOdontoradiosis(mainController, imageEffects);

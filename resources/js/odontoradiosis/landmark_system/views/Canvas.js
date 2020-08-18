@@ -2,13 +2,14 @@ class CanvasOdontoradiosis {
     /**
      * Constructor
      * @param {HTMLElement} stackCanvas
+     * @param {ScaleManager} scaleManager
      * @param {array} layerSequence
      */
-    constructor(stackCanvas, layerSequence = []) {
+    constructor(stackCanvas, scaleManager, layerSequence = []) {
         this.stackCanvas = stackCanvas;
         this.layerSequence = layerSequence;
         this.existentCanvas = [];
-        this.scaleManager = new ScaleManager();
+        this.scaleManager = scaleManager;
         let allCanvas = this.stackCanvas.getElementsByTagName("canvas");
         for (let index = 0; index < allCanvas.length; index++) {
             const element = allCanvas[index];

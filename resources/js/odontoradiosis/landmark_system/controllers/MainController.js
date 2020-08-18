@@ -3,10 +3,12 @@ class MainController {
      * Constructor
      * @param {array} urls
      * @param {CanvasOdontoradiosis} canvasOdontoradiosis
+     * @param {ScaleManager} scaleManager
      */
-    constructor(urls, canvasOdontoradiosis) {
+    constructor(urls, canvasOdontoradiosis, scaleManager) {
         this.urls = urls;
         this.canvasOdontoradiosis = canvasOdontoradiosis;
+        this.scaleManager = scaleManager;
         this.tracingController = new TracingController(canvasOdontoradiosis);
         this.landmarksController = new LandmarksController(
             canvasOdontoradiosis
@@ -168,7 +170,7 @@ class MainController {
                 currentPoint,
                 true
             );
-            const currentMousePosition = this.canvasOdontoradiosis.scaleManager.getMousePos(
+            const currentMousePosition = this.scaleManager.getMousePos(
                 landmarkCanvas,
                 event
             );
@@ -263,11 +265,11 @@ class MainController {
         if (currentCurve === "Selecione") {
             this.isCurveFunction = false;
             this.markLandmarkPoint(event);
-        } else if (all_curves[curveName] != null) {
+        } else if (this.tracingController.curveExists(curveName)) {
             this.isCurveFunction = true;
-            let points = getBoxDimensions(curveName);
-            const relativeMouse = getMousePos(
-                document.getElementById("bezier"),
+            let points = this.tracingController.getBoxDimensions(curveName);
+            const relativeMouse = this.scaleManager.getMousePos(
+                this.canvasOdontoradiosis.getCanvas("bezier"),
                 event
             );
             this.isInsideBox =
