@@ -4,8 +4,9 @@ class MainController {
      * @param {array} urls
      * @param {CanvasOdontoradiosis} canvasOdontoradiosis
      * @param {ScaleManager} scaleManager
+     * @param {OdontoradiosisKepper} infoKeeper
      */
-    constructor(urls, canvasOdontoradiosis, scaleManager) {
+    constructor(urls, canvasOdontoradiosis, scaleManager, infoKeeper) {
         this.urls = urls;
         this.canvasOdontoradiosis = canvasOdontoradiosis;
         this.scaleManager = scaleManager;
@@ -13,10 +14,7 @@ class MainController {
         this.landmarksController = new LandmarksController(
             canvasOdontoradiosis
         );
-        this.isCurveFunction = false;
-        this.isInsideBox = false;
-        this.isOnBoxVertex = false;
-        this.isOnCurvePoints = false;
+        this.infoKeeper = infoKeeper;
     }
 
     /**
@@ -184,9 +182,9 @@ class MainController {
 
     /**
      *
-     * @param {*} event
+     * @param {MouseEvent} event
      */
-    bezier_functions(event) {
+    manageMouseMove(event) {
         event.preventDefault();
         event.stopPropagation(); // tell the browser we're handling this event
         const canvas = document.getElementById("bezier");
@@ -253,8 +251,8 @@ class MainController {
     }
 
     /**
-     *
-     * @param {*} event
+     * Receive a event and manage when to select curve or landmark functions
+     * @param {MouseEvent} event
      */
     manageMouseDown(event) {
         const selectedIndex = document.getElementById("curvesId").selectedIndex;
@@ -263,25 +261,25 @@ class MainController {
         ].text;
         const curveName = currentCurve.replace(/ /g, "-").toLowerCase();
         if (currentCurve === "Selecione") {
-            this.isCurveFunction = false;
+            this.infoKeeper.isCurveFunction = false;
             this.markLandmarkPoint(event);
         } else if (this.tracingController.curveExists(curveName)) {
-            this.isCurveFunction = true;
+            this.infoKeeper.isCurveFunction = true;
             let points = this.tracingController.getBoxDimensions(curveName);
             const relativeMouse = this.scaleManager.getMousePos(
                 this.canvasOdontoradiosis.getCanvas("bezier"),
                 event
             );
-            this.isInsideBox =
+            this.infoKeeper.isInsideBox =
                 relativeMouse.x >= points[0] &&
                 relativeMouse.x <= points[0] + points[2] &&
                 relativeMouse.y >= points[1] &&
                 relativeMouse.y <= points[1] + points[3];
-            this.isOnBoxVertex = this.tracingController.verifyMouseOnBoxVertex(
+            this.infoKeeper.isOnBoxVertex = this.tracingController.verifyMouseOnBoxVertex(
                 relativeMouse,
                 curveName
             );
-            this.isOnCurvePoints = this.tracingController.verifyMouseOnCurvePoint(
+            this.infoKeeper.isOnCurvePoints = this.tracingController.verifyMouseOnCurvePoint(
                 relativeMouse,
                 curveName
             );

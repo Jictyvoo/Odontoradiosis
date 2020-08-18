@@ -2,22 +2,23 @@ class EventsOdontoradiosis {
     /**
      * Constructor
      * @param {MainController} mainController
+     * @param {OdontoradiosisKepper} infoKeeper
      * @param {ImageEffects} imageEffects
      */
-    constructor(mainController, imageEffects) {
+    constructor(mainController, infoKeeper, imageEffects) {
         this.mainController = mainController;
+        this.infoKeeper = infoKeeper;
         this.imageEffects = imageEffects;
-        this.isMouseDown = false;
-        this.isInsideBox = false;
-        this.isOnBoxVertex = { isOn: false, index: 0 };
-        this.isOnCurvePoints = null;
-        this.mousePosition = { x: null, y: null };
 
         document.getElementById("stack-canvas").onmousedown = function(event) {
             mainController.manageMouseDown.call(mainController, event);
         };
         document.getElementById("stack-canvas").onmousemove = function(event) {
             console.log("bezier_functions(event)");
+            //mainController.manageMouseMove.call(mainController, event);
+        };
+        document.getElementById("pointsId").onselect = function() {
+            mainController.referenceLandmarks.call(mainController);
         };
     }
 
@@ -79,6 +80,7 @@ class EventsOdontoradiosis {
      */
     generateMouseEvents() {
         const currentObject = this;
+        const odontoradiosisKeeper = this.infoKeeper;
         document.onmousedown = function() {
             let hiddenForm = document.getElementById("current_image");
             const splicedSource = currentObject.mainController
@@ -90,16 +92,16 @@ class EventsOdontoradiosis {
                     "/" +
                     splicedSource[splicedSource.length - 1]
             );
-            currentObject.isMouseDown = true;
+            odontoradiosisKeeper.isMouseDown = true;
         };
         document.onmouseup = function() {
-            currentObject.isMouseDown = false;
-            currentObject.isInsideBox = false;
-            currentObject.isOnBoxVertex = { isOn: false, index: 0 };
-            currentObject.isOnCurvePoints = null;
+            odontoradiosisKeeper.isMouseDown = false;
+            odontoradiosisKeeper.isInsideBox = false;
+            odontoradiosisKeeper.isOnBoxVertex = { isOn: false, index: 0 };
+            odontoradiosisKeeper.isOnCurvePoints = null;
 
-            currentObject.mousePosition.x = null;
-            currentObject.mousePosition.y = null;
+            odontoradiosisKeeper.mousePosition.x = null;
+            odontoradiosisKeeper.mousePosition.y = null;
         };
     }
 
