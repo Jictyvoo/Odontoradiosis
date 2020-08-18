@@ -24,6 +24,7 @@ class CanvasOdontoradiosis {
     /**
      * Returns a canvas based on it id
      * @param {string} id
+     * @returns {HTMLCanvasElement}
      */
     getCanvas(id) {
         return this.existentCanvas[id];
@@ -32,6 +33,7 @@ class CanvasOdontoradiosis {
     /**
      * Returns a canvas context based on it id
      * @param {string} id
+     * @returns {CanvasRenderingContext2D}
      */
     getContext(id) {
         return this.existentCanvas[id].getContext("2d");
