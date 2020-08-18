@@ -2,13 +2,10 @@ class AnatomicalTracing {
     /**
      * Constructor
      * @param {CanvasOdontoradiosis} canvas
-     * @param {int} lineWidth
      */
-    constructor(canvas, lineWidth) {
+    constructor(canvas) {
         this.canvas = canvas;
-        this.lineWidth = lineWidth != null ? lineWidth : canvas.lineWidth;
         this.allCurves = [];
-        this.currentBoxPoints = [0, 0, 0, 0];
     }
 
     /**
@@ -17,112 +14,6 @@ class AnatomicalTracing {
      */
     setAllCurves(curves) {
         this.allCurves = curves;
-    }
-
-    /**
-     * Returns all points in a curve box
-     * @param {string} curveName
-     * @param {boolean} recalculate
-     */
-    getBoxPoints(curveName, recalculate) {
-        if (this.currentBoxPoints != null && recalculate !== true) {
-            return this.currentBoxPoints;
-        }
-        let minX = Number.POSITIVE_INFINITY,
-            minY = Number.POSITIVE_INFINITY;
-        let maxX = Number.NEGATIVE_INFINITY,
-            maxY = Number.NEGATIVE_INFINITY;
-        this.allCurves[curveName].forEach(function(element, index, array) {
-            element.forEach(function(point, position, arr) {
-                if (position % 2 !== 0) {
-                    minY = Math.min(minY, point);
-                    maxY = Math.max(maxY, point);
-                } else {
-                    minX = Math.min(minX, point);
-                    maxX = Math.max(maxX, point);
-                }
-            });
-        });
-        this.currentBoxPoints = [minX, minY, maxX, maxY];
-        return this.currentBoxPoints;
-    }
-
-    /**
-     * Returns an array with box dimensions of a specific curve
-     * @param {string} curveName
-     * @param {int} borderSize
-     * @param {boolean} recalculate
-     */
-    getBoxDimensions(curveName, borderSize, recalculate) {
-        if (borderSize == null) {
-            borderSize = 20;
-        }
-        let points = getBoxPoints(curveName, recalculate);
-        let minX = points[0],
-            minY = points[1];
-        let maxX = points[2],
-            maxY = points[3];
-        let width = maxX - minX,
-            height = maxY - minY;
-        return [
-            minX - borderSize,
-            minY - borderSize,
-            width + borderSize * 2,
-            height + borderSize * 2
-        ];
-    }
-
-    /**
-     * Returns a object containing a boolean if is on a boxVertex, and it index
-     * @param {*} relativeMouse
-     * @param {string} curveName
-     */
-    verifyMouseOnBoxVertex(relativeMouse, curveName) {
-        const boxVertex = this.getBoxDimensions(curveName, null, true);
-        let isOn = false;
-        let vertexIndex = 0;
-        [
-            [boxVertex[0], boxVertex[1]],
-            [boxVertex[0], boxVertex[1] + boxVertex[3]],
-            [boxVertex[0] + boxVertex[2], boxVertex[1]],
-            [boxVertex[0] + boxVertex[2], boxVertex[1] + boxVertex[3]]
-        ].forEach(function(element, index, array) {
-            if (
-                relativeMouse.x >= element[0] - pointRadius &&
-                relativeMouse.x <= element[0] + pointRadius &&
-                relativeMouse.y >= element[1] - pointRadius &&
-                relativeMouse.y <= element[1] + pointRadius
-            ) {
-                isOn = true;
-                vertexIndex = index;
-            }
-        });
-        return { isOn: isOn, index: vertexIndex };
-    }
-
-    /**
-     * Returns the current position of the mouse if it is on a curve point
-     * @param {*} relativeMouse
-     * @param {string} curveName
-     */
-    verifyMouseOnCurvePoint(relativeMouse, curveName) {
-        let isOn = null;
-        allCurves[curveName].forEach(function(element, index, array) {
-            element.forEach(function(point, position, arr) {
-                if (position % 2 === 0) {
-                    if (
-                        relativeMouse.x >= element[position] - pointRadius &&
-                        relativeMouse.x <= element[position] + pointRadius &&
-                        relativeMouse.y >=
-                            element[position + 1] - pointRadius &&
-                        relativeMouse.y <= element[position + 1] + pointRadius
-                    ) {
-                        isOn = [element, position, position + 1];
-                    }
-                }
-            });
-        });
-        return isOn;
     }
 
     /**
@@ -177,62 +68,71 @@ class AnatomicalTracing {
         if (this.allCurves[curveName] != null) {
             const context = this.canvas.getContext("bezier");
             //context.beginPath();
-            this.allCurves[curveName].forEach(function(element, index, array) {
-                element.forEach(function(point, position, arr) {
-                    if (position % 2 !== 0) {
-                        drawCircle(
-                            context,
-                            element[position - 1],
-                            element[position]
-                        );
-                    }
-                });
-            });
+            for (
+                let index = 0;
+                index < this.allCurves[curveName].length;
+                index++
+            ) {
+                const element = this.allCurves[curveName][index];
+                for (
+                    let subindex = 1;
+                    subindex < element.length;
+                    subindex += 2
+                ) {
+                    this.canvas.drawCircle(
+                        context,
+                        element[subindex - 1],
+                        element[subindex]
+                    );
+                }
+            }
         }
     }
 
     /**
      *
      * @param {CanvasRenderingContext2D} context
+     * @param {array} boxDimensions
      */
-    drawBoxVertex(context) {
+    drawBoxVertex(context, boxDimensions) {
+        const selfCanvas = this.canvas;
         [
-            [curveBox[0], curveBox[1]],
-            [curveBox[0], curveBox[1] + curveBox[3]],
-            [curveBox[0] + curveBox[2], curveBox[1]],
-            [curveBox[0] + curveBox[2], curveBox[1] + curveBox[3]]
+            [boxDimensions[0], boxDimensions[1]],
+            [boxDimensions[0], boxDimensions[1] + boxDimensions[3]],
+            [boxDimensions[0] + boxDimensions[2], boxDimensions[1]],
+            [
+                boxDimensions[0] + boxDimensions[2],
+                boxDimensions[1] + boxDimensions[3]
+            ]
         ].forEach(function(element, index, array) {
-            this.canvas.drawCircle(context, element[0], element[1]);
+            selfCanvas.drawCircle.call(
+                selfCanvas,
+                context,
+                element[0],
+                element[1]
+            );
         });
     }
 
     /**
      *
      * @param {string} currentCurve
-     * @param {boolean} recalculate
+     * @param {array} boxDimensions
      */
-    drawCurveBox(currentCurve, recalculate) {
+    drawCurveBox(currentCurve, boxDimensions) {
         if (currentCurve != null) {
-            currentCurve = currentCurve.replace(/ /g, "-").toLowerCase();
             this.drawAllCurves();
-            if (this.allCurves[currentCurve] != null) {
-                const curveBox = this.getBoxDimensions(
-                    currentCurve,
-                    null,
-                    recalculate
-                );
-                let context = this.canvas.getCanvas("bezier").getContext("2d");
-                context.lineWidth = lineWidth;
-                context.beginPath();
-                context.rect(
-                    curveBox[0],
-                    curveBox[1],
-                    curveBox[2],
-                    curveBox[3]
-                );
-                context.stroke();
-                this.drawBoxVertex(context);
-            }
+            let context = this.canvas.getContext("bezier");
+            context.beginPath();
+            context.lineWidth = this.canvas.scaleManager.lineWidth;
+            context.rect(
+                boxDimensions[0],
+                boxDimensions[1],
+                boxDimensions[2],
+                boxDimensions[3]
+            );
+            context.stroke();
+            this.drawBoxVertex(context, boxDimensions);
         }
     }
 
