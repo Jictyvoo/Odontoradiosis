@@ -11,6 +11,15 @@ class UsefulMethods {
     }
 
     /**
+     * Normalize name
+     * @param {string} toNormalize
+     * @returns {string}
+     */
+    static normalizeTracingName(toNormalize) {
+        return toNormalize.replace(/ /g, "-").toLowerCase();
+    }
+
+    /**
      * Return scale to angle
      * @param {object} oldPosition
      * @param {object} currentPosition

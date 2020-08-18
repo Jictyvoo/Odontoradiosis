@@ -14,8 +14,7 @@ class EventsOdontoradiosis {
             mainController.manageMouseDown.call(mainController, event);
         };
         document.getElementById("stack-canvas").onmousemove = function(event) {
-            console.log("bezier_functions(event)");
-            //mainController.manageMouseMove.call(mainController, event);
+            mainController.manageMouseMove.call(mainController, event);
         };
         document.getElementById("pointsId").onselect = function() {
             mainController.referenceLandmarks.call(mainController);
