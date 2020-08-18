@@ -5,6 +5,7 @@ const canvasOdontoradiosis = new CanvasOdontoradiosis(
     { image: 0, bezier: 1, landmarks: 2 }
 );
 const imageEffects = new ImageEffects(canvasOdontoradiosis);
+const infoKeeper = new OdontoradiosisKeeper();
 const mainController = new MainController(
     {
         image: "",
@@ -13,10 +14,15 @@ const mainController = new MainController(
         reference_images: reference_images_url
     },
     canvasOdontoradiosis,
-    scaleManager
+    scaleManager,
+    infoKeeper
 );
 
-const eventsController = new EventsOdontoradiosis(mainController, imageEffects);
+const eventsController = new EventsOdontoradiosis(
+    mainController,
+    infoKeeper,
+    imageEffects
+);
 
 function openImage(path = "", id = -1) {
     mainController.tracingController.setBezierPoints([]);

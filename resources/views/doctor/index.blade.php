@@ -30,8 +30,7 @@
         <a href="#" class="nav-link">
             <i class="fa fa-circle-o nav-icon"></i>
             <p>Pontos</p>
-            <select class="right fa fa-angle-left" id="pointsId" style="width: 60%; color:black"
-                onclick="referenceLandmarks()">
+            <select class="right fa fa-angle-left" id="pointsId" style="width: 60%; color:black">
                 <option selected>Selecione</option>
                 <option>Sela (S)</option>
                 <option>Násio (N)</option>
@@ -116,7 +115,7 @@
 
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
-                                 with font-awesome or any other icon font library -->
+                                             with font-awesome or any other icon font library -->
         <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
                 <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/open-folder.png') }}"></i>
@@ -134,21 +133,21 @@
             </a>
         </li>
         <!--<li class="nav-item has-treeview menu-open">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/setting.png') }}"></i>
-                                    <p onClick="calculateLandmarks()">
-                                        Marcação automática
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item has-treeview menu-open">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/invert-tool.png') }}"></i>
-                                    <p onClick="desfazer()">
-                                        Desfazer
-                                    </p>
-                                </a>
-                            </li>-->
+                                            <a href="#" class="nav-link active">
+                                                <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/setting.png') }}"></i>
+                                                <p onClick="calculateLandmarks()">
+                                                    Marcação automática
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item has-treeview menu-open">
+                                            <a href="#" class="nav-link active">
+                                                <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/invert-tool.png') }}"></i>
+                                                <p onClick="desfazer()">
+                                                    Desfazer
+                                                </p>
+                                            </a>
+                                        </li>-->
         <li class="nav-item has-treeview menu-open">
             <form method="post" action="{{ route('image_landmark.store') }}">
                 @csrf

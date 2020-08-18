@@ -119,11 +119,13 @@ class TracingController {
      * Returns a object containing a boolean if is on a boxVertex, and it index
      * @param {*} relativeMouse
      * @param {string} curveName
+     * @returns {object} { isOn: isOn, index: vertexIndex }
      */
     verifyMouseOnBoxVertex(relativeMouse, curveName) {
         const boxVertex = this.getBoxDimensions(curveName, null, true);
         let isOn = false;
         let vertexIndex = 0;
+        const pointRadius = this.canvasOdontoradiosis.scaleManager.pointRadius;
         [
             [boxVertex[0], boxVertex[1]],
             [boxVertex[0], boxVertex[1] + boxVertex[3]],
@@ -147,24 +149,119 @@ class TracingController {
      * Returns the current position of the mouse if it is on a curve point
      * @param {*} relativeMouse
      * @param {string} curveName
+     * @returns {array} [element, subindex, subindex + 1]
      */
     verifyMouseOnCurvePoint(relativeMouse, curveName) {
         let isOn = null;
-        this.bezierPoints[curveName].forEach(function(element, index, array) {
-            element.forEach(function(point, position, arr) {
-                if (position % 2 === 0) {
-                    if (
-                        relativeMouse.x >= element[position] - pointRadius &&
-                        relativeMouse.x <= element[position] + pointRadius &&
-                        relativeMouse.y >=
-                            element[position + 1] - pointRadius &&
-                        relativeMouse.y <= element[position + 1] + pointRadius
-                    ) {
-                        isOn = [element, position, position + 1];
-                    }
+        const pointRadius = this.canvasOdontoradiosis.scaleManager.pointRadius;
+        for (
+            let index = 0;
+            index < this.bezierPoints[curveName].length;
+            index++
+        ) {
+            const element = this.bezierPoints[curveName][index];
+            for (let subindex = 0; subindex < element.length; subindex += 2) {
+                if (
+                    relativeMouse.x >= element[subindex] - pointRadius &&
+                    relativeMouse.x <= element[subindex] + pointRadius &&
+                    relativeMouse.y >= element[subindex + 1] - pointRadius &&
+                    relativeMouse.y <= element[subindex + 1] + pointRadius
+                ) {
+                    isOn = [element, subindex, subindex + 1];
                 }
-            });
-        });
+            }
+        }
         return isOn;
+    }
+
+    /**
+     * Iterate all curves and changes it value
+     * @param {string} curveName
+     * @param {function} callback_1
+     * @param {funtion} callback_2
+     * @param {boolean} recalculate
+     */
+    runPointsAndChange(curveName, callback_1, callback_2, recalculate) {
+        if (this.allCurves[curveName] != null) {
+            this.allCurves[curveName].forEach(function(points, index, array) {
+                points.forEach(function(point, position, arr) {
+                    if (position % 2 === 0) {
+                        points[position] = callback_1(
+                            points[position],
+                            points[position + 1]
+                        );
+                    } else {
+                        points[position] = callback_2(
+                            points[position],
+                            points[position - 1]
+                        );
+                    }
+                });
+            });
+            this.anatomicalTracing.drawCurveBox(curveName, recalculate);
+        }
+    }
+
+    /**
+     * Translate a curve
+     * @param {string} curveName
+     * @param {float} amountX
+     * @param {float} amountY
+     */
+    translateBezier(curveName, amountX, amountY) {
+        curveName = curveName.replace(/ /g, "-").toLowerCase();
+        boxPoints[0] -= amountX;
+        boxPoints[1] -= amountY;
+        boxPoints[2] -= amountX;
+        boxPoints[3] -= amountY;
+        this.runPointsAndChange(
+            curveName,
+            function(pointX) {
+                return pointX - amountX;
+            },
+            function(pointY) {
+                return pointY - amountY;
+            },
+            true
+        );
+    }
+
+    /**
+     * Rotate a bezier curve
+     * @param {string} curveName
+     * @param {float} angle
+     */
+    rotateBezier(curveName, angle) {
+        curveName = curveName.replace(/ /g, "-").toLowerCase();
+        this.runPointsAndChange(
+            curveName,
+            function(pointX, pointY) {
+                return pointX * Math.cos(angle) - pointY * Math.sin(angle);
+            },
+            function(pointY, pointX) {
+                return pointX * Math.sin(angle) + pointY * Math.cos(angle);
+            },
+            true
+        );
+    }
+
+    /**
+     * Reescale all bezier curves, based on scales given
+     * @param {string} curveName
+     * @param {float} scaleX
+     * @param {float} scaleY
+     */
+    rescaleBezier(curveName, scaleX, scaleY) {
+        curveName = curveName.replace(/ /g, "-").toLowerCase();
+        this.runPointsAndChange(
+            curveName,
+            function(pointX) {
+                return pointX * scaleX;
+            },
+            function(pointY) {
+                return pointY * scaleY;
+            },
+            true
+        );
     }
 }
