@@ -16,7 +16,14 @@ class EventsOdontoradiosis {
         document.getElementById("stack-canvas").onmousemove = function(event) {
             mainController.manageMouseMove.call(mainController, event);
         };
-        document.getElementById("pointsId").onselect = function() {
+        const tracingController = this.mainController.tracingController;
+        document.getElementById("pointsId").onchange = function() {
+            if (document.getElementById("curvesId").selectedIndex != 0) {
+                document.getElementById("curvesId").selectedIndex = 0;
+                tracingController.drawAllCurves();
+                mainController.canvasOdontoradiosis.stackCanvas.style.cursor =
+                    "crosshair";
+            }
             mainController.referenceLandmarks.call(mainController);
         };
     }
@@ -46,6 +53,8 @@ class EventsOdontoradiosis {
     addCanvasEvents() {
         let curveSelect = document.getElementById("curvesId");
         const tracingController = this.mainController.tracingController;
+        const stackCanvas = this.mainController.canvasOdontoradiosis
+            .stackCanvas;
         curveSelect.addEventListener("input", function() {
             const selectedIndex = document.getElementById("curvesId")
                 .selectedIndex;
@@ -66,10 +75,9 @@ class EventsOdontoradiosis {
                     tracingController,
                     currentCurve
                 );
-                document.getElementById("stack-canvas").style.cursor = "move";
+                stackCanvas.style.cursor = "move";
             } else {
-                document.getElementById("stack-canvas").style.cursor =
-                    "crosshair";
+                stackCanvas.style.cursor = "crosshair";
             }
         });
     }
