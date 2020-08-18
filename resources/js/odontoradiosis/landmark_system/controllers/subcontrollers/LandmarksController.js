@@ -78,23 +78,27 @@ class LandmarksController {
     drawLandmark(canvasContext, landmarkName) {
         const locations = this.landmarks[landmarkName];
         const context = canvasContext;
-        context.beginPath();
-        context.arc(
+        this.canvas.drawCircleCtx(
+            "landmarks",
             locations.X,
             locations.Y,
-            this.canvas.pointRadius,
-            0,
-            2 * Math.PI
+            this.canvas.scaleManager.pointRadius,
+            1,
+            "red",
+            "#330005"
         );
+        context.beginPath();
         context.fillStyle = "red";
-        context.font = this.canvas.nameScale + "px Arial";
+        context.font = this.canvas.scaleManager.nameScale + "px Arial";
         context.fillText(
             landmarkName.match(/\(.+\)/),
             Math.floor(
-                parseInt(locations.X) - this.canvas.textRelativePosition.x
+                parseInt(locations.X) -
+                    this.canvas.scaleManager.textRelativePosition.x
             ),
             Math.floor(
-                parseInt(locations.Y) + this.canvas.textRelativePosition.y
+                parseInt(locations.Y) +
+                    this.canvas.scaleManager.textRelativePosition.y
             )
         );
         context.fill();

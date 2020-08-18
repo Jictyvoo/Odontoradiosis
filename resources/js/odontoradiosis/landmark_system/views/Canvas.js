@@ -8,10 +8,7 @@ class CanvasOdontoradiosis {
         this.stackCanvas = stackCanvas;
         this.layerSequence = layerSequence;
         this.existentCanvas = [];
-        this.pointRadius = 4;
-        this.lineWidth = 1;
-        this.nameScale = 10;
-        this.textRelativePosition = { x: 15, y: 15 };
+        this.scaleManager = new ScaleManager();
         let allCanvas = this.stackCanvas.getElementsByTagName("canvas");
         for (let index = 0; index < allCanvas.length; index++) {
             const element = allCanvas[index];
@@ -22,12 +19,6 @@ class CanvasOdontoradiosis {
                 UsefulMethods.canvasStyle(layerSequence[canvasName])
             );
         }
-        this.scaleDrawValue = Object.freeze({
-            pointRadius: 4,
-            nameScale: 10,
-            lineWidth: 2,
-            textRelativePosition: Object.freeze({ x: 15, y: 15 })
-        });
     }
 
     /**
@@ -73,52 +64,56 @@ class CanvasOdontoradiosis {
     /**
      * Draw a circle in selected context with selected colors
      * @param {CanvasRenderingContext2D} context
-     * @param {float} x
-     * @param {float} y
-     * @param {float} pointRadius
+     * @param {number} x
+     * @param {number} y
+     * @param {number} pointRadius
+     * @param {number} lineWidth
      * @param {string} fillStyle
      * @param {string} strokeStyle
      */
     drawCircle(
         context,
-        x,
-        y,
-        pointRadius = this.pointRadius,
+        x = 0,
+        y = 0,
+        pointRadius = this.scaleManager.pointRadius,
+        lineWidth = this.scaleManager.lineWidth,
         fillStyle = "#184bed",
         strokeStyle = "#184bed"
     ) {
         context.beginPath();
-        context.moveTo(x, y);
         context.arc(x, y, pointRadius, 0, 2 * Math.PI);
         context.fillStyle = fillStyle;
         context.fill();
-        context.lineWidth = this.lineWidth;
+        context.lineWidth = lineWidth;
         context.strokeStyle = strokeStyle;
         context.stroke();
     }
 
     /**
      * Draw a circle in selected curve with selected colors
-     * @param {string} curveName
-     * @param {float} x
-     * @param {float} y
-     * @param {float} pointRadius
+     * @param {string} layerId
+     * @param {number} x
+     * @param {number} y
+     * @param {number} pointRadius
+     * @param {number} lineWidth
      * @param {string} fillStyle
      * @param {string} strokeStyle
      */
     drawCircleCtx(
-        curveName,
-        x,
-        y,
-        pointRadius = this.pointRadius,
+        layerId,
+        x = 0,
+        y = 0,
+        pointRadius = this.scaleManager.pointRadius,
+        lineWidth = this.scaleManager.lineWidth,
         fillStyle = "#184bed",
         strokeStyle = "#184bed"
     ) {
         this.drawCircle(
-            this.getContext(curveName),
+            this.getContext(layerId),
             x,
             y,
             pointRadius,
+            lineWidth,
             fillStyle,
             strokeStyle
         );
@@ -127,14 +122,14 @@ class CanvasOdontoradiosis {
     /**
      *
      * @param {CanvasRenderingContext2D} context
-     * @param {float} x1
-     * @param {float} y1
-     * @param {float} cx1
-     * @param {float} cy1
-     * @param {float} cx2
-     * @param {float} cy2
-     * @param {float} x2
-     * @param {float} y2
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} cx1
+     * @param {number} cy1
+     * @param {number} cx2
+     * @param {number} cy2
+     * @param {number} x2
+     * @param {number} y2
      * @param {string} strokeStyle
      */
     drawBezier(
@@ -152,118 +147,8 @@ class CanvasOdontoradiosis {
         context.strokeStyle = strokeStyle;
         context.moveTo(x1, y1);
         context.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2);
-        context.lineWidth = this.lineWidth;
+        context.lineWidth = this.scaleManager.lineWidth;
         context.stroke();
-    }
-
-    /**
-     * Calculate the scale to make canvas dynamic and returns it
-     * @param {float} valueToResize
-     * @param {boolean} isX
-     * @param {HTMLElement} rect
-     */
-    dynamicCanvasScale(
-        valueToResize = 1,
-        isX = false,
-        rect = this.existentCanvas["landmarks"].getBoundingClientRect()
-    ) {
-        const canvasDimensions = {
-            width: rect.width,
-            height: rect.height
-        };
-        let context = this.existentCanvas["landmarks"].getContext("2d");
-        const imageDimensions = {
-            width: context.canvas.width,
-            height: context.canvas.height
-        };
-        if (isX) {
-            return (
-                (imageDimensions.width * valueToResize) / canvasDimensions.width
-            );
-        } else
-            return (
-                (imageDimensions.height * valueToResize) /
-                canvasDimensions.height
-            );
-    }
-
-    /**
-     * Calculates all scales variables
-     * @param {HTMLCanvasElement} canvas
-     */
-    scaleDraw(canvas) {
-        const rect = canvas.getBoundingClientRect();
-        let ctx = canvas.getContext("2d");
-        const imageDimensions = {
-            width: ctx.canvas.width,
-            height: ctx.canvas.height
-        };
-        if (imageDimensions.width > imageDimensions.height) {
-            this.pointRadius = this.dynamicCanvasScale(
-                this.scaleDrawValue.pointRadius,
-                true,
-                rect
-            );
-            this.nameScale = this.dynamicCanvasScale(
-                this.scaleDrawValue.nameScale,
-                true,
-                rect
-            );
-            this.lineWidth = this.dynamicCanvasScale(
-                this.scaleDrawValue.lineWidth,
-                true,
-                rect
-            );
-            this.textRelativePosition.x = this.dynamicCanvasScale(
-                this.scaleDrawValue.textRelativePosition.x,
-                true,
-                rect
-            );
-            this.textRelativePosition.y = this.dynamicCanvasScale(
-                this.scaleDrawValue.textRelativePosition.y,
-                true,
-                rect
-            );
-        } else {
-            this.pointRadius = this.dynamicCanvasScale(
-                this.scaleDrawValue.pointRadius,
-                false,
-                rect
-            );
-            this.nameScale = this.dynamicCanvasScale(
-                this.scaleDrawValue.nameScale,
-                false,
-                rect
-            );
-            this.lineWidth = this.dynamicCanvasScale(
-                this.scaleDrawValue.lineWidth,
-                false,
-                rect
-            );
-            this.textRelativePosition.x = this.dynamicCanvasScale(
-                this.scaleDrawValue.textRelativePosition.x,
-                false,
-                rect
-            );
-            this.textRelativePosition.y = this.dynamicCanvasScale(
-                this.scaleDrawValue.textRelativePosition.y,
-                false,
-                rect
-            );
-        }
-    }
-
-    /**
-     * Returns an object containing the relative mouse position in Canvas
-     * @param {HTMLElement} canvas
-     * @param {*} event
-     */
-    getMousePos(canvas = this.existentCanvas["landmarks"], event) {
-        const rect = canvas.getBoundingClientRect();
-        return {
-            x: this.dynamicCanvasScale(event.clientX - rect.left, true, rect),
-            y: this.dynamicCanvasScale(event.clientY - rect.top, false, rect)
-        };
     }
 
     /**
@@ -277,6 +162,7 @@ class CanvasOdontoradiosis {
         if (this.existentCanvas["image"].getContext) {
             const context = this.existentCanvas["image"].getContext("2d");
             const self = this;
+            const selfScaleManager = this.scaleManager;
             //OnLoad Image here
             imageObject.onload = function() {
                 context.canvas.width = this.width;
@@ -295,7 +181,10 @@ class CanvasOdontoradiosis {
                         "height: " + context.canvas.height + "px"
                     );
                 }
-                self.scaleDraw.call(self, self.existentCanvas["landmarks"]);
+                selfScaleManager.calculateScales.call(
+                    selfScaleManager,
+                    self.existentCanvas["landmarks"]
+                );
 
                 context.drawImage(
                     imageObject,
