@@ -43,13 +43,11 @@ class CanvasOdontoradiosis {
     /**
      * Apply a style to the canvas using UsefulMethods
      * @param {string} id
+     * @param {string} styleName
      * @param {string} newStyle
      */
-    setStyle(id, newStyle) {
-        this.getCanvas(id).setAttribute(
-            "style",
-            UsefulMethods.canvasStyle(this.layerSequence[id]) + newStyle
-        );
+    setStyle(id, styleName, newStyle) {
+        this.getCanvas(id).style[styleName] = newStyle;
     }
 
     /**
