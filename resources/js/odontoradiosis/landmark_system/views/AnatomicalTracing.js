@@ -64,7 +64,6 @@ class AnatomicalTracing {
      * @param {string} curveName
      */
     drawPointCircle(curveName) {
-        curveName = curveName.replace(/ /g, "-").toLowerCase();
         if (this.allCurves[curveName] != null) {
             const context = this.canvas.getContext("bezier");
             //context.beginPath();

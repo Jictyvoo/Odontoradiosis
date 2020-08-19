@@ -50,7 +50,7 @@ class EventsOdontoradiosis {
     /**
      * Add canvas events
      */
-    addCanvasEvents() {
+    addCanvasInputEvents() {
         let curveSelect = document.getElementById("curvesId");
         const tracingController = this.mainController.tracingController;
         const stackCanvas = this.mainController.canvasOdontoradiosis
@@ -63,19 +63,21 @@ class EventsOdontoradiosis {
             ].text;
             tracingController.drawAllCurves();
             if (currentSelection !== "Selecione") {
-                const currentCurve = currentSelection
-                    .replace(/ /g, "-")
-                    .toLowerCase();
-                tracingController.drawCurveBox.call(
-                    tracingController,
-                    currentCurve,
-                    true
+                const currentCurve = UsefulMethods.normalizeTracingName(
+                    currentSelection
                 );
-                tracingController.drawPointCircle.call(
-                    tracingController,
-                    currentCurve
-                );
-                stackCanvas.style.cursor = "move";
+                if (tracingController.curveExists(currentCurve)) {
+                    tracingController.drawCurveBox.call(
+                        tracingController,
+                        currentCurve,
+                        true
+                    );
+                    tracingController.drawPointCircle.call(
+                        tracingController,
+                        currentCurve
+                    );
+                    stackCanvas.style.cursor = "move";
+                }
             } else {
                 stackCanvas.style.cursor = "crosshair";
             }
@@ -117,7 +119,7 @@ class EventsOdontoradiosis {
      */
     applyAllEvents() {
         this.addEffectsEvent();
-        this.addCanvasEvents();
+        this.addCanvasInputEvents();
         this.generateMouseEvents();
     }
 }
