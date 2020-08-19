@@ -231,30 +231,33 @@ class MainController {
                         refrenceRect
                     )
                 };
-                this.tracingController.saveBezierCurve();
-                if (this.infoKeeper.isOnBoxVertex.isOn) {
+                const boxVertexInfo = this.infoKeeper.isOnBoxVertex;
+                if (boxVertexInfo.isOn) {
                     /*still need to fix problem when rescale with top points*/
-                    let scaleX = currentPosition.x / mousePosition.x;
-                    if (isOnBoxVertex.index < 2) {
-                        scaleX = mousePosition.x / currentPosition.x;
+                    let scaleX =
+                        currentPosition.x / this.infoKeeper.mousePosition.x;
+                    if (boxVertexInfo.index < 2) {
+                        scaleX =
+                            this.infoKeeper.mousePosition.x / currentPosition.x;
                     }
-                    let scaleY = currentPosition.y / mousePosition.y;
-                    if (isOnBoxVertex.index % 2 === 0) {
-                        scaleY = mousePosition.y / currentPosition.y;
+                    let scaleY =
+                        currentPosition.y / this.infoKeeper.mousePosition.y;
+                    if (boxVertexInfo.index % 2 === 0) {
+                        scaleY =
+                            this.infoKeeper.mousePosition.y / currentPosition.y;
                     }
                     this.tracingController.rescaleBezier(
                         curveName,
                         scaleX,
                         scaleY
                     );
-                } else if (this.infoKeeperisOnCurvePoints != null) {
-                    this.infoKeeperisOnCurvePoints[0][
-                        this.infoKeeperisOnCurvePoints[1]
+                } else if (this.infoKeeper.isOnCurvePoints != null) {
+                    this.infoKeeper.isOnCurvePoints[0][
+                        this.infoKeeper.isOnCurvePoints[1]
                     ] -= this.infoKeeper.mousePosition.x - currentPosition.x;
-                    this.infoKeeperisOnCurvePoints[0][
-                        this.infoKeeperisOnCurvePoints[2]
+                    this.infoKeeper.isOnCurvePoints[0][
+                        this.infoKeeper.isOnCurvePoints[2]
                     ] -= this.infoKeeper.mousePosition.y - currentPosition.y;
-                    bezier_curve(curveName, true);
                 } else if (this.infoKeeper.isInsideBox) {
                     this.tracingController.translateBezier(
                         curveName,
@@ -283,6 +286,7 @@ class MainController {
                 this.tracingController.drawAllCurves();
                 this.tracingController.drawCurveBox(curveName, true);
                 this.tracingController.drawPointCircle(curveName);
+                this.tracingController.saveBezierCurve();
             }
         } else if (this.infoKeeper.isCurveFunction) {
             this.canvasOdontoradiosis.getCanvas("bezier").style.cursor =
