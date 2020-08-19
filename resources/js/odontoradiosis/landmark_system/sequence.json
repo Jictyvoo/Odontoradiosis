@@ -1,6 +1,6 @@
 [
+    "models/OdontoradiosisKeeper.js",
     "util/UsefulMethods.js",
-    "util/OdontoradiosisKeeper.js",
     "util/ScaleManager.js",
     "views/Canvas.js",
     "views/AnatomicalTracing.js",
