@@ -16,19 +16,12 @@ class ImageEffects {
      * @returns {string}
      */
     getValues() {
-        let filterStyle = "filter: ",
-            brightnessValue = this.brightness.value,
+        const brightnessValue = this.brightness.value,
             contrastValue = this.contrast.value,
             grayscaleValue = this.grayscale.value,
             invertValue = this.invert.value;
 
-        // noinspection JSAnnotator
-        filterStyle += `
-            brightness(${brightnessValue}%)
-            contrast(${contrastValue}%)
-            grayscale(${grayscaleValue}%)
-            invert(${invertValue}%)`;
-
+        const filterStyle = `brightness(${brightnessValue}%) contrast(${contrastValue}%) grayscale(${grayscaleValue}%) invert(${invertValue}%)`;
         return filterStyle;
     }
 
@@ -37,7 +30,7 @@ class ImageEffects {
      */
     onChangeValue() {
         let filterValue = this.getValues();
-        this.canvasManager.setStyle("image", filterValue);
+        this.canvasManager.setStyle("image", "filter", filterValue);
     }
 
     /**
