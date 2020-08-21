@@ -24,6 +24,15 @@ class LandmarksController {
     }
 
     /**
+     * Set a single landmark value
+     * @param {string} name
+     * @param {object} value
+     */
+    setLandmark(name, value = { X: 0, Y: 0 }) {
+        this.landmarks[name] = value;
+    }
+
+    /**
      * Verify if landmark exists. If not and toCreate is true, it'll create
      * @param {string} name
      * @param {bool} toCreate

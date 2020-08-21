@@ -115,9 +115,9 @@
 
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
-                                             with font-awesome or any other icon font library -->
+                                                                         with font-awesome or any other icon font library -->
         <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a style="cursor:pointer" class="nav-link active">
                 <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/open-folder.png') }}"></i>
                 <p onClick="openImageSelection()">
                     Abrir radiografia
@@ -125,29 +125,29 @@
             </a>
         </li>
         <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a style="cursor:pointer" class="nav-link active">
                 <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/writing.png') }}"></i>
                 <p onClick="openWindowSave()">
                     Editar radiografia
                 </p>
             </a>
         </li>
+        <li class="nav-item has-treeview menu-open">
+            <a style="cursor:pointer" class="nav-link active">
+                <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/setting.png') }}"></i>
+                <p id="semiautomatic_button">
+                    Marcação semiautomática
+                </p>
+            </a>
+        </li>
         <!--<li class="nav-item has-treeview menu-open">
-                                            <a href="#" class="nav-link active">
-                                                <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/setting.png') }}"></i>
-                                                <p onClick="calculateLandmarks()">
-                                                    Marcação automática
-                                                </p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item has-treeview menu-open">
-                                            <a href="#" class="nav-link active">
-                                                <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/invert-tool.png') }}"></i>
-                                                <p onClick="desfazer()">
-                                                    Desfazer
-                                                </p>
-                                            </a>
-                                        </li>-->
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fa fa-dashboard"><img src="{{ asset('img/invert-tool.png') }}"></i>
+                                <p onClick="desfazer()">
+                                    Desfazer
+                                </p>
+                            </a>
+                        </li>-->
         <li class="nav-item has-treeview menu-open">
             <form method="post" action="{{ route('image_landmark.store') }}">
                 @csrf

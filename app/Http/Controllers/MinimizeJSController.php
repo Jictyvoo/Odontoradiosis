@@ -51,9 +51,21 @@ class MinimizeJSController {
             }
         }
         if ($minimizeAgain) {
-            $minimizer = new MinifyJS(File::get($resourcePaths[$sequence[0]]));
-            for ($index = 1; $index < count($sequence); $index++) {
-                $minimizer->add($resourcePaths[$sequence[$index]]);
+            //generating JSON files as consts
+            $jsonFiles = $sequence['json'];
+            $minimizer = new MinifyJS("");
+            for ($position = 0; $position < count($jsonFiles); $position++) {
+                $jsonNames = $jsonFiles[$position]['files'];
+                $jsonPath = $jsonFiles[$position]['path'];
+                for ($index = 0; $index < count($jsonNames); $index++) {
+                    $constName = str_replace('.', '__', $jsonNames[$index]);
+                    $constName = preg_replace('/\s+/', '_', $constName);
+                    $minimizer->add('const ' . $constName . '=' . File::get($resourcePaths[$jsonPath . $jsonNames[$index]]));
+                }
+            }
+            $jsFiles = $sequence['js'];
+            for ($index = 0; $index < count($jsFiles); $index++) {
+                $minimizer->add($resourcePaths[$jsFiles[$index]]);
             }
             File::append($publicDestinyPath, $minimizer->minify());
             //$minimizer->gzip($publicDestinyPath);

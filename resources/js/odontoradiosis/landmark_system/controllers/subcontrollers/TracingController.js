@@ -29,6 +29,17 @@ class TracingController {
     }
 
     /**
+     * Verify if curve exists and returns it or null
+     * @param {string} curveId
+     */
+    getCurve(curveId = "") {
+        if (this.curveExists(curveId)) {
+            return this.bezierPoints[curveId];
+        }
+        return null;
+    }
+
+    /**
      * Save all bezier curves in a hidden form
      */
     saveBezierCurve() {

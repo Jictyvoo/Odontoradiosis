@@ -4,7 +4,7 @@
     "routines": [
         ["load_curve", "maxila", null, "curvePoints"],
         ["access_point", 7, "curvePoints", "foundedENA"],
-        ["point_to_var", "foundedNasio", null, { "x": "x", "y": "y" }],
+        ["point_to_var", "foundedENA", null, { "x": "x", "y": "y" }],
         ["return", "x", "y", null]
     ]
 }

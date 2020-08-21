@@ -18,6 +18,15 @@ const mainController = new MainController(
     infoKeeper
 );
 
+/**
+ * Adding the semiautomatic landmark indentification feature
+ */
+const semiautomaticLandmarks = new SemiautomaticLandmarks(
+    [a__json, ena__json, gnatio__json, nasio__json, sela__json],
+    mainController.tracingController,
+    mainController.landmarksController
+);
+
 const eventsController = new EventsOdontoradiosis(
     mainController,
     infoKeeper,
@@ -40,4 +49,5 @@ function openImage(path = "", id = -1) {
 
 window.onload = function() {
     eventsController.applyAllEvents();
+    semiautomaticLandmarks.generateButtonEvent();
 };
