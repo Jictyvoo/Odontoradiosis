@@ -37,7 +37,7 @@ class MinimizeJSController {
         $resourcePaths = array();
         foreach ($allFiles as $noCare => $fileInfo) {
             $currentPath = resource_path($originPath . '/' . $fileInfo->getRelativePathname());
-            if ($fileInfo->getFileName() == "sequence.json") {
+            if ($fileInfo->getFileName() == "jmake.json") {
                 $sequence = json_decode(File::get($currentPath), true);
             } else {
                 //array_push($resourcePaths, $currentPath);
