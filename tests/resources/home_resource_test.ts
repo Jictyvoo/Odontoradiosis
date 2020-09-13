@@ -1,12 +1,10 @@
 import { Drash } from "../../deps.ts";
 import { assertEquals } from "../../deps.ts";
-import HomeResource from "../../resources/home_resource.ts";
+import HomeResource from "../../resources/home.resource.ts";
 
 const server = new Drash.Http.Server({
   response_output: "application/json",
-  resources: [
-    HomeResource,
-  ],
+  resources: [HomeResource],
 });
 
 server.run({
@@ -24,7 +22,7 @@ Deno.test("HomeResource - GET /", async () => {
     await response.json(),
     JSON.stringify({
       message: "Not implemented",
-    }),
+    })
   );
 });
 

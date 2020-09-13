@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "plugins": [
+      {
+        "name": "typescript-deno-plugin",
+        "enable": true
+      }
+    ],
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./components",
+    "jsx": "react",
+    "target": "es6",
+    "allowJs": true
+  },
+  "exclude": ["home_resource.ts", "app.ts"]
+}

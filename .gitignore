@@ -3,6 +3,8 @@
 # https://marketplace.visualstudio.com/items?itemName=AnAppWiLos.angitignored 
 #-------------------------------------------------------------------------------
 
+deno_dir/
+
 # Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,node,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,node,react
 

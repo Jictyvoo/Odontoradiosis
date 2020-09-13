@@ -1,5 +1,6 @@
 import { Drash } from "./deps.ts";
-import HomeResource from "./resources/home_resource.ts";
+import HomeResource from "./resources/home.resource.ts";
+import HelpResource from "./resources/help.resource.tsx";
 
 const server = new Drash.Http.Server({
   directory: Deno.realPathSync("./"),
@@ -8,15 +9,13 @@ const server = new Drash.Http.Server({
     enabled: false,
     level: "debug",
   }),
-  resources: [
-    HomeResource,
-  ],
+  resources: [HomeResource, HelpResource],
   static_paths: ["/public"],
-  views_path: "./public/views",
+  views_path: "./views",
 });
 
 await server.run({
-  hostname: "localhost",
+  hostname: "127.0.0.1",
   port: 1667,
 });
 
