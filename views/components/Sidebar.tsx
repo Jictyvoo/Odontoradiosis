@@ -1,5 +1,6 @@
-//import "./Sidebar.css";
 import { React } from "../../deps.ts";
+//import "./Sidebar.css";
+import { ReactJSS } from "../../deps.ts";
 
 declare global {
   namespace JSX {
@@ -10,8 +11,42 @@ declare global {
   }
 }
 
-const Sidebar = (width: number, height?: number, children?: object) => {
-  const [xPosition, setX] = (React as any).useState(-width);
+const useStyles = (ReactJSS as any).createUseStyles({
+  side_bar: {
+    height: "100% !important",
+    display: "flex",
+    flexDirection: "column",
+    borderRight: "1px solid",
+    borderRadius: 0,
+    borderColor: "rgba(64, 194, 133, 0.693)",
+    backgroundColor: "rgb(255, 255, 255)",
+    transition: "0.8s ease",
+  },
+  toggle_menu: {
+    height: "50px",
+    borderTopRightRadius: "10rem",
+    borderBottomRightRadius: "9rem",
+    width: "10px",
+    position: "absolute",
+    outline: "none",
+    zIndex: "1",
+    backgroundColor: "rgba(64, 194, 133, 0.693)",
+    borderColor: "rgba(64, 194, 133, 0.693)",
+    borderLeft: "0",
+  },
+});
+
+const Sidebar = ({
+  width,
+  height,
+  children,
+}: {
+  width: number;
+  height: number;
+  children: number;
+}) => {
+  const classes = useStyles();
+  const [xPosition, setX] = React.useState(-width);
 
   const toggleMenu = () => {
     if (xPosition < 0) {
@@ -21,13 +56,13 @@ const Sidebar = (width: number, height?: number, children?: object) => {
     }
   };
 
-  (React as any).useEffect(() => {
+  React.useEffect(() => {
     setX(0);
   }, []);
   return (
     <React.Fragment>
       <div
-        className="side-bar"
+        className={classes.side_bar}
         style={{
           transform: `translatex(${xPosition}px)`,
           width: width,
@@ -36,7 +71,7 @@ const Sidebar = (width: number, height?: number, children?: object) => {
       >
         <button
           onClick={() => toggleMenu()}
-          className="toggle-menu"
+          className={classes.toggle_menu}
           style={{
             transform: `translate(${width}px, 20vh)`,
           }}

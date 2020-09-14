@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-var ActionButtons = React.Component({
+var ActionButton = React.Component({
   render: function () {
     return (
       <aside className="control-sidebar control-sidebar-dark">
