@@ -8,8 +8,8 @@ export default class HelpResource extends Drash.Http.Resource {
   static paths = ["/help"];
 
   public GET() {
-    this.response.body = (ReactDOMServer as any).renderToString(
-      <Sidebar>
+    this.response.body = ReactDOMServer.renderToString(
+      <Sidebar width={300} height={100}>
         <HelpPage />
       </Sidebar>
     );

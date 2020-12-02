@@ -2,15 +2,6 @@ import { React } from "../../deps.ts";
 //import "./Sidebar.css";
 import { ReactJSS } from "../../deps.ts";
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      button: any;
-      div: any;
-    }
-  }
-}
-
 const useStyles = (ReactJSS as any).createUseStyles({
   side_bar: {
     height: "100% !important",
@@ -43,7 +34,7 @@ const Sidebar = ({
 }: {
   width: number;
   height: number;
-  children: number;
+  children: Element;
 }) => {
   const classes = useStyles();
   const [xPosition, setX] = React.useState(-width);
