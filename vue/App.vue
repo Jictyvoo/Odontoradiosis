@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <h1>Welcome</h1>
-    <p>Welcome to your new Drash + Vue app!</p>
+    <Navbar></Navbar>
+    <CephalometricSidebar></CephalometricSidebar>
+    <StackingCanvas></StackingCanvas>
     <footer class="main-footer">
       <strong>
         ©2020
@@ -14,7 +15,15 @@
 </template>
 
 <script>
+import Navbar from "./components/Navbar";
+import CephalometricSidebar from "./components/CephalometricSidebar";
+import StackingCanvas from "./components/StackingCanvas";
 export default {
+  components: {
+    Navbar,
+    CephalometricSidebar,
+    StackingCanvas,
+  },
   data() {
     return {};
   },
@@ -29,7 +38,6 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   line-height: 1.4;
   margin: 0 auto;
-  max-width: 400px;
   text-align: center;
 }
 h1 {

@@ -48,3 +48,28 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+};
+</script>
+
+<style lang="css">
+#stack-canvas {
+  position: relative;
+  cursor: crosshair;
+}
+#stack-canvas > canvas {
+  max-width: 100%;
+  height: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.card-body {
+  max-width: 100%;
+}
+</style>

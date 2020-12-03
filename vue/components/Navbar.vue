@@ -27,8 +27,16 @@
           <p id="semiautomatic_button">Marcação semiautomática</p>
         </a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a style="cursor: pointer" class="nav-link">
+          <i class="nav-icon fa fa-dashboard">
+            <img src="/public/img/save.png" />
+          </i>
+          <p onclick="save()">Salvar</p>
+        </a>
+      </li>
     </ul>
-    <ul class="navbar-nav ml-auto">
+    <!--<ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <a
           class="nav-link"
@@ -41,6 +49,14 @@
           </i>
         </a>
       </li>
-    </ul>
+    </ul>-->
   </nav>
 </template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+};
+</script>
