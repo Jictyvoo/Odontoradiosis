@@ -1,26 +1,5 @@
-import { React } from "../../deps";
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      div: any;
-      aside: any;
-      h5: any;
-      ul: any;
-      li: any;
-      a: any;
-      i: any;
-      img: any;
-      form: any;
-      p: any;
-      input: any;
-    }
-  }
-}
-
-var ActionButton = React.Component({
-  render: function () {
-    return (
-      <aside className="control-sidebar control-sidebar-dark">
+<template>
+    <aside className="control-sidebar control-sidebar-dark">
         <div className="p-3">
           <h5>Ações</h5>
           <ul
@@ -57,11 +36,6 @@ var ActionButton = React.Component({
               <form method="post" action="http://127.0.0.1:8000/image_landmark">
                 <input
                   type="hidden"
-                  name="_token"
-                  defaultValue="vAh8GXbChL1bd8hNtwFavIl2LxVfCRg30tvM14kf"
-                />
-                <input
-                  type="hidden"
                   name="bezierCurves"
                   id="bezier_curves"
                   defaultValue
@@ -89,6 +63,4 @@ var ActionButton = React.Component({
           </ul>
         </div>
       </aside>
-    );
-  },
-});
+</template>

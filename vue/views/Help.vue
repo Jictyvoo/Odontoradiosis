@@ -1,8 +1,4 @@
-import { React } from "../deps.ts";
-
-class HelpPage extends React.Component {
-  render() {
-    return (
+<template>
       <div>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,15 +10,15 @@ class HelpPage extends React.Component {
           rel="stylesheet"
           href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
         />
-        {/* Google Font: Source Sans Pro */}
+        <!--Google Font: Source Sans Pro-->
         <link
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
           rel="stylesheet"
         />
-        {/* Main System CSS */}
+        <!--Main System CSS-->
         <link rel="stylesheet" type="text/css" href="/public/css/bezier.css" />
         <div className="wrapper">
-          {/* Navbar */}
+          <!--Navbar-->
           <nav className="main-header navbar navbar-expand bg-white navbar-light border-bottom">
             <ul className="navbar-nav">
               <li className="nav-item d-none d-sm-inline-block">
@@ -37,10 +33,10 @@ class HelpPage extends React.Component {
               </li>
             </ul>
           </nav>
-          {/* /.navbar */}
-          {/* Main Sidebar Container */}
+          <!--/.navbar-->
+          <!--Main Sidebar Container-->
           <aside className="main-sidebar sidebar-dark-primary elevation-4">
-            {/* Brand Logo */}
+            <!--Brand Logo-->
             <a align="middle" href="/" className="brand-link">
               <img
                 width={200}
@@ -50,9 +46,9 @@ class HelpPage extends React.Component {
                 align="middle"
               />
             </a>
-            {/* Sidebar */}
+            <!--Sidebar-->
             <div className="sidebar">
-              {/* Sidebar Menu */}
+              <!--Sidebar Menu-->
               <nav className="mt-2">
                 <ul
                   className="nav nav-pills nav-sidebar flex-column"
@@ -103,26 +99,26 @@ class HelpPage extends React.Component {
                   </div>
                 </ul>
               </nav>
-              {/* /.sidebar-menu */}
+              <!--/.sidebar-menu-->
             </div>
-            {/* /.sidebar */}
+            <!--/.sidebar-->
           </aside>
-          {/* Content Wrapper. Contains page content */}
+          <!--Content Wrapper. Contains page content-->
           <div className="content-wrapper">
-            {/* Content Header (Page header) */}
+            <!--Content Header (Page header)-->
             <div className="content-header">
               <div className="container-fluid">
                 <div className="row mb-2">
                   <div className="col-sm-6"></div>
-                  {/* /.col */}
+                  <!--/.col-->
                   <div className="col-sm-6"></div>
-                  {/* /.col */}
+                  <!--/.col-->
                 </div>
-                {/* /.row */}
+                <!--/.row-->
               </div>
-              {/* /.container-fluid */}
+              <!--/.container-fluid-->
             </div>
-            {/* /.content-header */}
+            <!--/.content-header-->
             <div className="container-fluid p-0">
               <section
                 className="resume-section p-3 p-lg-5 d-flex align-items-center"
@@ -420,8 +416,4 @@ class HelpPage extends React.Component {
           </div>
         </div>
       </div>
-    );
-  }
-}
-
-export default HelpPage;
+ </template>

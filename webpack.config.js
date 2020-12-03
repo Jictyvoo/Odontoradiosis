@@ -1,29 +1,44 @@
-const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { VueLoaderPlugin } = require("vue-loader");
 module.exports = {
   entry: {
-    app: "./views/App.tsx",
+    app: "./vue/app.js",
   },
   output: {
     filename: "[name].js",
-    path: __dirname + "/public/",
+    path: __dirname + "/public/js/",
   },
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
+        test: /\.vue$/,
+        use: [
+          {
+            loader: "vue-loader",
+          },
+        ],
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.js$/,
+        use: [
+          {
+            loader: "babel-loader",
+          },
+        ],
+      },
+      {
+        test: /\.(css|sass|scss)$/,
+        use: ["vue-style-loader", "css-loader"],
       },
     ],
   },
   resolve: {
-    alias: {
-      react: path.resolve("./node_modules/react"),
-    },
-    extensions: [".tsx", ".js"],
+    extensions: [".vue", ".js"],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./public/views/index.html",
+    }),
+    new VueLoaderPlugin(),
+  ],
 };
