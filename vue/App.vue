@@ -2,7 +2,6 @@
     <div id="app">
         <h1>Welcome</h1>
         <p>Welcome to your new Drash + Vue app!</p>
-        <script src="/ts/landmark_system.min.ts"></script>
     </div>
 </template>
 
