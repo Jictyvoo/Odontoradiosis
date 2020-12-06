@@ -15,3 +15,5 @@ class OdontoradiosisKeeper {
     this.isCurveFunction = false;
   }
 }
+
+export default OdontoradiosisKeeper;

@@ -72,7 +72,7 @@ class LandmarksController {
       this.canvas.scaleManager.pointRadius,
       1,
       "red",
-      "#330005",
+      "#330005"
     );
     context.beginPath();
     context.fillStyle = "red";
@@ -80,11 +80,11 @@ class LandmarksController {
     context.fillText(
       landmarkName.match(/\(.+\)/),
       Math.floor(
-        parseInt(locations.X) - this.canvas.scaleManager.textRelativePosition.x,
+        parseInt(locations.X) - this.canvas.scaleManager.textRelativePosition.x
       ),
       Math.floor(
-        parseInt(locations.Y) + this.canvas.scaleManager.textRelativePosition.y,
-      ),
+        parseInt(locations.Y) + this.canvas.scaleManager.textRelativePosition.y
+      )
     );
     context.fill();
     context.lineWidth = 1;
@@ -100,8 +100,10 @@ class LandmarksController {
     const context = landmarksCanvas.getContext("2d");
     context.clearRect(0, 0, landmarksCanvas.width, landmarksCanvas.height);
     const self = this;
-    Object.keys(this.landmarks).forEach(function (element, index, array) {
+    Object.keys(this.landmarks).forEach(function(element, index, array) {
       self.drawLandmark.call(self, context, element);
     });
   }
 }
+
+export default LandmarksController;

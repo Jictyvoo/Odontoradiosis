@@ -27,8 +27,7 @@ class ImageEffects {
       grayscaleValue = this.grayscale.value,
       invertValue = this.invert.value;
 
-    const filterStyle =
-      `brightness(${brightnessValue}%) contrast(${contrastValue}%) grayscale(${grayscaleValue}%) invert(${invertValue}%)`;
+    const filterStyle = `brightness(${brightnessValue}%) contrast(${contrastValue}%) grayscale(${grayscaleValue}%) invert(${invertValue}%)`;
     return filterStyle;
   }
 
@@ -51,3 +50,5 @@ class ImageEffects {
     this.onChangeValue();
   }
 }
+
+export default ImageEffects;

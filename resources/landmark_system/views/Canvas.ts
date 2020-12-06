@@ -1,3 +1,5 @@
+import { UsefulMethods } from "../util/UsefulMethods.ts";
+
 class CanvasOdontoradiosis {
   public stackCanvas: any;
   public layerSequence: any;
@@ -24,7 +26,7 @@ class CanvasOdontoradiosis {
       this.existentCanvas[canvasName] = element;
       element.setAttribute(
         "style",
-        UsefulMethods.canvasStyle(layerSequence[canvasName]),
+        UsefulMethods.canvasStyle(layerSequence[canvasName])
       );
     }
   }
@@ -86,7 +88,7 @@ class CanvasOdontoradiosis {
     pointRadius = this.scaleManager.pointRadius,
     lineWidth = this.scaleManager.lineWidth,
     fillStyle = "#184bed",
-    strokeStyle = "#184bed",
+    strokeStyle = "#184bed"
   ) {
     context.beginPath();
     context.arc(x, y, pointRadius, 0, 2 * Math.PI);
@@ -114,7 +116,7 @@ class CanvasOdontoradiosis {
     pointRadius = this.scaleManager.pointRadius,
     lineWidth = this.scaleManager.lineWidth,
     fillStyle = "#184bed",
-    strokeStyle = "#184bed",
+    strokeStyle = "#184bed"
   ) {
     this.drawCircle(
       this.getContext(layerId),
@@ -123,7 +125,7 @@ class CanvasOdontoradiosis {
       pointRadius,
       lineWidth,
       fillStyle,
-      strokeStyle,
+      strokeStyle
     );
   }
 
@@ -150,7 +152,7 @@ class CanvasOdontoradiosis {
     cy2,
     x2,
     y2,
-    strokeStyle = "#00e379",
+    strokeStyle = "#00e379"
   ) {
     context.strokeStyle = strokeStyle;
     context.moveTo(x1, y1);
@@ -172,12 +174,12 @@ class CanvasOdontoradiosis {
       const self = this;
       const selfScaleManager = this.scaleManager;
       //OnLoad Image here
-      imageObject.onload = function () {
+      imageObject.onload = function() {
         context.canvas.width = this.width;
         context.canvas.height = this.height;
         ["landmarks", "bezier"].forEach((element) => {
           const temporaryContext = self.existentCanvas[element].getContext(
-            "2d",
+            "2d"
           );
           temporaryContext.canvas.width = context.canvas.width;
           temporaryContext.canvas.height = context.canvas.height;
@@ -186,12 +188,12 @@ class CanvasOdontoradiosis {
         if (cardCanvas) {
           cardCanvas.setAttribute(
             "style",
-            "height: " + context.canvas.height + "px",
+            "height: " + context.canvas.height + "px"
           );
         }
         selfScaleManager.calculateScales.call(
           selfScaleManager,
-          self.existentCanvas["landmarks"],
+          self.existentCanvas["landmarks"]
         );
 
         context.drawImage(
@@ -199,7 +201,7 @@ class CanvasOdontoradiosis {
           0,
           0,
           context.canvas.width,
-          context.canvas.height,
+          context.canvas.height
         ); //draw background image
         context.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
         if (loadFunction) {
@@ -210,3 +212,5 @@ class CanvasOdontoradiosis {
     imageObject.src = path;
   }
 }
+
+export default CanvasOdontoradiosis;

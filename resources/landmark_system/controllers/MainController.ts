@@ -9,51 +9,46 @@ class MainController {
   public height: any;
 
   /**
-     * Constructor
-     * @param {array} urls
-     * @param {CanvasOdontoradiosis} canvasOdontoradiosis
-     * @param {ScaleManager} scaleManager
-     * @param {OdontoradiosisKepper} infoKeeper
-     * @returns {MainController}
-     */
+   * Constructor
+   * @param {array} urls
+   * @param {CanvasOdontoradiosis} canvasOdontoradiosis
+   * @param {ScaleManager} scaleManager
+   * @param {OdontoradiosisKepper} infoKeeper
+   * @returns {MainController}
+   */
   constructor(urls, canvasOdontoradiosis, scaleManager, infoKeeper) {
     this.urls = urls;
     this.canvasOdontoradiosis = canvasOdontoradiosis;
     this.scaleManager = scaleManager;
     this.tracingController = new TracingController(canvasOdontoradiosis);
-    this.landmarksController = new LandmarksController(
-      canvasOdontoradiosis,
-    );
+    this.landmarksController = new LandmarksController(canvasOdontoradiosis);
     this.infoKeeper = infoKeeper;
   }
 
   /**
-     * @param {string} id
-     * @returns {string}
-     */
+   * @param {string} id
+   * @returns {string}
+   */
   getUrl(id) {
     return this.urls[id];
   }
 
   /**
-     * Set the address of url with given id
-     * @param {string} id
-     * @param {string} address
-     */
+   * Set the address of url with given id
+   * @param {string} id
+   * @param {string} address
+   */
   setUrl(id, address) {
     this.urls[id] = address;
   }
 
   /**
-     * Loads json file with landmarks location
-     * @param {int} id image id
-     */
+   * Loads json file with landmarks location
+   * @param {int} id image id
+   */
   loadJsonLandmarks(id) {
     if (id && id > 0) {
-      const landmarkJson = this.urls["landmarks"].replace(
-        "%REPLACE%",
-        id,
-      );
+      const landmarkJson = this.urls["landmarks"].replace("%REPLACE%", id);
       const selfLandmarksController = this.landmarksController;
       fetch(landmarkJson)
         .then((response) => {
@@ -62,21 +57,19 @@ class MainController {
         .then((data) => {
           selfLandmarksController.setLandmarks.call(
             selfLandmarksController,
-            data,
+            data
           );
         })
         .then(() => {
-          selfLandmarksController.redrawLandmarks.call(
-            selfLandmarksController,
-          );
+          selfLandmarksController.redrawLandmarks.call(selfLandmarksController);
         });
     }
   }
 
   /**
-     * Loads json file with bezier anatomical tracing points
-     * @param {int} id image id
-     */
+   * Loads json file with bezier anatomical tracing points
+   * @param {int} id image id
+   */
   loadJsonCurve(id) {
     if (id && id > 0) {
       const curveJson = this.urls["curves"].replace("%REPLACE%", id);
@@ -89,20 +82,18 @@ class MainController {
         .then((data) => {
           selfTracingController.setBezierPoints.call(
             selfTracingController,
-            data,
+            data
           );
         })
         .then(() => {
-          selfTracingController.drawAllCurves.call(
-            selfTracingController,
-          );
+          selfTracingController.drawAllCurves.call(selfTracingController);
         });
     }
   }
 
   /**
-     * Adapt reference landmarks
-     */
+   * Adapt reference landmarks
+   */
   referenceLandmarks() {
     const selectedIndex = document.getElementById("pointsId").selectedIndex;
     const currentPoint = document.getElementById("pointsId").options[
@@ -133,7 +124,7 @@ class MainController {
       let context = document.getElementById("referenceLandmark");
       if (context.getContext) {
         context = context.getContext("2d");
-        img.onload = function () {
+        img.onload = function() {
           context.canvas.width = this.width;
           context.canvas.height = this.height;
           document
@@ -145,14 +136,14 @@ class MainController {
                 "px" +
                 "width: " +
                 context.canvas.width +
-                "px",
+                "px"
             );
           context.drawImage(
             img,
             0,
             0,
             context.canvas.width,
-            context.canvas.height,
+            context.canvas.height
           ); //draw background image
           context.fillStyle = "rgba(1, 1, 1, 0)"; //draw a box over the top
         };
@@ -162,25 +153,23 @@ class MainController {
   }
 
   /**
-     * Change or set point location on current mouse position
-     * @param {*} event
-     */
+   * Change or set point location on current mouse position
+   * @param {*} event
+   */
   markLandmarkPoint(event) {
     const selectedIndex = document.getElementById("pointsId").selectedIndex;
     const currentPoint = document.getElementById("pointsId").options[
       selectedIndex
     ].text;
     if (currentPoint !== "Selecione") {
-      const landmarkCanvas = this.canvasOdontoradiosis.getCanvas(
-        "landmarks",
-      );
+      const landmarkCanvas = this.canvasOdontoradiosis.getCanvas("landmarks");
       const currentLandmark = this.landmarksController.verifyLandmark(
         currentPoint,
-        true,
+        true
       );
       const currentMousePosition = this.scaleManager.getMousePos(
         landmarkCanvas,
-        event,
+        event
       );
       currentLandmark.X = currentMousePosition.x;
       currentLandmark.Y = currentMousePosition.y;
@@ -191,9 +180,9 @@ class MainController {
   }
 
   /**
-     *
-     * @param {MouseEvent} event
-     */
+   *
+   * @param {MouseEvent} event
+   */
   manageMouseMove(event) {
     event.preventDefault();
     event.stopPropagation(); // tell the browser we're handling this event
@@ -206,11 +195,9 @@ class MainController {
       const curveSelectObj = document.getElementById("curvesId");
       const selectedIndex = curveSelectObj.selectedIndex;
       const curveName = UsefulMethods.normalizeTracingName(
-        curveSelectObj.options[selectedIndex].text,
+        curveSelectObj.options[selectedIndex].text
       );
-      const referenceCanvas = this.canvasOdontoradiosis.getCanvas(
-        "landmarks",
-      );
+      const referenceCanvas = this.canvasOdontoradiosis.getCanvas("landmarks");
       const referenceContext = referenceCanvas.getContext("2d");
       const refrenceRect = referenceCanvas.getBoundingClientRect();
       if (this.infoKeeper.mousePosition.x == null) {
@@ -218,13 +205,13 @@ class MainController {
           event.clientX,
           true,
           referenceContext,
-          refrenceRect,
+          refrenceRect
         );
         this.infoKeeper.mousePosition.y = this.scaleManager.dynamicCanvasScale(
           event.clientY,
           false,
           referenceContext,
-          refrenceRect,
+          refrenceRect
         );
       } else {
         let currentPosition = {
@@ -232,13 +219,13 @@ class MainController {
             event.clientX,
             true,
             referenceContext,
-            refrenceRect,
+            refrenceRect
           ),
           y: this.scaleManager.dynamicCanvasScale(
             event.clientY,
             false,
             referenceContext,
-            refrenceRect,
+            refrenceRect
           ),
         };
         const boxVertexInfo = this.infoKeeper.isOnBoxVertex;
@@ -252,11 +239,7 @@ class MainController {
           if (boxVertexInfo.index % 2 === 0) {
             scaleY = this.infoKeeper.mousePosition.y / currentPosition.y;
           }
-          this.tracingController.rescaleBezier(
-            curveName,
-            scaleX,
-            scaleY,
-          );
+          this.tracingController.rescaleBezier(curveName, scaleX, scaleY);
         } else if (this.infoKeeper.isOnCurvePoints != null) {
           this.infoKeeper.isOnCurvePoints[0][
             this.infoKeeper.isOnCurvePoints[1]
@@ -268,22 +251,19 @@ class MainController {
           this.tracingController.translateBezier(
             curveName,
             this.infoKeeper.mousePosition.x - currentPosition.x,
-            this.infoKeeper.mousePosition.y - currentPosition.y,
+            this.infoKeeper.mousePosition.y - currentPosition.y
           );
         } else {
           // noinspection JSSuspiciousNameCombination
           let angle = UsefulMethods.calculateAngle(
             currentPosition,
-            this.infoKeeper.mousePosition,
+            this.infoKeeper.mousePosition
           );
           if (!isNaN(angle)) {
-            angle *= UsefulMethods.highLowAngle(
-              this.infoKeeper.mousePosition,
-              {
-                x: currentPosition.x,
-                y: currentPosition.y,
-              },
-            );
+            angle *= UsefulMethods.highLowAngle(this.infoKeeper.mousePosition, {
+              x: currentPosition.x,
+              y: currentPosition.y,
+            });
             this.tracingController.rotateBezier(curveName, angle);
           }
         }
@@ -300,9 +280,9 @@ class MainController {
   }
 
   /**
-     * Receive a event and manage when to select curve or landmark functions
-     * @param {MouseEvent} event
-     */
+   * Receive a event and manage when to select curve or landmark functions
+   * @param {MouseEvent} event
+   */
   manageMouseDown(event) {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[
@@ -317,22 +297,23 @@ class MainController {
       let points = this.tracingController.getBoxDimensions(curveName);
       const relativeMouse = this.scaleManager.getMousePos(
         this.canvasOdontoradiosis.getCanvas("bezier"),
-        event,
+        event
       );
-      this.infoKeeper.isInsideBox = relativeMouse.x >= points[0] &&
+      this.infoKeeper.isInsideBox =
+        relativeMouse.x >= points[0] &&
         relativeMouse.x <= points[0] + points[2] &&
         relativeMouse.y >= points[1] &&
         relativeMouse.y <= points[1] + points[3];
-      this.infoKeeper.isOnBoxVertex = this.tracingController
-        .verifyMouseOnBoxVertex(
-          relativeMouse,
-          curveName,
-        );
-      this.infoKeeper.isOnCurvePoints = this.tracingController
-        .verifyMouseOnCurvePoint(
-          relativeMouse,
-          curveName,
-        );
+      this.infoKeeper.isOnBoxVertex = this.tracingController.verifyMouseOnBoxVertex(
+        relativeMouse,
+        curveName
+      );
+      this.infoKeeper.isOnCurvePoints = this.tracingController.verifyMouseOnCurvePoint(
+        relativeMouse,
+        curveName
+      );
     }
   }
 }
+
+export default MainController;

@@ -31,6 +31,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./assets/styles/marking_system.css";
 #app {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;

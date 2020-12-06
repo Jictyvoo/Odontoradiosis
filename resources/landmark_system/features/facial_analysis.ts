@@ -2,8 +2,8 @@ class FacialAnalysis {
   constructor() {}
 
   /**
-     * Facial analysis
-     */
+   * Facial analysis
+   */
   start() {
     if (enable_draw_bezier) {
       const glabela = {
@@ -28,7 +28,8 @@ class FacialAnalysis {
       ctx.lineWidth = lineWidth * 2;
       ctx.stroke();
       let toCalculate = normalizeValues(glabela, pogonion, subnasal);
-      let angle = calculateAngle(toCalculate[0], toCalculate[1]) *
+      let angle =
+        calculateAngle(toCalculate[0], toCalculate[1]) *
         (subnasal.x > pogonion.x ? -1 : 1);
       angle = (180 * angle) / Math.PI;
       let td = document.getElementById("td-face_type");
@@ -42,3 +43,5 @@ class FacialAnalysis {
     }
   }
 }
+
+export default FacialAnalysis;

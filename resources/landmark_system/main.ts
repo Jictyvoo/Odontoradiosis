@@ -1,8 +1,19 @@
+import { OdontoradiosisKeeper } from "./models/OdontoradiosisKeeper.ts";
+import { ScaleManager } from "./util/ScaleManager.ts";
+import { CanvasOdontoradiosis } from "./views/Canvas.ts";
+import { AnatomicalTracing } from "./views/AnatomicalTracing.ts";
+import { ImageEffects } from "./controllers/ImageEffects.ts";
+import { TracingController } from "./controllers/subcontrollers/TracingController.ts";
+import { LandmarksController } from "./controllers/subcontrollers/LandmarksController.ts";
+import { MainController } from "./controllers/MainController.ts";
+import { EventsController } from "./events/EventsController.ts";
+import { SemiautomaticLandmarks } from "./features/semiautomatic_landmark/init.ts";
+
 const scaleManager = new ScaleManager();
 const canvasOdontoradiosis = new CanvasOdontoradiosis(
   document.getElementById("stack-canvas"),
   scaleManager,
-  { image: 0, bezier: 1, landmarks: 2 },
+  { image: 0, bezier: 1, landmarks: 2 }
 );
 const imageEffects = new ImageEffects(canvasOdontoradiosis);
 const infoKeeper = new OdontoradiosisKeeper();
@@ -15,7 +26,7 @@ const mainController = new MainController(
   },
   canvasOdontoradiosis,
   scaleManager,
-  infoKeeper,
+  infoKeeper
 );
 
 /**
@@ -24,13 +35,13 @@ const mainController = new MainController(
 const semiautomaticLandmarks = new SemiautomaticLandmarks(
   [a__json, ena__json, gnatio__json, nasio__json, sela__json],
   mainController.tracingController,
-  mainController.landmarksController,
+  mainController.landmarksController
 );
 
 const eventsController = new EventsOdontoradiosis(
   mainController,
   infoKeeper,
-  imageEffects,
+  imageEffects
 );
 
 function openImage(path = "", id = -1) {
@@ -38,16 +49,16 @@ function openImage(path = "", id = -1) {
   mainController.setUrl("image", path);
   canvasOdontoradiosis.openImage(
     path,
-    function () {
+    function() {
       mainController.loadJsonCurve(id);
       mainController.loadJsonLandmarks(id);
     },
-    id,
+    id
   );
   imageEffects.reset();
 }
 
-window.onload = function () {
+window.onload = function() {
   eventsController.applyAllEvents();
   semiautomaticLandmarks.generateButtonEvent();
 };

@@ -19,12 +19,12 @@ class ScaleManager {
   }
 
   /**
-     * Calculate the scale to make canvas dynamic and returns it
-     * @param {float} valueToResize
-     * @param {boolean} isX
-     * @param {CanvasRenderingContext2D} clientRect
-     * @param {ClientRect} clientRect
-     */
+   * Calculate the scale to make canvas dynamic and returns it
+   * @param {float} valueToResize
+   * @param {boolean} isX
+   * @param {CanvasRenderingContext2D} clientRect
+   * @param {ClientRect} clientRect
+   */
   dynamicCanvasScale(valueToResize = 1, isX = false, context, clientRect) {
     const canvasDimensions = {
       width: clientRect.width,
@@ -35,21 +35,16 @@ class ScaleManager {
       height: context.canvas.height,
     };
     if (isX) {
-      return (
-        (imageDimensions.width * valueToResize) / canvasDimensions.width
-      );
+      return (imageDimensions.width * valueToResize) / canvasDimensions.width;
     } else {
-      return (
-        (imageDimensions.height * valueToResize) /
-        canvasDimensions.height
-      );
+      return (imageDimensions.height * valueToResize) / canvasDimensions.height;
     }
   }
 
   /**
-     * Calculates all scales variables
-     * @param {HTMLCanvasElement} canvas
-     */
+   * Calculates all scales variables
+   * @param {HTMLCanvasElement} canvas
+   */
   calculateScales(canvas) {
     const rect = canvas.getBoundingClientRect();
     const context = canvas.getContext("2d");
@@ -62,39 +57,39 @@ class ScaleManager {
       this.scaleDrawValue.pointRadius,
       isX,
       context,
-      rect,
+      rect
     );
     this.nameScale = this.dynamicCanvasScale(
       this.scaleDrawValue.nameScale,
       isX,
       context,
-      rect,
+      rect
     );
     this.lineWidth = this.dynamicCanvasScale(
       this.scaleDrawValue.lineWidth,
       isX,
       context,
-      rect,
+      rect
     );
     this.textRelativePosition.x = this.dynamicCanvasScale(
       this.scaleDrawValue.textRelativePosition.x,
       isX,
       context,
-      rect,
+      rect
     );
     this.textRelativePosition.y = this.dynamicCanvasScale(
       this.scaleDrawValue.textRelativePosition.y,
       isX,
       context,
-      rect,
+      rect
     );
   }
 
   /**
-     * Returns an object containing the relative mouse position in Canvas
-     * @param {HTMLElement} canvas
-     * @param {*} event
-     */
+   * Returns an object containing the relative mouse position in Canvas
+   * @param {HTMLElement} canvas
+   * @param {*} event
+   */
   getMousePos(canvas, event) {
     const rect = canvas.getBoundingClientRect();
     const context = canvas.getContext("2d");
@@ -103,14 +98,16 @@ class ScaleManager {
         event.clientX - rect.left,
         true,
         context,
-        rect,
+        rect
       ),
       y: this.dynamicCanvasScale(
         event.clientY - rect.top,
         false,
         context,
-        rect,
+        rect
       ),
     };
   }
 }
+
+export default ScaleManager;
