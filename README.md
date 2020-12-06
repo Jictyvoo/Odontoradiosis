@@ -4,13 +4,13 @@ A system to auxiliate development of Automatic Measurement to Cephalometric Land
 
 ## Team
 
--   Abel Ramalho Galvão
--   João Victor Oliveira Couto
+- Abel Ramalho Galvão
+- João Victor Oliveira Couto
 
 ## Command to Run
 
 Run commands
 
--   composer install
--   composer dump-autoload
--   php artisan migrate:fresh --seed
+- `npm install` to install npm packages
+- `npm run buildVue` compile vuejs files
+- `deno run --allow-net --allow-read --unstable app.ts` to run the server
