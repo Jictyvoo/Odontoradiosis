@@ -4,7 +4,7 @@ class FacialAnalysis {
   /**
    * Facial analysis
    */
-  start() {
+  start(enable_draw_bezier: boolean) {
     if (enable_draw_bezier) {
       const glabela = {
         x: all_curves["perfil-mole"][0][0],

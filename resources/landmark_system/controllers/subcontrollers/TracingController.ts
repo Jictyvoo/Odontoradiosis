@@ -1,6 +1,10 @@
+import { default as AnatomicalTracing } from "../../views/AnatomicalTracing.ts";
+import { default as CanvasOdontoradiosis } from "../../views/Canvas.ts";
+import { IPointBidimensional } from "../../models/Interfaces.ts";
+
 class TracingController {
-  public canvasOdontoradiosis: any;
-  public anatomicalTracing: any;
+  public canvasOdontoradiosis: CanvasOdontoradiosis;
+  public anatomicalTracing: AnatomicalTracing;
   public bezierPoints: any;
   public currentBoxPoints: any;
 
@@ -8,7 +12,7 @@ class TracingController {
    * Constructor
    * @param {CanvasOdontoradiosis} canvasOdontoradiosis
    */
-  constructor(canvasOdontoradiosis) {
+  constructor(canvasOdontoradiosis: CanvasOdontoradiosis) {
     this.canvasOdontoradiosis = canvasOdontoradiosis;
     this.anatomicalTracing = new AnatomicalTracing(canvasOdontoradiosis);
     this.bezierPoints = [];
@@ -19,7 +23,7 @@ class TracingController {
    * Bezier points setter
    * @param {array} points
    */
-  setBezierPoints(points) {
+  setBezierPoints(points: []) {
     this.bezierPoints = points;
     this.anatomicalTracing.setAllCurves(points);
   }
@@ -58,7 +62,7 @@ class TracingController {
    * @param {string} curveName
    * @param {boolean} recalculate
    */
-  getBoxPoints(curveName, recalculate) {
+  getBoxPoints(curveName: string, recalculate: boolean) {
     if (this.currentBoxPoints != null && !recalculate) {
       return this.currentBoxPoints;
     }
@@ -66,8 +70,12 @@ class TracingController {
       minY = Number.POSITIVE_INFINITY;
     let maxX = Number.NEGATIVE_INFINITY,
       maxY = Number.NEGATIVE_INFINITY;
-    this.bezierPoints[curveName].forEach(function(element, index, array) {
-      element.forEach(function(point, position, arr) {
+    this.bezierPoints[curveName].forEach(function(
+      element: any,
+      index: number,
+      array: []
+    ) {
+      element.forEach(function(point: any, position: number, arr: []) {
         if (position % 2 !== 0) {
           minY = Math.min(minY, point);
           maxY = Math.max(maxY, point);
@@ -87,7 +95,11 @@ class TracingController {
    * @param {int} borderSize
    * @param {boolean} recalculate
    */
-  getBoxDimensions(curveName, borderSize = 20, recalculate = false) {
+  getBoxDimensions(
+    curveName: string,
+    borderSize: number = 20,
+    recalculate: boolean = false
+  ) {
     const points = this.getBoxPoints(curveName, recalculate);
     let minX = points[0],
       minY = points[1];
@@ -116,10 +128,10 @@ class TracingController {
    * @param {string} currentCurve
    * @param {boolean} recalculate
    */
-  drawCurveBox(currentCurve, recalculate) {
+  drawCurveBox(currentCurve: string, recalculate: boolean) {
     this.anatomicalTracing.drawCurveBox(
       currentCurve,
-      this.getBoxDimensions(currentCurve, null, recalculate)
+      this.getBoxDimensions(currentCurve, 20, recalculate)
     );
   }
 
@@ -127,7 +139,7 @@ class TracingController {
    * Draw all control points in a given curve
    * @param {string} curveName
    */
-  drawPointCircle(curveName) {
+  drawPointCircle(curveName: string) {
     this.anatomicalTracing.drawPointCircle(curveName);
   }
 
@@ -137,8 +149,11 @@ class TracingController {
    * @param {string} curveName
    * @returns {object} { isOn: isOn, index: vertexIndex }
    */
-  verifyMouseOnBoxVertex(relativeMouse, curveName) {
-    const boxVertex = this.getBoxDimensions(curveName, null, true);
+  verifyMouseOnBoxVertex(
+    relativeMouse: IPointBidimensional,
+    curveName: string
+  ): { isOn: boolean; index: number } {
+    const boxVertex = this.getBoxDimensions(curveName, 20, true);
     let isOn = false;
     let vertexIndex = 0;
     const pointRadius = this.canvasOdontoradiosis.scaleManager.pointRadius;
@@ -167,7 +182,10 @@ class TracingController {
    * @param {string} curveName
    * @returns {array} [element, subindex, subindex + 1]
    */
-  verifyMouseOnCurvePoint(relativeMouse, curveName) {
+  verifyMouseOnCurvePoint(
+    relativeMouse: IPointBidimensional,
+    curveName: string
+  ): any[] | null {
     let isOn = null;
     const pointRadius = this.canvasOdontoradiosis.scaleManager.pointRadius;
     for (let index = 0; index < this.bezierPoints[curveName].length; index++) {
@@ -193,10 +211,19 @@ class TracingController {
    * @param {funtion} callback_2
    * @param {boolean} recalculate
    */
-  runPointsAndChange(curveName, callback_1, callback_2, recalculate) {
+  runPointsAndChange(
+    curveName: string,
+    callback_1: Function,
+    callback_2: Function,
+    recalculate: boolean
+  ) {
     if (this.bezierPoints[curveName] != null) {
-      this.bezierPoints[curveName].forEach(function(points, index, array) {
-        points.forEach(function(point, position, arr) {
+      this.bezierPoints[curveName].forEach(function(
+        points: any,
+        index: number,
+        array: []
+      ) {
+        points.forEach(function(point: any, position: number, arr: []) {
           if (position % 2 === 0) {
             points[position] = callback_1(
               points[position],
@@ -220,17 +247,17 @@ class TracingController {
    * @param {float} amountX
    * @param {float} amountY
    */
-  translateBezier(curveName, amountX, amountY) {
+  translateBezier(curveName: string, amountX: number, amountY: number) {
     this.currentBoxPoints[0] -= amountX;
     this.currentBoxPoints[1] -= amountY;
     this.currentBoxPoints[2] -= amountX;
     this.currentBoxPoints[3] -= amountY;
     this.runPointsAndChange(
       curveName,
-      function(pointX) {
+      function(pointX: number) {
         return pointX - amountX;
       },
-      function(pointY) {
+      function(pointY: number) {
         return pointY - amountY;
       },
       true
@@ -242,13 +269,13 @@ class TracingController {
    * @param {string} curveName
    * @param {float} angle
    */
-  rotateBezier(curveName, angle) {
+  rotateBezier(curveName: string, angle: number) {
     this.runPointsAndChange(
       curveName,
-      function(pointX, pointY) {
+      function(pointX: number, pointY: number) {
         return pointX * Math.cos(angle) - pointY * Math.sin(angle);
       },
-      function(pointY, pointX) {
+      function(pointY: number, pointX: number) {
         return pointX * Math.sin(angle) + pointY * Math.cos(angle);
       },
       true
@@ -261,13 +288,13 @@ class TracingController {
    * @param {float} scaleX
    * @param {float} scaleY
    */
-  rescaleBezier(curveName, scaleX, scaleY) {
+  rescaleBezier(curveName: string, scaleX: number, scaleY: number) {
     this.runPointsAndChange(
       curveName,
-      function(pointX) {
+      function(pointX: number) {
         return pointX * scaleX;
       },
-      function(pointY) {
+      function(pointY: number) {
         return pointY * scaleY;
       },
       true

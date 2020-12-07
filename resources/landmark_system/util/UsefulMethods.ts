@@ -1,3 +1,5 @@
+import { IPointBidimensional } from "../models/Interfaces.ts";
+
 class UsefulMethods {
   /**
    * Returns canvas style, based on parameters
@@ -6,7 +8,12 @@ class UsefulMethods {
    * @param {float} left
    * @param {float} top
    */
-  static canvasStyle(z_index = 0, position = "absolute", left = 0, top = 0) {
+  static canvasStyle(
+    z_index: number = 0,
+    position: string = "absolute",
+    left: number = 0,
+    top: number = 0
+  ): string {
     return `position: ${position}; left: ${left}; top: ${top}; z-index: ${z_index};`;
   }
 
@@ -15,7 +22,7 @@ class UsefulMethods {
    * @param {string} toNormalize
    * @returns {string}
    */
-  static normalizeTracingName(toNormalize) {
+  static normalizeTracingName(toNormalize: string): string {
     return toNormalize.replace(/ /g, "-").toLowerCase();
   }
 
@@ -24,7 +31,10 @@ class UsefulMethods {
    * @param {object} oldPosition
    * @param {object} currentPosition
    */
-  static highLowAngle(oldPosition, currentPosition) {
+  static highLowAngle(
+    oldPosition: IPointBidimensional,
+    currentPosition: IPointBidimensional
+  ) {
     let maxX = Math.abs(oldPosition.x - currentPosition.x),
       maxY = Math.abs(oldPosition.y - currentPosition.y);
     if (Math.max(maxX, maxY) === maxX) {
@@ -39,7 +49,11 @@ class UsefulMethods {
    * @param {object} point_b
    * @param {object} origin
    */
-  normalizeValues(point_a, point_b, origin) {
+  normalizeValues(
+    point_a: IPointBidimensional,
+    point_b: IPointBidimensional,
+    origin: IPointBidimensional
+  ): IPointBidimensional[] {
     let normalized = [
       { x: point_a.x, y: point_a.y },
       { x: point_b.x, y: point_b.y },
@@ -58,7 +72,10 @@ class UsefulMethods {
    * @param {object} point_a
    * @param {object} point_b
    */
-  static calculateAngle(point_a, point_b) {
+  static calculateAngle(
+    point_a: IPointBidimensional,
+    point_b: IPointBidimensional
+  ) {
     let productModule = {
       first: Math.sqrt(Math.pow(point_a.x, 2) + Math.pow(point_a.y, 2)),
       second: Math.sqrt(Math.pow(point_b.x, 2) + Math.pow(point_b.y, 2)),

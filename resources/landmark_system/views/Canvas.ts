@@ -1,12 +1,15 @@
-import { UsefulMethods } from "../util/UsefulMethods.ts";
+import { default as UsefulMethods } from "../util/UsefulMethods.ts";
+import { default as ScaleManager } from "../util/ScaleManager.ts";
 
 class CanvasOdontoradiosis {
-  public stackCanvas: any;
-  public layerSequence: any;
-  public existentCanvas: any;
-  public scaleManager: any;
-  public width: any;
-  public height: any;
+  public stackCanvas: HTMLElement;
+  public layerSequence: { [key: string]: number };
+  public existentCanvas: {
+    [key: string]: any;
+  };
+  public scaleManager: ScaleManager;
+  public width!: number;
+  public height!: number;
 
   /**
    * Constructor
@@ -14,7 +17,11 @@ class CanvasOdontoradiosis {
    * @param {ScaleManager} scaleManager
    * @param {array} layerSequence
    */
-  constructor(stackCanvas, scaleManager, layerSequence = []) {
+  constructor(
+    stackCanvas: HTMLElement,
+    scaleManager: ScaleManager,
+    layerSequence: { [key: string]: number } = {}
+  ) {
     this.stackCanvas = stackCanvas;
     this.layerSequence = layerSequence;
     this.existentCanvas = [];
@@ -22,7 +29,7 @@ class CanvasOdontoradiosis {
     let allCanvas = this.stackCanvas.getElementsByTagName("canvas");
     for (let index = 0; index < allCanvas.length; index++) {
       const element = allCanvas[index];
-      const canvasName = element.getAttribute("id");
+      const canvasName = <string>element.getAttribute("id");
       this.existentCanvas[canvasName] = element;
       element.setAttribute(
         "style",
@@ -36,7 +43,7 @@ class CanvasOdontoradiosis {
    * @param {string} id
    * @returns {HTMLCanvasElement}
    */
-  getCanvas(id) {
+  getCanvas(id: string) {
     return this.existentCanvas[id];
   }
 
@@ -45,7 +52,7 @@ class CanvasOdontoradiosis {
    * @param {string} id
    * @returns {CanvasRenderingContext2D}
    */
-  getContext(id) {
+  getContext(id: string) {
     return this.existentCanvas[id].getContext("2d");
   }
 
@@ -55,7 +62,7 @@ class CanvasOdontoradiosis {
    * @param {string} styleName
    * @param {string} newStyle
    */
-  setStyle(id, styleName, newStyle) {
+  setStyle(id: string, styleName: string, newStyle: string) {
     this.getCanvas(id).style[styleName] = newStyle;
   }
 
@@ -63,7 +70,7 @@ class CanvasOdontoradiosis {
    * Clear canvas that have the id passed
    * @param {string} canvasId
    */
-  clearCanvas(canvasId) {
+  clearCanvas(canvasId: string) {
     const canvas = this.getCanvas(canvasId);
     let context = canvas.getContext("2d");
     /*context.clearRect(0, 0, canvas.width, canvas.height);*/
@@ -82,13 +89,13 @@ class CanvasOdontoradiosis {
    * @param {string} strokeStyle
    */
   drawCircle(
-    context,
-    x = 0,
-    y = 0,
-    pointRadius = this.scaleManager.pointRadius,
-    lineWidth = this.scaleManager.lineWidth,
-    fillStyle = "#184bed",
-    strokeStyle = "#184bed"
+    context: CanvasRenderingContext2D,
+    x: number = 0,
+    y: number = 0,
+    pointRadius: number = this.scaleManager.pointRadius,
+    lineWidth: number = this.scaleManager.lineWidth,
+    fillStyle: string = "#184bed",
+    strokeStyle: string = "#184bed"
   ) {
     context.beginPath();
     context.arc(x, y, pointRadius, 0, 2 * Math.PI);
@@ -110,13 +117,13 @@ class CanvasOdontoradiosis {
    * @param {string} strokeStyle
    */
   drawCircleCtx(
-    layerId,
-    x = 0,
-    y = 0,
-    pointRadius = this.scaleManager.pointRadius,
-    lineWidth = this.scaleManager.lineWidth,
-    fillStyle = "#184bed",
-    strokeStyle = "#184bed"
+    layerId: string,
+    x: number = 0,
+    y: number = 0,
+    pointRadius: number = this.scaleManager.pointRadius,
+    lineWidth: number = this.scaleManager.lineWidth,
+    fillStyle: string = "#184bed",
+    strokeStyle: string = "#184bed"
   ) {
     this.drawCircle(
       this.getContext(layerId),
@@ -143,15 +150,15 @@ class CanvasOdontoradiosis {
    * @param {string} strokeStyle
    */
   drawBezier(
-    context,
-    x1,
-    y1,
-    cx1,
-    cy1,
-    cx2,
-    cy2,
-    x2,
-    y2,
+    context: CanvasRenderingContext2D,
+    x1: number,
+    y1: number,
+    cx1: number,
+    cy1: number,
+    cx2: number,
+    cy2: number,
+    x2: number,
+    y2: number,
     strokeStyle = "#00e379"
   ) {
     context.strokeStyle = strokeStyle;
@@ -165,9 +172,8 @@ class CanvasOdontoradiosis {
    * Opens a given image and reset canvas size
    * @param {string} path
    * @param {function} loadFunction
-   * @param {int} id
    */
-  openImage(path = "", loadFunction = null) {
+  openImage(path: string = "", loadFunction: Function = function() {}) {
     let imageObject = new Image();
     if (this.existentCanvas["image"].getContext) {
       const context = this.existentCanvas["image"].getContext("2d");
@@ -175,8 +181,8 @@ class CanvasOdontoradiosis {
       const selfScaleManager = this.scaleManager;
       //OnLoad Image here
       imageObject.onload = function() {
-        context.canvas.width = this.width;
-        context.canvas.height = this.height;
+        context.canvas.width = imageObject.width; //this.width
+        context.canvas.height = imageObject.height; //this.height
         ["landmarks", "bezier"].forEach((element) => {
           const temporaryContext = self.existentCanvas[element].getContext(
             "2d"

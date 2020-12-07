@@ -1,8 +1,11 @@
+import { default as TracingController } from "../../controllers/subcontrollers/TracingController.ts";
+import { default as LandmarksController } from "../../controllers/subcontrollers/LandmarksController.ts";
+
 class SemiautomaticLandmarks {
-  public routinesDescription: any;
-  public tracingController: any;
-  public landmarksController: any;
-  public symbolTable: any;
+  public routinesDescription: any[];
+  public tracingController: TracingController;
+  public landmarksController: LandmarksController;
+  public symbolTable: object;
   public helpVariables: any;
   public preFunctions: any;
 
@@ -12,15 +15,19 @@ class SemiautomaticLandmarks {
    * @param {TracingController} tracingController
    * @param {LandmarksController} landmarksController
    */
-  constructor(routinesDescription, tracingController, landmarksController) {
+  constructor(
+    routinesDescription: any[],
+    tracingController: TracingController,
+    landmarksController: LandmarksController
+  ) {
     this.routinesDescription = routinesDescription;
     this.tracingController = tracingController;
     this.landmarksController = landmarksController;
-    const symbolTable = [];
+    const symbolTable = {};
     const helpVariables = { accessed_curves: [], landmarkName: "" };
     this.symbolTable = symbolTable;
     this.helpVariables = helpVariables;
-    const getParamValue = function(parameter) {
+    const getParamValue = function(parameter: string) {
       return symbolTable[parameter] != null
         ? symbolTable[parameter]
         : parameter;

@@ -1,19 +1,21 @@
+import { default as CanvasOdontoradiosis } from "../views/Canvas.ts";
+
 class ImageEffects {
-  public brightness: any;
-  public contrast: any;
-  public grayscale: any;
-  public invert: any;
+  public brightness: HTMLSelectElement;
+  public contrast: HTMLSelectElement;
+  public grayscale: HTMLSelectElement;
+  public invert: HTMLSelectElement;
   public canvasManager: any;
 
   /**
    *
    * @param {CanvasOdontoradiosis} canvas
    */
-  constructor(canvas) {
-    this.brightness = document.getElementById("brightness");
-    this.contrast = document.getElementById("contrast");
-    this.grayscale = document.getElementById("grayscale");
-    this.invert = document.getElementById("invert");
+  constructor(canvas: CanvasOdontoradiosis) {
+    this.brightness = <HTMLSelectElement>document.getElementById("brightness");
+    this.contrast = <HTMLSelectElement>document.getElementById("contrast");
+    this.grayscale = <HTMLSelectElement>document.getElementById("grayscale");
+    this.invert = <HTMLSelectElement>document.getElementById("invert");
     this.canvasManager = canvas;
   }
 
@@ -43,10 +45,10 @@ class ImageEffects {
    * Reset all effects
    */
   reset() {
-    this.brightness.value = 100;
-    this.contrast.value = 100;
-    this.grayscale.value = 0;
-    this.invert.value = 0;
+    this.brightness.value = "100";
+    this.contrast.value = "100";
+    this.grayscale.value = "0";
+    this.invert.value = "0";
     this.onChangeValue();
   }
 }

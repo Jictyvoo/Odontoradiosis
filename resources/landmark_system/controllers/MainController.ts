@@ -1,12 +1,20 @@
+import { default as CanvasOdontoradiosis } from "../views/Canvas.ts";
+import { default as ScaleManager } from "../util/ScaleManager.ts";
+import { default as UsefulMethods } from "../util/UsefulMethods.ts";
+import { default as TracingController } from "./subcontrollers/TracingController.ts";
+import { default as LandmarksController } from "./subcontrollers/LandmarksController.ts";
+import { default as OdontoradiosisKepper } from "../models/OdontoradiosisKeeper.ts";
+import { IStringMap } from "../models/Interfaces.ts";
+
 class MainController {
-  public urls: any;
-  public canvasOdontoradiosis: any;
-  public scaleManager: any;
-  public tracingController: any;
-  public landmarksController: any;
-  public infoKeeper: any;
-  public width: any;
-  public height: any;
+  public urls: IStringMap;
+  public canvasOdontoradiosis: CanvasOdontoradiosis;
+  public scaleManager: ScaleManager;
+  public tracingController: TracingController;
+  public landmarksController: LandmarksController;
+  public infoKeeper: OdontoradiosisKepper;
+  public width!: number;
+  public height!: number;
 
   /**
    * Constructor
@@ -16,7 +24,12 @@ class MainController {
    * @param {OdontoradiosisKepper} infoKeeper
    * @returns {MainController}
    */
-  constructor(urls, canvasOdontoradiosis, scaleManager, infoKeeper) {
+  constructor(
+    urls: IStringMap,
+    canvasOdontoradiosis: CanvasOdontoradiosis,
+    scaleManager: ScaleManager,
+    infoKeeper: OdontoradiosisKepper
+  ) {
     this.urls = urls;
     this.canvasOdontoradiosis = canvasOdontoradiosis;
     this.scaleManager = scaleManager;
@@ -29,7 +42,7 @@ class MainController {
    * @param {string} id
    * @returns {string}
    */
-  getUrl(id) {
+  getUrl(id: string): string {
     return this.urls[id];
   }
 
@@ -38,7 +51,7 @@ class MainController {
    * @param {string} id
    * @param {string} address
    */
-  setUrl(id, address) {
+  setUrl(id: string, address: string) {
     this.urls[id] = address;
   }
 
@@ -46,9 +59,12 @@ class MainController {
    * Loads json file with landmarks location
    * @param {int} id image id
    */
-  loadJsonLandmarks(id) {
+  loadJsonLandmarks(id: number) {
     if (id && id > 0) {
-      const landmarkJson = this.urls["landmarks"].replace("%REPLACE%", id);
+      const landmarkJson = this.urls["landmarks"].replace(
+        "%REPLACE%",
+        id.toString()
+      );
       const selfLandmarksController = this.landmarksController;
       fetch(landmarkJson)
         .then((response) => {
@@ -70,9 +86,9 @@ class MainController {
    * Loads json file with bezier anatomical tracing points
    * @param {int} id image id
    */
-  loadJsonCurve(id) {
+  loadJsonCurve(id: number) {
     if (id && id > 0) {
-      const curveJson = this.urls["curves"].replace("%REPLACE%", id);
+      const curveJson = this.urls["curves"].replace("%REPLACE%", id.toString());
       const selfTracingController = this.tracingController;
       selfTracingController.drawAllCurves.call(selfTracingController);
       fetch(curveJson)
@@ -99,7 +115,7 @@ class MainController {
     const currentPoint = document.getElementById("pointsId").options[
       selectedIndex
     ].text;
-    const imagePaths = [];
+    const imagePaths: IStringMap = {};
     imagePaths["Sela (S)"] = "selaTurcica.png";
     imagePaths["Násio (N)"] = "nasio.png";
     imagePaths["Espinha nasal anterior (ENA)"] = "ENA.png";
@@ -156,7 +172,7 @@ class MainController {
    * Change or set point location on current mouse position
    * @param {*} event
    */
-  markLandmarkPoint(event) {
+  markLandmarkPoint(event: Event) {
     const selectedIndex = document.getElementById("pointsId").selectedIndex;
     const currentPoint = document.getElementById("pointsId").options[
       selectedIndex
@@ -183,7 +199,7 @@ class MainController {
    *
    * @param {MouseEvent} event
    */
-  manageMouseMove(event) {
+  manageMouseMove(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation(); // tell the browser we're handling this event
     const canvas = document.getElementById("bezier");

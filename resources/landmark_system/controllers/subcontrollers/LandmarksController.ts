@@ -1,20 +1,22 @@
+import { default as CanvasOdontoradiosis } from "../../views/Canvas.ts";
+
 class LandmarksController {
-  public landmarks: any;
-  public canvas: any;
+  public landmarks: { [key: string]: any };
+  public canvas: CanvasOdontoradiosis;
 
   /**
    *
    * @param {CanvasOdontoradiosis} canvasOdontoradiosis
    */
-  constructor(canvasOdontoradiosis) {
-    this.landmarks = [];
+  constructor(canvasOdontoradiosis: CanvasOdontoradiosis) {
+    this.landmarks = {};
     this.canvas = canvasOdontoradiosis;
   }
 
   /**
    * @returns {array} this.landmarks
    */
-  getLandmarks() {
+  getLandmarks(): object {
     return this.landmarks;
   }
 
@@ -22,7 +24,7 @@ class LandmarksController {
    * Lardmarks setter
    * @param {array} newLandmarks
    */
-  setLandmarks(newLandmarks) {
+  setLandmarks(newLandmarks: []) {
     this.landmarks = newLandmarks;
   }
 
@@ -31,7 +33,7 @@ class LandmarksController {
    * @param {string} name
    * @param {object} value
    */
-  setLandmark(name, value = { X: 0, Y: 0 }) {
+  setLandmark(name: string, value: { X: number; Y: number } = { X: 0, Y: 0 }) {
     this.landmarks[name] = value;
   }
 
@@ -41,7 +43,7 @@ class LandmarksController {
    * @param {bool} toCreate
    * @returns {array} current object
    */
-  verifyLandmark(name, toCreate = false) {
+  verifyLandmark(name: string, toCreate = false) {
     if (!this.landmarks[name] && toCreate) {
       this.landmarks[name] = [];
     }
@@ -62,7 +64,7 @@ class LandmarksController {
    * @param {CanvasRenderingContext2D} canvasContext
    * @param {string} landmarkName
    */
-  drawLandmark(canvasContext, landmarkName) {
+  drawLandmark(canvasContext: CanvasRenderingContext2D, landmarkName: string) {
     const locations = this.landmarks[landmarkName];
     const context = canvasContext;
     this.canvas.drawCircleCtx(

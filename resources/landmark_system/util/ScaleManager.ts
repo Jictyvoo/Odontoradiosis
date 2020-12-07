@@ -1,9 +1,14 @@
 class ScaleManager {
-  public pointRadius: any;
-  public lineWidth: any;
-  public nameScale: any;
-  public textRelativePosition: any;
-  public scaleDrawValue: any;
+  public pointRadius: number;
+  public lineWidth: number;
+  public nameScale: number;
+  public textRelativePosition: { x: number; y: number };
+  public scaleDrawValue: {
+    pointRadius: number;
+    nameScale: number;
+    lineWidth: number;
+    textRelativePosition: { x: number; y: number };
+  };
 
   constructor() {
     this.pointRadius = 4;
@@ -25,7 +30,12 @@ class ScaleManager {
    * @param {CanvasRenderingContext2D} clientRect
    * @param {ClientRect} clientRect
    */
-  dynamicCanvasScale(valueToResize = 1, isX = false, context, clientRect) {
+  dynamicCanvasScale(
+    valueToResize: number = 1,
+    isX: boolean = false,
+    context: CanvasRenderingContext2D,
+    clientRect: ClientRect
+  ): number {
     const canvasDimensions = {
       width: clientRect.width,
       height: clientRect.height,
@@ -45,7 +55,7 @@ class ScaleManager {
    * Calculates all scales variables
    * @param {HTMLCanvasElement} canvas
    */
-  calculateScales(canvas) {
+  calculateScales(canvas: HTMLCanvasElement) {
     const rect = canvas.getBoundingClientRect();
     const context = canvas.getContext("2d");
     const imageDimensions = {
@@ -88,9 +98,9 @@ class ScaleManager {
   /**
    * Returns an object containing the relative mouse position in Canvas
    * @param {HTMLElement} canvas
-   * @param {*} event
+   * @param {any} event
    */
-  getMousePos(canvas, event) {
+  getMousePos(canvas: HTMLCanvasElement, event: any): { x: number; y: number } {
     const rect = canvas.getBoundingClientRect();
     const context = canvas.getContext("2d");
     return {
