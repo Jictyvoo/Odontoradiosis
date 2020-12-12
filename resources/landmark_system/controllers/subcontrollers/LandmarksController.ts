@@ -1,7 +1,8 @@
 import { default as CanvasOdontoradiosis } from "../../views/Canvas.ts";
+import { ILandmark, ILandmarkArray } from "../../models/Interfaces.ts";
 
 class LandmarksController {
-  public landmarks: { [key: string]: any };
+  public landmarks: ILandmarkArray;
   public canvas: CanvasOdontoradiosis;
 
   /**
@@ -14,38 +15,38 @@ class LandmarksController {
   }
 
   /**
-   * @returns {array} this.landmarks
+   * @returns {ILandmarkArray} this.landmarks
    */
-  getLandmarks(): object {
+  getLandmarks(): ILandmarkArray {
     return this.landmarks;
   }
 
   /**
    * Lardmarks setter
-   * @param {array} newLandmarks
+   * @param {ILandmarkArray} newLandmarks
    */
-  setLandmarks(newLandmarks: []) {
+  setLandmarks(newLandmarks: ILandmarkArray) {
     this.landmarks = newLandmarks;
   }
 
   /**
    * Set a single landmark value
    * @param {string} name
-   * @param {object} value
+   * @param {ILandmark} value
    */
-  setLandmark(name: string, value: { X: number; Y: number } = { X: 0, Y: 0 }) {
+  setLandmark(name: string, value: ILandmark = { X: 0, Y: 0 }) {
     this.landmarks[name] = value;
   }
 
   /**
    * Verify if landmark exists. If not and toCreate is true, it'll create
    * @param {string} name
-   * @param {bool} toCreate
-   * @returns {array} current object
+   * @param {boolean} toCreate
+   * @returns {ILandmark}
    */
-  verifyLandmark(name: string, toCreate = false) {
+  verifyLandmark(name: string, toCreate: boolean = false): ILandmark {
     if (!this.landmarks[name] && toCreate) {
-      this.landmarks[name] = [];
+      this.landmarks[name] = { X: 0, Y: 0 };
     }
     return this.landmarks[name];
   }
@@ -81,12 +82,8 @@ class LandmarksController {
     context.font = this.canvas.scaleManager.nameScale + "px Arial";
     context.fillText(
       landmarkName.match(/\(.+\)/),
-      Math.floor(
-        parseInt(locations.X) - this.canvas.scaleManager.textRelativePosition.x
-      ),
-      Math.floor(
-        parseInt(locations.Y) + this.canvas.scaleManager.textRelativePosition.y
-      )
+      Math.floor(locations.X - this.canvas.scaleManager.textRelativePosition.x),
+      Math.floor(locations.Y + this.canvas.scaleManager.textRelativePosition.y)
     );
     context.fill();
     context.lineWidth = 1;

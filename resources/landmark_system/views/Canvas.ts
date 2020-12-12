@@ -5,7 +5,7 @@ class CanvasOdontoradiosis {
   public stackCanvas: HTMLElement;
   public layerSequence: { [key: string]: number };
   public existentCanvas: {
-    [key: string]: any;
+    [key: string]: HTMLCanvasElement;
   };
   public scaleManager: ScaleManager;
   public width!: number;
@@ -43,7 +43,7 @@ class CanvasOdontoradiosis {
    * @param {string} id
    * @returns {HTMLCanvasElement}
    */
-  getCanvas(id: string) {
+  getCanvas(id: string): HTMLCanvasElement {
     return this.existentCanvas[id];
   }
 
@@ -52,7 +52,7 @@ class CanvasOdontoradiosis {
    * @param {string} id
    * @returns {CanvasRenderingContext2D}
    */
-  getContext(id: string) {
+  getContext(id: string): CanvasRenderingContext2D {
     return this.existentCanvas[id].getContext("2d");
   }
 

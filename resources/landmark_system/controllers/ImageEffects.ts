@@ -5,7 +5,7 @@ class ImageEffects {
   public contrast: HTMLSelectElement;
   public grayscale: HTMLSelectElement;
   public invert: HTMLSelectElement;
-  public canvasManager: any;
+  public canvasManager: CanvasOdontoradiosis;
 
   /**
    *

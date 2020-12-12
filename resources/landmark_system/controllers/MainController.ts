@@ -22,7 +22,6 @@ class MainController {
    * @param {CanvasOdontoradiosis} canvasOdontoradiosis
    * @param {ScaleManager} scaleManager
    * @param {OdontoradiosisKepper} infoKeeper
-   * @returns {MainController}
    */
   constructor(
     urls: IStringMap,
@@ -299,7 +298,7 @@ class MainController {
    * Receive a event and manage when to select curve or landmark functions
    * @param {MouseEvent} event
    */
-  manageMouseDown(event) {
+  manageMouseDown(event: MouseEvent) {
     const selectedIndex = document.getElementById("curvesId").selectedIndex;
     const currentCurve = document.getElementById("curvesId").options[
       selectedIndex

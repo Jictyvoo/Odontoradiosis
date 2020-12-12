@@ -1,15 +1,24 @@
+import { default as MainController } from "../controllers/MainController.ts";
+import { default as ImageEffects } from "../controllers/ImageEffects.ts";
+import { default as OdontoradiosisKeeper } from "../models/OdontoradiosisKeeper.ts";
+import { default as UsefulMethods } from "../util/UsefulMethods.ts";
+
 class EventsOdontoradiosis {
-  public mainController: any;
-  public infoKeeper: any;
-  public imageEffects: any;
+  public mainController: MainController;
+  public infoKeeper: OdontoradiosisKeeper;
+  public imageEffects: ImageEffects;
 
   /**
    * Constructor
    * @param {MainController} mainController
-   * @param {OdontoradiosisKepper} infoKeeper
+   * @param {OdontoradiosisKeeper} infoKeeper
    * @param {ImageEffects} imageEffects
    */
-  constructor(mainController, infoKeeper, imageEffects) {
+  constructor(
+    mainController: MainController,
+    infoKeeper: OdontoradiosisKeeper,
+    imageEffects: ImageEffects
+  ) {
     this.mainController = mainController;
     this.infoKeeper = infoKeeper;
     this.imageEffects = imageEffects;

@@ -34,6 +34,15 @@ module.exports = {
   },
   resolve: {
     extensions: [".vue", ".js"],
+    alias: {
+      "@": path.resolve("resources"),
+      "@views": path.resolve("resources/landmark_system/views"),
+      "@models": path.resolve("resources/landmark_system/models"),
+      "@util": path.resolve("resources/landmark_system/util"),
+      "@controllers": path.resolve("resources/landmark_system/controllers"),
+      "@events": path.resolve("resources/landmark_system/events"),
+      "@features": path.resolve("resources/landmark_system/features"),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({

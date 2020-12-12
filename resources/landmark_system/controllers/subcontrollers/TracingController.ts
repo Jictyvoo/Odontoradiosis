@@ -1,12 +1,17 @@
 import { default as AnatomicalTracing } from "../../views/AnatomicalTracing.ts";
 import { default as CanvasOdontoradiosis } from "../../views/Canvas.ts";
-import { IPointBidimensional } from "../../models/Interfaces.ts";
+import {
+  IPointBidimensional,
+  IBezierCurves,
+  ICurvePointLocation,
+} from "../../models/Interfaces.ts";
+import { default as deafultBezierCurves } from "../../models/bezier_curves.json";
 
 class TracingController {
   public canvasOdontoradiosis: CanvasOdontoradiosis;
   public anatomicalTracing: AnatomicalTracing;
-  public bezierPoints: any;
-  public currentBoxPoints: any;
+  public bezierPoints: IBezierCurves;
+  public currentBoxPoints: number[];
 
   /**
    * Constructor
@@ -15,15 +20,15 @@ class TracingController {
   constructor(canvasOdontoradiosis: CanvasOdontoradiosis) {
     this.canvasOdontoradiosis = canvasOdontoradiosis;
     this.anatomicalTracing = new AnatomicalTracing(canvasOdontoradiosis);
-    this.bezierPoints = [];
+    this.bezierPoints = deafultBezierCurves;
     this.currentBoxPoints = [0, 0, 0, 0];
   }
 
   /**
    * Bezier points setter
-   * @param {array} points
+   * @param {IBezierCurves} points
    */
-  setBezierPoints(points: []) {
+  setBezierPoints(points: IBezierCurves = deafultBezierCurves) {
     this.bezierPoints = points;
     this.anatomicalTracing.setAllCurves(points);
   }
@@ -33,7 +38,7 @@ class TracingController {
    * @param {string} curveId
    * @returns {boolean}
    */
-  curveExists(curveId = "") {
+  curveExists(curveId: string = ""): boolean {
     return this.bezierPoints[curveId] != null;
   }
 
@@ -41,7 +46,7 @@ class TracingController {
    * Verify if curve exists and returns it or null
    * @param {string} curveId
    */
-  getCurve(curveId = "") {
+  getCurve(curveId: string = ""): number[][] | null {
     if (this.curveExists(curveId)) {
       return this.bezierPoints[curveId];
     }
@@ -71,11 +76,11 @@ class TracingController {
     let maxX = Number.NEGATIVE_INFINITY,
       maxY = Number.NEGATIVE_INFINITY;
     this.bezierPoints[curveName].forEach(function(
-      element: any,
+      element: number[],
       index: number,
-      array: []
+      array: number[][]
     ) {
-      element.forEach(function(point: any, position: number, arr: []) {
+      element.forEach(function(point: number, position: number, arr: number[]) {
         if (position % 2 !== 0) {
           minY = Math.min(minY, point);
           maxY = Math.max(maxY, point);
@@ -99,7 +104,7 @@ class TracingController {
     curveName: string,
     borderSize: number = 20,
     recalculate: boolean = false
-  ) {
+  ): number[] {
     const points = this.getBoxPoints(curveName, recalculate);
     let minX = points[0],
       minY = points[1];
@@ -185,7 +190,7 @@ class TracingController {
   verifyMouseOnCurvePoint(
     relativeMouse: IPointBidimensional,
     curveName: string
-  ): any[] | null {
+  ): ICurvePointLocation | null {
     let isOn = null;
     const pointRadius = this.canvasOdontoradiosis.scaleManager.pointRadius;
     for (let index = 0; index < this.bezierPoints[curveName].length; index++) {
@@ -219,11 +224,15 @@ class TracingController {
   ) {
     if (this.bezierPoints[curveName] != null) {
       this.bezierPoints[curveName].forEach(function(
-        points: any,
+        points: number[],
         index: number,
-        array: []
+        array: number[][]
       ) {
-        points.forEach(function(point: any, position: number, arr: []) {
+        points.forEach(function(
+          point: number,
+          position: number,
+          arr: number[]
+        ) {
           if (position % 2 === 0) {
             points[position] = callback_1(
               points[position],

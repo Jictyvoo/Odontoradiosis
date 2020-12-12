@@ -1,8 +1,10 @@
+import { ICurvePointLocation } from "./Interfaces.ts";
+
 class OdontoradiosisKeeper {
   public isMouseDown: boolean;
   public isInsideBox: boolean;
   public isOnBoxVertex: { isOn: boolean; index: number };
-  public isOnCurvePoints: any[] | null;
+  public isOnCurvePoints: ICurvePointLocation | null;
   public mousePosition: { x: number; y: number };
   public isCurveFunction: boolean;
 

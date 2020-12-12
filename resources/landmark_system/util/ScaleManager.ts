@@ -98,9 +98,12 @@ class ScaleManager {
   /**
    * Returns an object containing the relative mouse position in Canvas
    * @param {HTMLElement} canvas
-   * @param {any} event
+   * @param {Event} event
    */
-  getMousePos(canvas: HTMLCanvasElement, event: any): { x: number; y: number } {
+  getMousePos(
+    canvas: HTMLCanvasElement,
+    event: MouseEvent
+  ): { x: number; y: number } {
     const rect = canvas.getBoundingClientRect();
     const context = canvas.getContext("2d");
     return {

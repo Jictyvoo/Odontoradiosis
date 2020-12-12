@@ -1,21 +1,24 @@
+import { default as CanvasOdontoradiosis } from "./Canvas.ts";
+import { IBezierCurves } from "../models/Interfaces.ts";
+
 class AnatomicalTracing {
-  public canvas: any;
-  public allCurves: any;
+  public canvas: CanvasOdontoradiosis;
+  public allCurves: IBezierCurves;
 
   /**
    * Constructor
    * @param {CanvasOdontoradiosis} canvas
    */
-  constructor(canvas) {
+  constructor(canvas: CanvasOdontoradiosis) {
     this.canvas = canvas;
-    this.allCurves = [];
+    this.allCurves = {};
   }
 
   /**
    * Bezier curves setter
-   * @param {array} curves
+   * @param {IBezierCurves} curves
    */
-  setAllCurves(curves) {
+  setAllCurves(curves: IBezierCurves) {
     this.allCurves = curves;
   }
 
@@ -66,7 +69,7 @@ class AnatomicalTracing {
    * Draw all control points in a given curve
    * @param {string} curveName
    */
-  drawPointCircle(curveName) {
+  drawPointCircle(curveName: string) {
     if (this.allCurves[curveName] != null) {
       const context = this.canvas.getContext("bezier");
       //context.beginPath();
@@ -88,7 +91,7 @@ class AnatomicalTracing {
    * @param {CanvasRenderingContext2D} context
    * @param {array} boxDimensions
    */
-  drawBoxVertex(context, boxDimensions) {
+  drawBoxVertex(context: CanvasRenderingContext2D, boxDimensions: number[]) {
     const selfCanvas = this.canvas;
     [
       [boxDimensions[0], boxDimensions[1]],
@@ -108,7 +111,7 @@ class AnatomicalTracing {
    * @param {string} currentCurve
    * @param {array} boxDimensions
    */
-  drawCurveBox(currentCurve, boxDimensions) {
+  drawCurveBox(currentCurve: string, boxDimensions: number[]) {
     if (currentCurve != null) {
       let context = this.canvas.getContext("bezier");
       context.beginPath();
