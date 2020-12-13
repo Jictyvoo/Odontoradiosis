@@ -18,6 +18,7 @@
 import Navbar from "./components/Navbar";
 import CephalometricSidebar from "./components/CephalometricSidebar";
 import StackingCanvas from "./components/StackingCanvas";
+//import "./scripts/landmark_system/main";
 export default {
   components: {
     Navbar,

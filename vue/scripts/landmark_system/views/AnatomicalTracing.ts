@@ -1,5 +1,5 @@
-import { default as CanvasOdontoradiosis } from "./Canvas.ts";
-import { IBezierCurves } from "../models/Interfaces.ts";
+import { default as CanvasOdontoradiosis } from "./Canvas";
+import { IBezierCurves } from "../models/Interfaces";
 
 class AnatomicalTracing {
   public canvas: CanvasOdontoradiosis;
@@ -101,7 +101,7 @@ class AnatomicalTracing {
         boxDimensions[0] + boxDimensions[2],
         boxDimensions[1] + boxDimensions[3],
       ],
-    ].forEach(function(element, index, array) {
+    ].forEach(function(element: number[], index: number, array: number[][]) {
       selfCanvas.drawCircle.call(selfCanvas, context, element[0], element[1]);
     });
   }

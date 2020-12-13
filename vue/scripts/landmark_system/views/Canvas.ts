@@ -1,5 +1,5 @@
-import { default as UsefulMethods } from "../util/UsefulMethods.ts";
-import { default as ScaleManager } from "../util/ScaleManager.ts";
+import { default as UsefulMethods } from "../util/UsefulMethods";
+import { default as ScaleManager } from "../util/ScaleManager";
 
 class CanvasOdontoradiosis {
   public stackCanvas: HTMLElement;
@@ -24,7 +24,7 @@ class CanvasOdontoradiosis {
   ) {
     this.stackCanvas = stackCanvas;
     this.layerSequence = layerSequence;
-    this.existentCanvas = [];
+    this.existentCanvas = {};
     this.scaleManager = scaleManager;
     let allCanvas = this.stackCanvas.getElementsByTagName("canvas");
     for (let index = 0; index < allCanvas.length; index++) {

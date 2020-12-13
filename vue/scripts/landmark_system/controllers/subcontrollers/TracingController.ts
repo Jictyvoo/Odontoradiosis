@@ -1,10 +1,10 @@
-import { default as AnatomicalTracing } from "../../views/AnatomicalTracing.ts";
-import { default as CanvasOdontoradiosis } from "../../views/Canvas.ts";
+import { default as AnatomicalTracing } from "../../views/AnatomicalTracing";
+import { default as CanvasOdontoradiosis } from "../../views/Canvas";
 import {
   IPointBidimensional,
   IBezierCurves,
   ICurvePointLocation,
-} from "../../models/Interfaces.ts";
+} from "../../models/Interfaces";
 import { default as deafultBezierCurves } from "../../models/bezier_curves.json";
 
 class TracingController {

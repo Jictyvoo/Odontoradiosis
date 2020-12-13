@@ -10,7 +10,7 @@ export const server = new Drash.Http.Server({
     level: "debug",
   }),
   middleware: {
-    compile_time: [serveCompiledTs],
+    //compile_time: [serveCompiledTs],
   },
   resources: [HomeResource],
   static_paths: ["/public"],

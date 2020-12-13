@@ -1,7 +1,7 @@
-import { default as MainController } from "../controllers/MainController.ts";
-import { default as ImageEffects } from "../controllers/ImageEffects.ts";
-import { default as OdontoradiosisKeeper } from "../models/OdontoradiosisKeeper.ts";
-import { default as UsefulMethods } from "../util/UsefulMethods.ts";
+import { default as MainController } from "../controllers/MainController";
+import { default as ImageEffects } from "../controllers/ImageEffects";
+import { default as OdontoradiosisKeeper } from "../models/OdontoradiosisKeeper";
+import { default as UsefulMethods } from "../util/UsefulMethods";
 
 class EventsOdontoradiosis {
   public mainController: MainController;
@@ -31,8 +31,11 @@ class EventsOdontoradiosis {
     };
     const tracingController = this.mainController.tracingController;
     document.getElementById("pointsId").onchange = function() {
-      if (document.getElementById("curvesId").selectedIndex != 0) {
-        document.getElementById("curvesId").selectedIndex = 0;
+      const curveSelect = <HTMLSelectElement>(
+        document.getElementById("curvesId")
+      );
+      if (curveSelect.selectedIndex != 0) {
+        curveSelect.selectedIndex = 0;
         tracingController.drawAllCurves();
         mainController.canvasOdontoradiosis.stackCanvas.style.cursor =
           "crosshair";
@@ -64,14 +67,12 @@ class EventsOdontoradiosis {
    * Add canvas events
    */
   addCanvasInputEvents() {
-    let curveSelect = document.getElementById("curvesId");
+    const curveSelect = <HTMLSelectElement>document.getElementById("curvesId");
     const tracingController = this.mainController.tracingController;
     const stackCanvas = this.mainController.canvasOdontoradiosis.stackCanvas;
     curveSelect.addEventListener("input", function() {
-      const selectedIndex = document.getElementById("curvesId").selectedIndex;
-      let currentSelection = document.getElementById("curvesId").options[
-        selectedIndex
-      ].text;
+      const selectedIndex = curveSelect.selectedIndex;
+      let currentSelection = curveSelect.options[selectedIndex].text;
       tracingController.drawAllCurves();
       if (currentSelection !== "Selecione") {
         const currentCurve = UsefulMethods.normalizeTracingName(

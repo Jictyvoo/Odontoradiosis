@@ -1,4 +1,4 @@
-import { ICurvePointLocation } from "./Interfaces.ts";
+import { ICurvePointLocation } from "./Interfaces";
 
 class OdontoradiosisKeeper {
   public isMouseDown: boolean;

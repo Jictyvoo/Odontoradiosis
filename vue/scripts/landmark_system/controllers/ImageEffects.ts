@@ -1,4 +1,4 @@
-import { default as CanvasOdontoradiosis } from "../views/Canvas.ts";
+import { default as CanvasOdontoradiosis } from "../views/Canvas";
 
 class ImageEffects {
   public brightness: HTMLSelectElement;

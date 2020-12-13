@@ -1,10 +1,10 @@
-import { default as OdontoradiosisKeeper } from "./models/OdontoradiosisKeeper.ts";
-import { default as ScaleManager } from "./util/ScaleManager.ts";
-import { default as CanvasOdontoradiosis } from "./views/Canvas.ts";
-import { default as ImageEffects } from "./controllers/ImageEffects.ts";
-import { default as MainController } from "./controllers/MainController.ts";
-import { default as EventsOdontoradiosis } from "./events/EventsController.ts";
-import { default as SemiautomaticLandmarks } from "./features/semiautomatic_landmark/init.ts";
+import { default as OdontoradiosisKeeper } from "./models/OdontoradiosisKeeper";
+import { default as ScaleManager } from "./util/ScaleManager";
+import { default as CanvasOdontoradiosis } from "./views/Canvas";
+import { default as ImageEffects } from "./controllers/ImageEffects";
+import { default as MainController } from "./controllers/MainController";
+import { default as EventsOdontoradiosis } from "./events/EventsController";
+import { default as SemiautomaticLandmarks } from "./features/semiautomatic_landmark/init";
 
 const scaleManager = new ScaleManager();
 const canvasOdontoradiosis = new CanvasOdontoradiosis(

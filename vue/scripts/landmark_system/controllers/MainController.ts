@@ -1,10 +1,10 @@
-import { default as CanvasOdontoradiosis } from "../views/Canvas.ts";
-import { default as ScaleManager } from "../util/ScaleManager.ts";
-import { default as UsefulMethods } from "../util/UsefulMethods.ts";
-import { default as TracingController } from "./subcontrollers/TracingController.ts";
-import { default as LandmarksController } from "./subcontrollers/LandmarksController.ts";
-import { default as OdontoradiosisKepper } from "../models/OdontoradiosisKeeper.ts";
-import { IStringMap } from "../models/Interfaces.ts";
+import { default as CanvasOdontoradiosis } from "../views/Canvas";
+import { default as ScaleManager } from "../util/ScaleManager";
+import { default as UsefulMethods } from "../util/UsefulMethods";
+import { default as TracingController } from "./subcontrollers/TracingController";
+import { default as LandmarksController } from "./subcontrollers/LandmarksController";
+import { default as OdontoradiosisKepper } from "../models/OdontoradiosisKeeper";
+import { IStringMap } from "../models/Interfaces";
 
 class MainController {
   public urls: IStringMap;
@@ -110,10 +110,9 @@ class MainController {
    * Adapt reference landmarks
    */
   referenceLandmarks() {
-    const selectedIndex = document.getElementById("pointsId").selectedIndex;
-    const currentPoint = document.getElementById("pointsId").options[
-      selectedIndex
-    ].text;
+    const pointSelect = <HTMLSelectElement>document.getElementById("pointsId");
+    const selectedIndex = pointSelect.selectedIndex;
+    const currentPoint = pointSelect.options[selectedIndex].text;
     const imagePaths: IStringMap = {};
     imagePaths["Sela (S)"] = "selaTurcica.png";
     imagePaths["Násio (N)"] = "nasio.png";
@@ -136,12 +135,14 @@ class MainController {
     imagePaths["Pterigóide (Pt)"] = "";
     if (currentPoint !== "Selecione" && imagePaths[currentPoint]) {
       let img = new Image();
-      let context = document.getElementById("referenceLandmark");
-      if (context.getContext) {
-        context = context.getContext("2d");
+      const referenceCanvas = <HTMLCanvasElement>(
+        document.getElementById("referenceLandmark")
+      );
+      if (referenceCanvas.getContext) {
+        let context = referenceCanvas.getContext("2d");
         img.onload = function() {
-          context.canvas.width = this.width;
-          context.canvas.height = this.height;
+          context.canvas.width = img.width; //maybe don't work
+          context.canvas.height = img.height;
           document
             .getElementById("canvas-reference")
             .setAttribute(
@@ -169,13 +170,14 @@ class MainController {
 
   /**
    * Change or set point location on current mouse position
-   * @param {*} event
+   * @param {MouseEvent} event
    */
-  markLandmarkPoint(event: Event) {
-    const selectedIndex = document.getElementById("pointsId").selectedIndex;
-    const currentPoint = document.getElementById("pointsId").options[
-      selectedIndex
-    ].text;
+  markLandmarkPoint(event: MouseEvent) {
+    const landmarkSelect = <HTMLSelectElement>(
+      document.getElementById("pointsId")
+    );
+    const selectedIndex = landmarkSelect.selectedIndex;
+    const currentPoint = landmarkSelect.options[selectedIndex].text;
     if (currentPoint !== "Selecione") {
       const landmarkCanvas = this.canvasOdontoradiosis.getCanvas("landmarks");
       const currentLandmark = this.landmarksController.verifyLandmark(
@@ -201,13 +203,15 @@ class MainController {
   manageMouseMove(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation(); // tell the browser we're handling this event
-    const canvas = document.getElementById("bezier");
+    const canvas = <HTMLCanvasElement>document.getElementById("bezier");
     let context = canvas.getContext("2d");
     context.translate(canvas.width / 2, canvas.height / 2);
     if (this.infoKeeper.isMouseDown && this.infoKeeper.isCurveFunction) {
       /* do drag things */
       this.canvasOdontoradiosis.getCanvas("bezier").style.cursor = "move";
-      const curveSelectObj = document.getElementById("curvesId");
+      const curveSelectObj = <HTMLSelectElement>(
+        document.getElementById("curvesId")
+      );
       const selectedIndex = curveSelectObj.selectedIndex;
       const curveName = UsefulMethods.normalizeTracingName(
         curveSelectObj.options[selectedIndex].text
@@ -257,10 +261,10 @@ class MainController {
           this.tracingController.rescaleBezier(curveName, scaleX, scaleY);
         } else if (this.infoKeeper.isOnCurvePoints != null) {
           this.infoKeeper.isOnCurvePoints[0][
-            this.infoKeeper.isOnCurvePoints[1]
+            <number>this.infoKeeper.isOnCurvePoints[1]
           ] -= this.infoKeeper.mousePosition.x - currentPosition.x;
           this.infoKeeper.isOnCurvePoints[0][
-            this.infoKeeper.isOnCurvePoints[2]
+            <number>this.infoKeeper.isOnCurvePoints[2]
           ] -= this.infoKeeper.mousePosition.y - currentPosition.y;
         } else if (this.infoKeeper.isInsideBox) {
           this.tracingController.translateBezier(
@@ -299,10 +303,9 @@ class MainController {
    * @param {MouseEvent} event
    */
   manageMouseDown(event: MouseEvent) {
-    const selectedIndex = document.getElementById("curvesId").selectedIndex;
-    const currentCurve = document.getElementById("curvesId").options[
-      selectedIndex
-    ].text;
+    const curveSelect = <HTMLSelectElement>document.getElementById("curvesId");
+    const selectedIndex = curveSelect.selectedIndex;
+    const currentCurve = curveSelect.options[selectedIndex].text;
     const curveName = UsefulMethods.normalizeTracingName(currentCurve);
     if (currentCurve === "Selecione") {
       this.infoKeeper.isCurveFunction = false;

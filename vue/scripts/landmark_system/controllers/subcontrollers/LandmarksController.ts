@@ -1,5 +1,5 @@
-import { default as CanvasOdontoradiosis } from "../../views/Canvas.ts";
-import { ILandmark, ILandmarkArray } from "../../models/Interfaces.ts";
+import { default as CanvasOdontoradiosis } from "../../views/Canvas";
+import { ILandmark, ILandmarkArray } from "../../models/Interfaces";
 
 class LandmarksController {
   public landmarks: ILandmarkArray;
@@ -81,7 +81,7 @@ class LandmarksController {
     context.fillStyle = "red";
     context.font = this.canvas.scaleManager.nameScale + "px Arial";
     context.fillText(
-      landmarkName.match(/\(.+\)/),
+      landmarkName.match(/\(.+\)/).toString(),
       Math.floor(locations.X - this.canvas.scaleManager.textRelativePosition.x),
       Math.floor(locations.Y + this.canvas.scaleManager.textRelativePosition.y)
     );
