@@ -2,15 +2,30 @@
 
 A system to auxiliate development of Automatic Measurement to Cephalometric Landmarks.
 
-## Team
+## Project setup
 
-- Abel Ramalho Galvão
-- João Victor Oliveira Couto
+```
+npm install
+```
 
-## Command to Run
+### Compiles and hot-reloads for development
 
-Run commands
+```
+npm run serve
+```
 
-- `npm install` to install npm packages
-- `npm run buildVue` compile vuejs files
-- `deno run --allow-net --allow-read --unstable app.ts` to run the server
+### Compiles and minifies for production
+
+```
+npm run build
+```
+
+### Lints and fixes files
+
+```
+npm run lint
+```
+
+### Customize configuration
+
+See [Configuration Reference](https://cli.vuejs.org/config/).
