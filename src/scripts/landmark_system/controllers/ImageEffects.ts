@@ -12,10 +12,12 @@ class ImageEffects {
    * @param {CanvasOdontoradiosis} canvas
    */
   constructor(canvas: CanvasOdontoradiosis) {
-    this.brightness = <HTMLSelectElement>document.getElementById("brightness");
-    this.contrast = <HTMLSelectElement>document.getElementById("contrast");
-    this.grayscale = <HTMLSelectElement>document.getElementById("grayscale");
-    this.invert = <HTMLSelectElement>document.getElementById("invert");
+    this.brightness = document.getElementById(
+      "brightness"
+    ) as HTMLSelectElement;
+    this.contrast = document.getElementById("contrast") as HTMLSelectElement;
+    this.grayscale = document.getElementById("grayscale") as HTMLSelectElement;
+    this.invert = document.getElementById("invert") as HTMLSelectElement;
     this.canvasManager = canvas;
   }
 
