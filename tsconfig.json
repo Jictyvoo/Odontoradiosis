@@ -1,36 +1,36 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "resolveJsonModule": true,
-    "noImplicitAny": false,
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "types": ["webpack-env"],
-    "paths": {
-      "@/*": ["src/*"],
-      "@views": ["src/scripts/landmark_system/views/*"],
-      "@models": ["src/scripts/landmark_system/models/*"],
-      "@util": ["src/scripts/landmark_system/util/*"],
-      "@controllers": ["src/scripts/landmark_system/controllers/*"],
-      "@events": ["src/scripts/landmark_system/events/*"],
-      "@features": ["src/scripts/landmark_system/features/*"]
-    },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
-  "exclude": ["node_modules"]
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"strict": true,
+		"jsx": "preserve",
+		"resolveJsonModule": true,
+		"noImplicitAny": false,
+		"importHelpers": true,
+		"moduleResolution": "node",
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"baseUrl": ".",
+		"types": ["webpack-env"],
+		"paths": {
+			"@/*": ["src/*"],
+			"@views": ["src/scripts/landmark_system/views/*"],
+			"@models": ["src/scripts/landmark_system/models/*"],
+			"@util": ["src/scripts/landmark_system/util/*"],
+			"@controllers": ["src/scripts/landmark_system/controllers/*"],
+			"@events": ["src/scripts/landmark_system/events/*"],
+			"@features": ["src/scripts/landmark_system/features/*"]
+		},
+		"lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue",
+		"tests/**/*.ts",
+		"tests/**/*.tsx"
+	],
+	"exclude": ["node_modules"]
 }
