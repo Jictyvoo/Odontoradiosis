@@ -1,10 +1,10 @@
 {
-    "landmark": "Gnátio (Gn)",
-    "accessed_curves": ["mandíbula"],
-    "routines": [
-        ["load_curve", "mandíbula", null, "curvePoints"],
-        ["access_point", 8, "curvePoints", "foundedGnatio"],
-        ["point_to_var", "foundedGnatio", null, { "x": "x", "y": "y" }],
-        ["return", "x", "y", null]
-    ]
+	"landmark": "Gnátio (Gn)",
+	"accessed_curves": ["mandíbula"],
+	"routines": [
+		["load_curve", "mandíbula", null, "curvePoints"],
+		["access_point", 8, "curvePoints", "foundedGnatio"],
+		["point_to_var", "foundedGnatio", null, { "x": "x", "y": "y" }],
+		["return", "x", "y", null]
+	]
 }
