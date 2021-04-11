@@ -25,14 +25,14 @@ class ScaleManager {
 
 	/**
 	 * Calculate the scale to make canvas dynamic and returns it
-	 * @param {float} valueToResize
+	 * @param {number} valueToResize
 	 * @param {boolean} isX
 	 * @param {CanvasRenderingContext2D} clientRect
 	 * @param {ClientRect} clientRect
 	 */
 	dynamicCanvasScale(
-		valueToResize = 1,
-		isX = false,
+		valueToResize: number = 1,
+		isX: boolean = false,
 		context: CanvasRenderingContext2D,
 		clientRect: ClientRect
 	): number {

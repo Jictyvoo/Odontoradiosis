@@ -38,7 +38,7 @@ class TracingController {
 	 * @param {string} curveId
 	 * @returns {boolean}
 	 */
-	curveExists(curveId = ''): boolean {
+	curveExists(curveId: string = ''): boolean {
 		return this.bezierPoints[curveId] != null;
 	}
 
@@ -46,7 +46,7 @@ class TracingController {
 	 * Verify if curve exists and returns it or null
 	 * @param {string} curveId
 	 */
-	getCurve(curveId = ''): number[][] | null {
+	getCurve(curveId: string = ''): number[][] | null {
 		if (this.curveExists(curveId)) {
 			return this.bezierPoints[curveId];
 		}
@@ -103,13 +103,13 @@ class TracingController {
 	/**
 	 * Returns an array with box dimensions of a specific curve
 	 * @param {string} curveName
-	 * @param {int} borderSize
+	 * @param {number} borderSize
 	 * @param {boolean} recalculate
 	 */
 	getBoxDimensions(
 		curveName: string,
-		borderSize = 20,
-		recalculate = false
+		borderSize: number = 20,
+		recalculate: boolean = false
 	): number[] {
 		const points = this.getBoxPoints(curveName, recalculate);
 		const minX = points[0],

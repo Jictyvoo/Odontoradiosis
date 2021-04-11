@@ -3,16 +3,16 @@ import { IPointBidimensional } from '../models/Interfaces';
 class UsefulMethods {
 	/**
 	 * Returns canvas style, based on parameters
-	 * @param {float} zIndex
+	 * @param {number} zIndex
 	 * @param {string} position
-	 * @param {float} left
-	 * @param {float} top
+	 * @param {number} left
+	 * @param {number} top
 	 */
 	static canvasStyle(
-		zIndex = 0,
-		position = 'absolute',
-		left = 0,
-		top = 0
+		zIndex: number = 0,
+		position: string = 'absolute',
+		left: number = 0,
+		top: number = 0
 	): string {
 		return `position: ${position}; left: ${left}; top: ${top}; z-index: ${zIndex};`;
 	}

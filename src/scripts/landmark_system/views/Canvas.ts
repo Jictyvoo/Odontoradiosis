@@ -92,12 +92,12 @@ class CanvasOdontoradiosis {
 	 */
 	drawCircle(
 		context: CanvasRenderingContext2D,
-		x = 0,
-		y = 0,
+		x: number = 0,
+		y: number = 0,
 		pointRadius: number = this.scaleManager.pointRadius,
 		lineWidth: number = this.scaleManager.lineWidth,
-		fillStyle = '#184bed',
-		strokeStyle = '#184bed'
+		fillStyle: string = '#184bed',
+		strokeStyle: string = '#184bed'
 	): void {
 		context.beginPath();
 		context.arc(x, y, pointRadius, 0, 2 * Math.PI);
@@ -120,12 +120,12 @@ class CanvasOdontoradiosis {
 	 */
 	drawCircleCtx(
 		layerId: string,
-		x = 0,
-		y = 0,
+		x: number = 0,
+		y: number = 0,
 		pointRadius: number = this.scaleManager.pointRadius,
 		lineWidth: number = this.scaleManager.lineWidth,
-		fillStyle = '#184bed',
-		strokeStyle = '#184bed'
+		fillStyle: string = '#184bed',
+		strokeStyle: string = '#184bed'
 	): void {
 		this.drawCircle(
 			this.getContext(layerId),
@@ -161,7 +161,7 @@ class CanvasOdontoradiosis {
 		cy2: number,
 		x2: number,
 		y2: number,
-		strokeStyle = '#00e379'
+		strokeStyle: string = '#00e379'
 	): void {
 		context.strokeStyle = strokeStyle;
 		context.moveTo(x1, y1);
@@ -173,9 +173,9 @@ class CanvasOdontoradiosis {
 	/**
 	 * Opens a given image and reset canvas size
 	 * @param {string} path
-	 * @param {function} loadFunction
+	 * @param {VoidFunction} loadFunction
 	 */
-	openImage(path = '', loadFunction?: any): void {
+	openImage(path: string = '', loadFunction?: VoidFunction): void {
 		const imageObject = new Image();
 		if (this.existentCanvas['image'].getContext('2d')) {
 			const context = this.existentCanvas['image'].getContext(

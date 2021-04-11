@@ -44,7 +44,7 @@ class LandmarksController {
 	 * @param {boolean} toCreate
 	 * @returns {ILandmark}
 	 */
-	verifyLandmark(name: string, toCreate = false): ILandmark {
+	verifyLandmark(name: string, toCreate: boolean = false): ILandmark {
 		if (!this.landmarks[name] && toCreate) {
 			this.landmarks[name] = { X: 0, Y: 0 };
 		}
