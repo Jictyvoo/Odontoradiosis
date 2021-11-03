@@ -1,9 +1,9 @@
-import { default as LandmarksController } from '../../controllers/subcontrollers/LandmarksController';
-import { default as TracingController } from '../../controllers/subcontrollers/TracingController';
+import { default as LandmarksController } from '../../controllers/subcontrollers/landmarksController';
+import { default as TracingController } from '../../controllers/subcontrollers/tracingController';
 import {
     IRoutineHelpVar,
     IRoutinesSemiautomatic,
-} from '../../models/Interfaces.js';
+} from '../../models/interfaces.js';
 import { IRoutineDescription } from './Interfaces';
 
 class SemiautomaticLandmarks {

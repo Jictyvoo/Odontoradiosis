@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import ImageEffects from './controllers/ImageEffects';
-import MainController from './controllers/MainController';
-import LandmarksController from './controllers/subcontrollers/LandmarksController';
-import TracingController from './controllers/subcontrollers/TracingController';
-import EventsOdontoradiosis from './events/EventsController';
+import ImageEffects from './controllers/imageEffects';
+import MainController from './controllers/mainController';
+import LandmarksController from './controllers/subcontrollers/landmarksController';
+import TracingController from './controllers/subcontrollers/tracingController';
+import EventsOdontoradiosis from './events/eventsController';
 import SemiautomaticLandmarks from './features/semiautomatic_landmark/init';
 import * as aJson from './features/semiautomatic_landmark/routines/a.ldmk.json';
 import * as enaJson from './features/semiautomatic_landmark/routines/ena.ldmk.json';
 import * as gnatioJson from './features/semiautomatic_landmark/routines/gnatio.ldmk.json';
 import * as nasioJson from './features/semiautomatic_landmark/routines/nasio.ldmk.json';
 import * as selaJson from './features/semiautomatic_landmark/routines/sela.ldmk.json';
-import OdontoradiosisKeeper from './models/OdontoradiosisKeeper';
-import ScaleManager from './util/ScaleManager';
-import CanvasOdontoradiosis from './views/Canvas';
+import OdontoradiosisKeeper from './models/odontoradiosisKeeper';
+import ScaleManager from './util/scaleManager';
+import CanvasOdontoradiosis from './views/canvas';
 
 @Injectable({
     providedIn: 'root',
