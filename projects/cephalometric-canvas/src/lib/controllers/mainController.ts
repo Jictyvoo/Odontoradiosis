@@ -289,12 +289,12 @@ class MainController {
                         scaleY
                     );
                 } else if (this.infoKeeper.isOnCurvePoints != null) {
-                    this.infoKeeper.isOnCurvePoints[0][
-                        this.infoKeeper.isOnCurvePoints[1] as number
-                    ] -= this.infoKeeper.mousePosition.x - currentPosition.x;
-                    this.infoKeeper.isOnCurvePoints[0][
-                        this.infoKeeper.isOnCurvePoints[2] as number
-                    ] -= this.infoKeeper.mousePosition.y - currentPosition.y;
+                    const curvePoints = this.infoKeeper
+                        .isOnCurvePoints[0] as number[];
+                    curvePoints[this.infoKeeper.isOnCurvePoints[1] as number] -=
+                        this.infoKeeper.mousePosition.x - currentPosition.x;
+                    curvePoints[this.infoKeeper.isOnCurvePoints[2] as number] -=
+                        this.infoKeeper.mousePosition.y - currentPosition.y;
                 } else if (this.infoKeeper.isInsideBox) {
                     this.tracingController.translateBezier(
                         curveName,

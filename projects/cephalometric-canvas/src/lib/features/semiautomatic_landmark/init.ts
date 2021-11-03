@@ -4,13 +4,13 @@ import {
     IRoutineHelpVar,
     IRoutinesSemiautomatic,
 } from '../../models/interfaces.js';
-import { IRoutineDescription } from './Interfaces';
+import { IRoutineDescription, ISymbolTable } from './interfaces';
 
 class SemiautomaticLandmarks {
     public routinesDescription: IRoutinesSemiautomatic[];
     public tracingController: TracingController;
     public landmarksController: LandmarksController;
-    public symbolTable: Record<string, unknown>;
+    public symbolTable: ISymbolTable;
     public helpVariables: IRoutineHelpVar;
     public preFunctions: { [key: string]: any };
 
@@ -28,13 +28,13 @@ class SemiautomaticLandmarks {
         this.routinesDescription = routinesDescription;
         this.tracingController = tracingController;
         this.landmarksController = landmarksController;
-        const symbolTable = {};
+        const symbolTable: ISymbolTable = {};
         const helpVariables = { accessed_curves: [], landmarkName: '' };
         this.symbolTable = symbolTable;
         this.helpVariables = helpVariables;
-        const getParamValue = function (parameter: string) {
+        const getParamValue = function (parameter: string): string {
             return symbolTable[parameter] != null
-                ? symbolTable[parameter]
+                ? (symbolTable[parameter] as string)
                 : parameter;
         };
         this.preFunctions = {
@@ -62,19 +62,22 @@ class SemiautomaticLandmarks {
                 let counter = 0;
                 for (
                     let index = 0;
-                    index < symbolTable[secondParam].length;
+                    index < (symbolTable[secondParam]?.length ?? 0);
                     index++
                 ) {
-                    const element = symbolTable[secondParam][index];
+                    const element =
+                        symbolTable[secondParam] != null
+                            ? symbolTable[secondParam]![index] ?? ''
+                            : '';
                     for (
                         let subindex = 1;
-                        subindex < element.length;
+                        subindex < (element?.length ?? 0);
                         subindex += 2
                     ) {
                         counter++;
                         if (counter == firstParam) {
-                            accessed.x = element[subindex - 1];
-                            accessed.y = element[subindex];
+                            accessed.x = element[subindex - 1] as number;
+                            accessed.y = element[subindex] as number;
                         }
                     }
                 }
@@ -105,8 +108,8 @@ class SemiautomaticLandmarks {
                 secondParam: string,
                 resultName: string | number
             ) {
-                const value_1 = getParamValue(firstParam);
-                const value_2 = getParamValue(secondParam);
+                const value_1 = parseFloat(getParamValue(firstParam));
+                const value_2 = parseFloat(getParamValue(secondParam));
                 symbolTable[resultName] = value_1 - value_2;
                 return symbolTable[resultName];
             },
@@ -115,8 +118,8 @@ class SemiautomaticLandmarks {
                 secondParam: string,
                 resultName: string | number
             ) {
-                const value_1 = getParamValue(firstParam);
-                const value_2 = getParamValue(secondParam);
+                const value_1 = parseFloat(getParamValue(firstParam));
+                const value_2 = parseFloat(getParamValue(secondParam));
                 symbolTable[resultName] = value_1 / value_2;
                 return symbolTable[resultName];
             },
@@ -125,8 +128,8 @@ class SemiautomaticLandmarks {
                 secondParam: string,
                 resultName: string | number
             ) {
-                const value_1 = getParamValue(firstParam);
-                const value_2 = getParamValue(secondParam);
+                const value_1 = parseFloat(getParamValue(firstParam));
+                const value_2 = parseFloat(getParamValue(secondParam));
                 symbolTable[resultName] = value_1 * value_2;
                 return symbolTable[resultName];
             },
@@ -135,8 +138,8 @@ class SemiautomaticLandmarks {
                 secondParam: string,
                 resultName: string | number
             ) {
-                const value_1 = getParamValue(firstParam);
-                const value_2 = getParamValue(secondParam);
+                const value_1 = parseFloat(getParamValue(firstParam));
+                const value_2 = parseFloat(getParamValue(secondParam));
                 symbolTable[resultName] = value_1 % value_2;
                 return symbolTable[resultName];
             },
@@ -159,8 +162,8 @@ class SemiautomaticLandmarks {
                 resultName: any
             ) {
                 const result = {
-                    X: symbolTable[firstParam],
-                    Y: symbolTable[secondParam],
+                    X: parseFloat(symbolTable[firstParam] as string),
+                    Y: parseFloat(symbolTable[secondParam] as string),
                 };
                 landmarksController.setLandmark(
                     helpVariables.landmarkName,
