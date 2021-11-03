@@ -1,11 +1,12 @@
 // .vscode/settings.json
 {
-	"deno.enable": false,
-	"editor.multiCursorModifier": "ctrlCmd",
-	"editor.formatOnSave": true,
-	"[typescript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"prettier.vueIndentScriptAndStyle": true,
-	"typescript.preferences.importModuleSpecifierEnding": "minimal"
+  "deno.enable": false,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": { "source.organizeImports": true },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.vueIndentScriptAndStyle": true,
+  "typescript.preferences.importModuleSpecifierEnding": "minimal"
 }

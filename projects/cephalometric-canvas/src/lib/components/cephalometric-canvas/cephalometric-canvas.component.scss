@@ -1,0 +1,14 @@
+#stack-canvas {
+  position: relative;
+  cursor: crosshair;
+  > canvas {
+    max-width: 100%;
+    height: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+.card-body {
+  max-width: 100%;
+}
