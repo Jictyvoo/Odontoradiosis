@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CephalometricCanvasComponent } from './cephalometric-canvas.component';
+import { CephalometricCanvasComponent } from './components/cephalometric-canvas/cephalometric-canvas.component';
 
 @NgModule({
     declarations: [CephalometricCanvasComponent],
