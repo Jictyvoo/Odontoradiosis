@@ -1,5 +1,9 @@
-<mat-sidenav-container class="example-container" [hasBackdrop]="false">
-  <mat-sidenav #drawer [mode]="'side'">
+<mat-sidenav-container
+  class="sidebar-container"
+  [hasBackdrop]="false"
+  [style.marginTop.px]="65"
+>
+  <mat-sidenav #sidebar [mode]="'side'">
     <!-- Curve select -->
     <mat-nav-list>
       <mat-form-field mat-list-item appearance="fill">
@@ -24,8 +28,9 @@
       <mat-divider></mat-divider>
 
       <!-- Sliders with Effects-->
-
-      <mat-label for="effectContrastId">Contraste</mat-label>
+      <div class="slider-effect">
+        <mat-label for="effectContrastId">Contraste</mat-label>
+      </div>
       <mat-slider
         mat-list-item
         #selectedEffect
@@ -37,8 +42,9 @@
       >
       </mat-slider>
       <mat-divider></mat-divider>
-
-      <mat-label for="effectBrightnessId">Brilho</mat-label>
+      <div class="slider-effect">
+        <mat-label for="effectBrightnessId">Brilho</mat-label>
+      </div>
       <mat-slider
         mat-list-item
         #selectedEffect
@@ -50,8 +56,9 @@
       >
       </mat-slider>
       <mat-divider></mat-divider>
-
-      <mat-label for="effectInvertId">Negativo</mat-label>
+      <div class="slider-effect">
+        <mat-label for="effectInvertId">Negativo</mat-label>
+      </div>
       <mat-slider
         mat-list-item
         #selectedEffect
@@ -63,8 +70,9 @@
       >
       </mat-slider>
       <mat-divider></mat-divider>
-
-      <mat-label for="effectGrayscaleId">Escala de Cinza</mat-label>
+      <div class="slider-effect">
+        <mat-label for="effectGrayscaleId">Escala de Cinza</mat-label>
+      </div>
       <mat-slider
         mat-list-item
         #selectedEffect
@@ -76,18 +84,20 @@
       >
       </mat-slider>
       <mat-divider></mat-divider>
+
+      <!-- Undone Button -->
+      <button
+        mat-raised-button
+        class="btn btn-primary"
+        type="button"
+        value="Desfazer"
+        id="undone-effects"
+      >
+        Desfazer
+      </button>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
-    <button
-      mat-raised-button
-      class="btn btn-primary"
-      type="button"
-      value="Desfazer"
-      id="undone-effects"
-    >
-      Desfazer
-    </button>
+    <button mat-raised-button (click)="sidebar.toggle()">Toggle sidebar</button>
   </mat-sidenav-content>
 </mat-sidenav-container>

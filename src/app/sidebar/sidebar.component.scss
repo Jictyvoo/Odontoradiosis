@@ -5,3 +5,22 @@ mat-sidenav-content {
   flex: 1;
   align-items: flex-start;
 }
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.slider-effect {
+  // make child elements distant from edge
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
