@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="app-toolbar">
   <button mat-icon-button aria-label="Menu icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
@@ -12,7 +12,7 @@
       id="openWindowSaveId"
       class="action-button"
       aria-label="Open-New-Radiography icon-button with heart icon"
-      (onClick)="openImageSelection()"
+      (click)="openImageSelection()"
       color="accent"
     >
       <mat-icon> folder_open </mat-icon>
@@ -25,7 +25,7 @@
       id="openWindowSaveId"
       class="action-button"
       aria-label="Open-Saved-Radiography icon-button with share icon"
-      (onClick)="openWindowSave()"
+      (click)="openWindowSave()"
       color="accent"
     >
       <mat-icon> edit </mat-icon>
@@ -38,7 +38,7 @@
       id="markSemiautomaticId"
       class="action-button"
       aria-label="Mark-Semiautomatic icon-button with share icon"
-      (onClick)="markSemiautomatic()"
+      (click)="markSemiautomatic()"
       color="accent"
     >
       <mat-icon> developer_board </mat-icon>
@@ -51,7 +51,7 @@
       id="exportImageId"
       class="action-button"
       aria-label="Export-Image icon-button with save icon"
-      (onClick)="exportImage()"
+      (click)="exportImage()"
       color="accent"
     >
       <mat-icon>save</mat-icon>
