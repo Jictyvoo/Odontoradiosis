@@ -18,3 +18,9 @@
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
 }
+
+.logo-image {
+  max-width: 7.5rem;
+  min-width: 5rem;
+  margin-top: 8px;
+}
