@@ -2,27 +2,26 @@
   <!-- Highlight Card -->
   <div id="app">
     <app-toolbar></app-toolbar>
-    <app-sidebar></app-sidebar>
-    <!-- <navbar>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </navbar> 
-    <CephalometricSidebar></CephalometricSidebar>
-    <StackingCanvas></StackingCanvas>-->
-    <footer class="main-footer">
-      <strong>
-        ©2021
-        <a mat-button href="https://github.com/jictyvoo/" target="_blank">
-          João Victor Oliveira Couto
-        </a>
-        <br />
-        Powered by
-        <a mat-button href="https://github.com/angular/angular" target="_blank"
-          >Angular</a
-        >
-      </strong>
-    </footer>
+    <app-sidebar>
+      <div class="card-header"><h5 class="m-0">Radiografia</h5></div>
+      <lib-cephalometric-canvas></lib-cephalometric-canvas>
+      <router-outlet></router-outlet>
+      <footer class="main-footer">
+        <strong>
+          ©2021
+          <a mat-button href="https://github.com/jictyvoo/" target="_blank">
+            João Victor Oliveira Couto
+          </a>
+          <br />
+          Powered by
+          <a
+            mat-button
+            href="https://github.com/angular/angular"
+            target="_blank"
+            >Angular</a
+          >
+        </strong>
+      </footer>
+    </app-sidebar>
   </div>
 </div>
-
-<router-outlet></router-outlet>

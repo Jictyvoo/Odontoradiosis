@@ -8,6 +8,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CephalometricCanvasModule } from 'cephalometric-canvas';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HelpPageComponent } from './help-page/help-page.component';
@@ -35,6 +36,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         MatSidenavModule,
         MatListModule,
         MatButtonModule,
+        CephalometricCanvasModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
