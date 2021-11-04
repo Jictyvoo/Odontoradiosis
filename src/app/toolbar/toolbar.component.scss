@@ -1,0 +1,14 @@
+.the-toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.action-button {
+  // create a space between the buttons
+  margin-right: 1rem;
+}
+
+.button-bar {
+  display: flex;
+  justify-content: space-evenly;
+  max-width: fit-content;
+}

@@ -1,38 +1,61 @@
-<nav
-  class="main-header navbar navbar-expand bg-white navbar-light border-bottom"
->
-  <ul class="navbar-nav">
-    <li class="nav-item d-none d-sm-inline-block">
-      <a style="cursor: pointer" class="nav-link">
-        <i class="nav-icon fa fa-dashboard">
-          <img :src="require('../assets/img/open-folder.png')" />
-        </i>
-        <p onclick="openImageSelection()">Abrir radiografia</p>
-      </a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a style="cursor: pointer" class="nav-link">
-        <i class="nav-icon fa fa-dashboard">
-          <img :src="require('../assets/img/writing.png')" />
-        </i>
-        <p onclick="openWindowSave()">Editar radiografia</p>
-      </a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a style="cursor: pointer" class="nav-link">
-        <i class="nav-icon fa fa-dashboard">
-          <img :src="require('../assets/img/setting.png')" />
-        </i>
-        <p id="semiautomatic_button">Marcação semiautomática</p>
-      </a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a style="cursor: pointer" class="nav-link">
-        <i class="nav-icon fa fa-dashboard">
-          <img :src="require('../assets/img/save.png')" />
-        </i>
-        <p onclick="save()">Salvar</p>
-      </a>
-    </li>
-  </ul>
-</nav>
+<mat-toolbar color="primary">
+  <button mat-icon-button aria-label="Menu icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span>Odontoradiosis</span>
+  <span class="the-toolbar-spacer"></span>
+
+  <div class="button-bar">
+    <button
+      mat-raised-button
+      id="openWindowSaveId"
+      class="action-button"
+      aria-label="Open-New-Radiography icon-button with heart icon"
+      (onClick)="openImageSelection()"
+      color="accent"
+    >
+      <mat-icon> folder_open </mat-icon>
+      Abrir radiografia
+    </button>
+
+    <span class="the-toolbar-spacer"></span>
+    <button
+      mat-raised-button
+      id="openWindowSaveId"
+      class="action-button"
+      aria-label="Open-Saved-Radiography icon-button with share icon"
+      (onClick)="openWindowSave()"
+      color="accent"
+    >
+      <mat-icon> edit </mat-icon>
+      Editar radiografia
+    </button>
+
+    <span class="the-toolbar-spacer"></span>
+    <button
+      mat-raised-button
+      id="markSemiautomaticId"
+      class="action-button"
+      aria-label="Mark-Semiautomatic icon-button with share icon"
+      (onClick)="markSemiautomatic()"
+      color="accent"
+    >
+      <mat-icon> developer_board </mat-icon>
+      Marcação semiautomática
+    </button>
+
+    <span class="the-toolbar-spacer"></span>
+    <button
+      mat-raised-button
+      id="exportImageId"
+      class="action-button"
+      aria-label="Export-Image icon-button with save icon"
+      (onClick)="exportImage()"
+      color="accent"
+    >
+      <mat-icon>save</mat-icon>
+      Salvar
+    </button>
+  </div>
+</mat-toolbar>
