@@ -1,5 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSelect } from '@angular/material/select';
 import { MatSidenav } from '@angular/material/sidenav';
+import {
+    CephalometricCanvasService,
+    OdontoradiosisKeeper,
+    UsefulMethods,
+} from 'cephalometric-canvas';
 import { SidenavService } from 'src/services/sidenav.service';
 import { default as supportedCephalometric } from 'src/util/supported-cephalometric';
 
@@ -10,24 +16,72 @@ import { default as supportedCephalometric } from 'src/util/supported-cephalomet
 })
 export class SidebarComponent implements OnInit {
     supportedCurves: string[];
-    selectedCurve: string;
 
     supportedPoints: string[];
-    selectedPoint: string;
 
     @ViewChild('sidenav')
     public sidenav!: MatSidenav;
 
-    constructor(private sidenavService: SidenavService) {
+    @ViewChild('selectedCurve')
+    public selectedCurve!: MatSelect;
+
+    constructor(
+        private sidenavService: SidenavService,
+        private canvasService: CephalometricCanvasService,
+        private infoKeeper: OdontoradiosisKeeper
+    ) {
         this.supportedCurves = supportedCephalometric.supportedCurves;
         this.supportedPoints = supportedCephalometric.supportedPoints;
-        this.selectedCurve = '';
-        this.selectedPoint = '';
     }
 
     ngOnInit(): void {}
 
     ngAfterViewInit(): void {
         this.sidenavService.setSidenav(this.sidenav);
+    }
+
+    public undone(): void {
+        this.canvasService.effectsManager.reset();
+    }
+
+    /**
+     * Add Curve canvas event listener
+     * @param curveName
+     */
+    public curveSelect(curveName: string): void {
+        const tracingController = this.canvasService.tracingController;
+        const canvasOdontoradiosis = this.canvasService.cephalometricCanvas;
+        tracingController.drawAllCurves();
+        if (curveName !== 'Selecione') {
+            const currentCurve = UsefulMethods.normalizeTracingName(curveName);
+            if (tracingController.curveExists(currentCurve)) {
+                tracingController.drawCurveBox.call(
+                    tracingController,
+                    currentCurve,
+                    true
+                );
+                tracingController.drawPointCircle.call(
+                    tracingController,
+                    currentCurve
+                );
+                canvasOdontoradiosis.canvasCursor = 'move';
+                this.infoKeeper.selectedOptions.curve = currentCurve;
+            }
+        } else {
+            canvasOdontoradiosis.canvasCursor = 'crosshair';
+        }
+        this.infoKeeper.selectedOptions.curve = '';
+    }
+
+    public landmarkSelect(landmarkName: string): void {
+        const tracingController = this.canvasService.tracingController;
+        const canvasOdontoradiosis = this.canvasService.cephalometricCanvas;
+        this.infoKeeper.selectedOptions.landmark = landmarkName;
+        if (!this.selectedCurve.empty) {
+            this.selectedCurve.writeValue('');
+            tracingController.drawAllCurves();
+            canvasOdontoradiosis.canvasCursor = 'crosshair';
+        }
+        //self.mainController.referenceLandmarks.call(self.mainController);
     }
 }

@@ -8,8 +8,12 @@
     <mat-nav-list>
       <mat-form-field mat-list-item appearance="fill">
         <mat-label>Curvas</mat-label>
-        <mat-select #selectedCurve id="curvesId">
-          <mat-option *ngFor="let curve of supportedCurves" value="curve">
+        <mat-select
+          #selectedCurve
+          id="curvesId"
+          (valueChange)="curveSelect($event)"
+        >
+          <mat-option *ngFor="let curve of supportedCurves" value="{{ curve }}">
             {{ curve }}
           </mat-option>
         </mat-select>
@@ -19,8 +23,12 @@
       <!-- Points Select -->
       <mat-form-field mat-list-item appearance="fill">
         <mat-label>Pontos</mat-label>
-        <mat-select #selectedPoint id="pointsId">
-          <mat-option *ngFor="let point of supportedPoints" value="point">
+        <mat-select
+          #selectedPoint
+          id="pointsId"
+          (valueChange)="landmarkSelect($event)"
+        >
+          <mat-option *ngFor="let point of supportedPoints" value="{{ point }}">
             {{ point }}
           </mat-option>
         </mat-select>
@@ -92,6 +100,7 @@
         type="button"
         value="Desfazer"
         id="undone-effects"
+        (click)="undone()"
       >
         Desfazer
       </button>

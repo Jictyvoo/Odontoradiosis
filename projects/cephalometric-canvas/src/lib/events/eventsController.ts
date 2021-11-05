@@ -1,7 +1,6 @@
 import { default as ImageEffects } from '../controllers/imageEffects';
 import { default as MainController } from '../controllers/mainController';
 import { default as OdontoradiosisKeeper } from '../models/odontoradiosisKeeper';
-import { default as UsefulMethods } from '../util/usefulMethods';
 
 class EventsOdontoradiosis {
     public mainController: MainController;
@@ -33,22 +32,6 @@ class EventsOdontoradiosis {
         stackCanvasElement.onmousemove = function (event: MouseEvent) {
             mainController.manageMouseMove.call(mainController, event);
         };
-        const tracingController = this.mainController.tracingController;
-        const landmarkSelect = document.getElementById(
-            'pointsId'
-        ) as HTMLSelectElement;
-        landmarkSelect.onchange = function () {
-            const curveSelect = document.getElementById(
-                'curvesId'
-            ) as HTMLSelectElement;
-            if (curveSelect.selectedIndex != 0) {
-                curveSelect.selectedIndex = 0;
-                tracingController.drawAllCurves();
-                mainController.canvasOdontoradiosis.stackCanvas.style.cursor =
-                    'crosshair';
-            }
-            mainController.referenceLandmarks.call(mainController);
-        };
     }
 
     /**
@@ -66,47 +49,6 @@ class EventsOdontoradiosis {
                 selfImageEffects.onChangeValue.call(selfImageEffects);
             });
         }
-        const undoneInput = document.getElementById(
-            'undone-effects'
-        ) as HTMLInputElement;
-        undoneInput.onclick = function () {
-            selfImageEffects.reset.call(selfImageEffects);
-        };
-    }
-
-    /**
-     * Add canvas events
-     */
-    addCanvasInputEvents(): void {
-        const curveSelect = document.getElementById(
-            'curvesId'
-        ) as HTMLSelectElement;
-        const tracingController = this.mainController.tracingController;
-        const stackCanvas =
-            this.mainController.canvasOdontoradiosis.stackCanvas;
-        curveSelect.addEventListener('input', function () {
-            const selectedIndex = curveSelect.selectedIndex;
-            const currentSelection = curveSelect.options[selectedIndex].text;
-            tracingController.drawAllCurves();
-            if (currentSelection !== 'Selecione') {
-                const currentCurve =
-                    UsefulMethods.normalizeTracingName(currentSelection);
-                if (tracingController.curveExists(currentCurve)) {
-                    tracingController.drawCurveBox.call(
-                        tracingController,
-                        currentCurve,
-                        true
-                    );
-                    tracingController.drawPointCircle.call(
-                        tracingController,
-                        currentCurve
-                    );
-                    stackCanvas.style.cursor = 'move';
-                }
-            } else {
-                stackCanvas.style.cursor = 'crosshair';
-            }
-        });
     }
 
     /**
@@ -147,7 +89,6 @@ class EventsOdontoradiosis {
      */
     applyAllEvents(): void {
         this.addEffectsEvent();
-        this.addCanvasInputEvents();
         this.generateMouseEvents();
     }
 }
