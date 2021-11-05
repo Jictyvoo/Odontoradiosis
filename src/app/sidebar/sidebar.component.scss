@@ -19,8 +19,6 @@ mat-sidenav-content {
 
 .slider-effect {
   // make child elements distant from edge
-  padding: 12px;
-  display: flex;
+  padding-top: 8px;
   flex-direction: column;
-  flex: 1;
 }
