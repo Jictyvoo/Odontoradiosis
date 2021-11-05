@@ -1,10 +1,17 @@
 import { default as CanvasOdontoradiosis } from '../views/canvas';
 
+const defaultValues = Object.freeze({
+    brightness: 100,
+    contrast: 100,
+    grayscale: 0,
+    invert: 0,
+});
+
 class ImageEffects {
-    public brightness: HTMLSelectElement;
-    public contrast: HTMLSelectElement;
-    public grayscale: HTMLSelectElement;
-    public invert: HTMLSelectElement;
+    public brightness: number;
+    public contrast: number;
+    public grayscale: number;
+    public invert: number;
     public canvasManager: CanvasOdontoradiosis;
 
     /**
@@ -12,16 +19,10 @@ class ImageEffects {
      * @param {CanvasOdontoradiosis} canvas
      */
     constructor(canvas: CanvasOdontoradiosis) {
-        this.brightness = document.getElementById(
-            'brightness'
-        ) as HTMLSelectElement;
-        this.contrast = document.getElementById(
-            'contrast'
-        ) as HTMLSelectElement;
-        this.grayscale = document.getElementById(
-            'grayscale'
-        ) as HTMLSelectElement;
-        this.invert = document.getElementById('invert') as HTMLSelectElement;
+        this.brightness = defaultValues.brightness;
+        this.contrast = defaultValues.contrast;
+        this.grayscale = defaultValues.grayscale;
+        this.invert = defaultValues.invert;
         this.canvasManager = canvas;
     }
 
@@ -30,19 +31,14 @@ class ImageEffects {
      * @returns {string}
      */
     getValues(): string {
-        const brightnessValue = this.brightness.value,
-            contrastValue = this.contrast.value,
-            grayscaleValue = this.grayscale.value,
-            invertValue = this.invert.value;
-
-        const filterStyle = `brightness(${brightnessValue}%) contrast(${contrastValue}%) grayscale(${grayscaleValue}%) invert(${invertValue}%)`;
+        const filterStyle = `brightness(${this.brightness}%) contrast(${this.contrast}%) grayscale(${this.grayscale}%) invert(${this.invert}%)`;
         return filterStyle;
     }
 
     /**
      * Event function that apply read and apply effects on image
      */
-    onChangeValue(): void {
+    updateFilterValues(): void {
         const filterValue = this.getValues();
         this.canvasManager.setStyle('image', 'filter', filterValue);
     }
@@ -51,11 +47,11 @@ class ImageEffects {
      * Reset all effects
      */
     reset(): void {
-        this.brightness.value = '100';
-        this.contrast.value = '100';
-        this.grayscale.value = '0';
-        this.invert.value = '0';
-        this.onChangeValue();
+        this.brightness = 100;
+        this.contrast = 100;
+        this.grayscale = 0;
+        this.invert = 0;
+        this.updateFilterValues();
     }
 }
 

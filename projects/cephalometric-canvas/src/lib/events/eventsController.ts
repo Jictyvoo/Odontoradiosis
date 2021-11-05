@@ -35,23 +35,6 @@ class EventsOdontoradiosis {
     }
 
     /**
-     * Adds all effects events
-     */
-    addEffectsEvent(): void {
-        const elements = ['contrast', 'brightness', 'invert', 'grayscale'];
-        //document.getElementsByTagName('input');
-        const selfImageEffects = this.imageEffects;
-        for (let i = 0; i < elements.length; i++) {
-            const effectInputElement = document.getElementById(
-                elements[i]
-            ) as HTMLInputElement;
-            effectInputElement.addEventListener('input', function () {
-                selfImageEffects.onChangeValue.call(selfImageEffects);
-            });
-        }
-    }
-
-    /**
      * Add onmousedown and onmouseup events
      */
     generateMouseEvents(): void {
@@ -88,7 +71,6 @@ class EventsOdontoradiosis {
      * Apply all events functions
      */
     applyAllEvents(): void {
-        this.addEffectsEvent();
         this.generateMouseEvents();
     }
 }

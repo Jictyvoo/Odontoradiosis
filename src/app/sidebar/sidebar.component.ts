@@ -7,6 +7,7 @@ import {
     UsefulMethods,
 } from 'cephalometric-canvas';
 import { SidenavService } from 'src/services/sidenav.service';
+import { AvailableEffects } from 'src/util/canvas-manipulation';
 import { default as supportedCephalometric } from 'src/util/supported-cephalometric';
 
 @Component({
@@ -83,5 +84,27 @@ export class SidebarComponent implements OnInit {
             canvasOdontoradiosis.canvasCursor = 'crosshair';
         }
         //self.mainController.referenceLandmarks.call(self.mainController);
+    }
+
+    applyEffects(effect: string, value: number | null): void {
+        const effectsManager = this.canvasService.effectsManager;
+        switch (effect) {
+            case AvailableEffects.GRAYSCALE:
+                effectsManager.grayscale = value ?? 0;
+                break;
+            case AvailableEffects.INVERT:
+                effectsManager.invert = value ?? 0;
+                break;
+            case AvailableEffects.BRIGHTNESS:
+                effectsManager.brightness = value ?? 0;
+                break;
+            case AvailableEffects.CONTRAST:
+                effectsManager.contrast = value ?? 0;
+                break;
+            default:
+                effectsManager.grayscale = value ?? 0;
+                break;
+        }
+        effectsManager.updateFilterValues();
     }
 }
