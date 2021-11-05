@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SidenavService } from 'src/services/sidenav.service';
 
 @Component({
     selector: 'app-toolbar',
@@ -6,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-    constructor() {}
+    private toggleActive: boolean;
+
+    constructor(private sidenav: SidenavService) {
+        this.toggleActive = false;
+    }
 
     ngOnInit(): void {}
+
+    openSidebar(): void {
+        this.toggleActive = !this.toggleActive;
+        this.sidenav.toggle();
+    }
 
     openImageSelection(): void {
         console.debug('Open image selection');

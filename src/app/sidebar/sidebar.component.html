@@ -1,9 +1,9 @@
 <mat-sidenav-container
   class="sidebar-container"
   [hasBackdrop]="false"
-  [style.marginTop.px]="65"
+  [style.marginTop.px]="64"
 >
-  <mat-sidenav #sidebar [mode]="'side'">
+  <mat-sidenav #sidenav [mode]="'side'">
     <!-- Curve select -->
     <mat-nav-list>
       <mat-form-field mat-list-item appearance="fill">
@@ -98,7 +98,6 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <button mat-raised-button (click)="sidebar.toggle()">Toggle sidebar</button>
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

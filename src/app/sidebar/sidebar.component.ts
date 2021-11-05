@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { SidenavService } from 'src/services/sidenav.service';
 import { default as supportedCephalometric } from 'src/util/supported-cephalometric';
 
 @Component({
@@ -13,7 +15,10 @@ export class SidebarComponent implements OnInit {
     supportedPoints: string[];
     selectedPoint: string;
 
-    constructor() {
+    @ViewChild('sidenav')
+    public sidenav!: MatSidenav;
+
+    constructor(private sidenavService: SidenavService) {
         this.supportedCurves = supportedCephalometric.supportedCurves;
         this.supportedPoints = supportedCephalometric.supportedPoints;
         this.selectedCurve = '';
@@ -21,4 +26,8 @@ export class SidebarComponent implements OnInit {
     }
 
     ngOnInit(): void {}
+
+    ngAfterViewInit(): void {
+        this.sidenavService.setSidenav(this.sidenav);
+    }
 }
