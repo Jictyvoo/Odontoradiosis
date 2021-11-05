@@ -27,10 +27,10 @@ class EventsOdontoradiosis {
             'stack-canvas'
         ) as HTMLElement;
 
-        stackCanvasElement.onmousedown = function (event) {
+        stackCanvasElement.onmousedown = function (event: MouseEvent) {
             mainController.manageMouseDown.call(mainController, event);
         };
-        stackCanvasElement.onmousemove = function (event) {
+        stackCanvasElement.onmousemove = function (event: MouseEvent) {
             mainController.manageMouseMove.call(mainController, event);
         };
         const tracingController = this.mainController.tracingController;

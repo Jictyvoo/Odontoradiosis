@@ -38,6 +38,10 @@ class CanvasOdontoradiosis {
         }
     }
 
+    public set canvasCursor(newCursor: string) {
+        this.stackCanvas.style.cursor = newCursor;
+    }
+
     /**
      * Returns a canvas based on it id
      * @param {string} id

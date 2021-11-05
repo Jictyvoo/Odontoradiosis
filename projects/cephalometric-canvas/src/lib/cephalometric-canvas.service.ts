@@ -18,16 +18,16 @@ import CanvasOdontoradiosis from './views/canvas';
     providedIn: 'root',
 })
 export class CephalometricCanvasService {
-    private mainController: MainController;
-    private infoKeeper: OdontoradiosisKeeper;
+    private mainController!: MainController;
     private scaleManager: ScaleManager;
-    private canvasOdontoradiosis: CanvasOdontoradiosis;
-    private imageEffects: ImageEffects;
+    private canvasOdontoradiosis!: CanvasOdontoradiosis;
+    private imageEffects!: ImageEffects;
 
-    constructor() {
+    constructor(private infoKeeper: OdontoradiosisKeeper) {
         this.scaleManager = new ScaleManager();
-        this.infoKeeper = new OdontoradiosisKeeper();
+    }
 
+    public init(): void {
         this.canvasOdontoradiosis = new CanvasOdontoradiosis(
             document.getElementById('stack-canvas') as HTMLElement,
             this.scaleManager,
@@ -73,6 +73,18 @@ export class CephalometricCanvasService {
             this.imageEffects
         );
         eventsController.applyAllEvents();
+    }
+
+    public get effectsManager(): ImageEffects {
+        return this.imageEffects;
+    }
+
+    public get tracingController(): TracingController {
+        return this.mainController.tracingController;
+    }
+
+    public get cephalometricCanvas(): CanvasOdontoradiosis {
+        return this.mainController.canvasOdontoradiosis;
     }
 
     public openImage(path: string = '', id: number = -1): void {

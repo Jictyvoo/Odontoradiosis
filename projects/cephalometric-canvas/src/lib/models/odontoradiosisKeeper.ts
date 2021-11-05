@@ -1,5 +1,9 @@
+import { Injectable } from '@angular/core';
 import { ICurvePointLocation, IMousePosition } from './interfaces';
 
+@Injectable({
+    providedIn: 'root',
+})
 class OdontoradiosisKeeper {
     public isMouseDown: boolean;
     public isInsideBox: boolean;
@@ -7,6 +11,7 @@ class OdontoradiosisKeeper {
     public isOnCurvePoints: ICurvePointLocation | null;
     public mousePosition: IMousePosition;
     public isCurveFunction: boolean;
+    public selectedOptions: { curve: string; landmark: string };
 
     constructor() {
         this.isMouseDown = false;
@@ -15,6 +20,7 @@ class OdontoradiosisKeeper {
         this.isOnCurvePoints = null;
         this.mousePosition = { x: 0, y: 0, disabled: true };
         this.isCurveFunction = false;
+        this.selectedOptions = { curve: '', landmark: '' };
     }
 }
 

@@ -8,7 +8,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CephalometricCanvasModule } from 'cephalometric-canvas';
+import {
+    CephalometricCanvasModule,
+    CephalometricCanvasService,
+} from 'cephalometric-canvas';
 import { SidenavService } from 'src/services/sidenav.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,7 +44,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         // Custom Modules
         CephalometricCanvasModule,
     ],
-    providers: [SidenavService],
+    providers: [SidenavService, CephalometricCanvasService],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

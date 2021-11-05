@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CephalometricCanvasService } from '../../cephalometric-canvas.service';
 
 @Component({
     selector: 'lib-cephalometric-canvas',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./cephalometric-canvas.component.scss'],
 })
 export class CephalometricCanvasComponent implements OnInit {
-    constructor() {}
+    constructor(private canvasService: CephalometricCanvasService) {}
 
     ngOnInit(): void {}
+
+    ngAfterViewInit(): void {
+        this.canvasService.init();
+    }
 }
