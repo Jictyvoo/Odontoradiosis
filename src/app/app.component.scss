@@ -19,3 +19,34 @@
 h1 {
   text-align: center;
 }
+
+.cephalometric-card {
+  // centralize it's content
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // set the width and height
+  width: 96%;
+
+  // centralize self
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  margin: 0 auto;
+
+  > mat-card-title {
+    font-size: 1rem;
+    text-align: start;
+    margin: 0%;
+  }
+}
+
+.cephalometric-canvas {
+  // centralize the canvas
+  position: absolute;
+  top: 100%;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}

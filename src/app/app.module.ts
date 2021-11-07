@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
@@ -40,6 +41,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         MatSidenavModule,
         MatListModule,
         MatButtonModule,
+        MatCardModule,
 
         // Custom Modules
         CephalometricCanvasModule,

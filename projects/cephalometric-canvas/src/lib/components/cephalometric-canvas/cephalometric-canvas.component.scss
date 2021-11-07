@@ -7,6 +7,18 @@
     position: absolute;
     left: 0;
     top: 0;
+
+    width: 100%;
+
+    .image {
+      z-index: 0;
+    }
+    .bezier {
+      z-index: 1;
+    }
+    .landmarks {
+      z-index: 2;
+    }
   }
 }
 
