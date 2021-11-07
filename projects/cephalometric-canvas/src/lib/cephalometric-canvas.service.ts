@@ -3,7 +3,6 @@ import ImageEffects from './controllers/imageEffects';
 import MainController from './controllers/mainController';
 import LandmarksController from './controllers/subcontrollers/landmarksController';
 import TracingController from './controllers/subcontrollers/tracingController';
-import EventsOdontoradiosis from './events/eventsController';
 import SemiautomaticLandmarks from './features/semiautomatic_landmark/init';
 import * as aJson from './features/semiautomatic_landmark/routines/a.ldmk.json';
 import * as enaJson from './features/semiautomatic_landmark/routines/ena.ldmk.json';
@@ -19,13 +18,13 @@ import CanvasOdontoradiosis from './views/canvas';
 })
 export class CephalometricCanvasService {
     private mainController!: MainController;
-    private scaleManager: ScaleManager;
     private canvasOdontoradiosis!: CanvasOdontoradiosis;
     private imageEffects!: ImageEffects;
 
-    constructor(private infoKeeper: OdontoradiosisKeeper) {
-        this.scaleManager = new ScaleManager();
-    }
+    constructor(
+        private infoKeeper: OdontoradiosisKeeper,
+        private scaleManager: ScaleManager
+    ) {}
 
     public init(): void {
         this.canvasOdontoradiosis = new CanvasOdontoradiosis(
@@ -66,15 +65,6 @@ export class CephalometricCanvasService {
         // semiautomaticLandmarks.generateButtonEvent();
     }
 
-    public applyEvents(): void {
-        const eventsController = new EventsOdontoradiosis(
-            this.mainController,
-            this.infoKeeper,
-            this.imageEffects
-        );
-        eventsController.applyAllEvents();
-    }
-
     public get effectsManager(): ImageEffects {
         return this.imageEffects;
     }
@@ -85,6 +75,10 @@ export class CephalometricCanvasService {
 
     public get cephalometricCanvas(): CanvasOdontoradiosis {
         return this.mainController.canvasOdontoradiosis;
+    }
+
+    public get controller(): MainController {
+        return this.mainController;
     }
 
     public openImage(path: string = '', id: number = -1): void {

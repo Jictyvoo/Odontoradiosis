@@ -1,5 +1,10 @@
 <div id="card-canvas" class="card-body">
-  <div id="stack-canvas">
+  <div
+    (pointerdown)="onMouseDown($event)"
+    (pointerup)="onMouseUp()"
+    (pointermove)="onMouseMove($event)"
+    id="stack-canvas"
+  >
     <canvas id="image" style="z-index: 0"> </canvas>
     <canvas id="landmarks" style="z-index: 2"> </canvas>
     <canvas id="bezier" style="z-index: 1"> </canvas>

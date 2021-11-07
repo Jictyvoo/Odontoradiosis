@@ -1,9 +1,12 @@
 import { ILandmark, ILandmarkArray } from '../../models/interfaces';
+import { ILocalRepository } from '../../util/repositories/interface';
+import { LocalRepositoryImpl } from '../../util/repositories/localStorage.repository';
 import { default as CanvasOdontoradiosis } from '../../views/canvas';
 
 class LandmarksController {
     public landmarks: ILandmarkArray;
     public canvas: CanvasOdontoradiosis;
+    private localRepository: ILocalRepository;
 
     /**
      *
@@ -12,6 +15,7 @@ class LandmarksController {
     constructor(canvasOdontoradiosis: CanvasOdontoradiosis) {
         this.landmarks = {};
         this.canvas = canvasOdontoradiosis;
+        this.localRepository = new LocalRepositoryImpl();
     }
 
     /**
@@ -56,10 +60,7 @@ class LandmarksController {
      */
     saveLandmarks(): void {
         const data_json = JSON.stringify(this.landmarks);
-        const hiddenForm = document.getElementById(
-            'saved_points'
-        ) as HTMLInputElement;
-        hiddenForm.setAttribute('value', data_json);
+        this.localRepository.set('saved_points', data_json);
     }
 
     /**

@@ -1,4 +1,4 @@
-import { IStringMap } from '../models/interfaces';
+import { IPointBidimensional, IStringMap } from '../models/interfaces';
 import { default as OdontoradiosisKepper } from '../models/odontoradiosisKeeper';
 import { default as ScaleManager } from '../util/scaleManager';
 import { default as UsefulMethods } from '../util/usefulMethods';
@@ -184,24 +184,19 @@ class MainController {
 
     /**
      * Change or set point location on current mouse position
-     * @param {MouseEvent} event
+     * @param {IPointBidimensional} point
      */
-    markLandmarkPoint(event: MouseEvent): void {
-        const landmarkSelect = document.getElementById(
-            'pointsId'
-        ) as HTMLSelectElement;
-        const selectedIndex = landmarkSelect.selectedIndex;
-        const currentPoint = landmarkSelect.options[selectedIndex].text;
-        if (currentPoint !== 'Selecione') {
+    markLandmarkPoint(landmarkName: string, point: IPointBidimensional): void {
+        if (landmarkName !== 'Selecione') {
             const landmarkCanvas =
                 this.canvasOdontoradiosis.getCanvas('landmarks');
             const currentLandmark = this.landmarksController.verifyLandmark(
-                currentPoint,
+                landmarkName,
                 true
             );
             const currentMousePosition = this.scaleManager.getMousePos(
                 landmarkCanvas,
-                event
+                point
             );
             currentLandmark.X = currentMousePosition.x;
             currentLandmark.Y = currentMousePosition.y;
@@ -328,45 +323,6 @@ class MainController {
         } else if (this.infoKeeper.isCurveFunction) {
             this.canvasOdontoradiosis.getCanvas('bezier').style.cursor =
                 'crosshair';
-        }
-    }
-
-    /**
-     * Receive a event and manage when to select curve or landmark functions
-     * @param {MouseEvent} event
-     */
-    manageMouseDown(event: MouseEvent): void {
-        const curveSelect = document.getElementById(
-            'curvesId'
-        ) as HTMLSelectElement;
-        const selectedIndex = curveSelect.selectedIndex;
-        const currentCurve = curveSelect.options[selectedIndex].text;
-        const curveName = UsefulMethods.normalizeTracingName(currentCurve);
-        if (currentCurve === 'Selecione') {
-            this.infoKeeper.isCurveFunction = false;
-            this.markLandmarkPoint(event);
-        } else if (this.tracingController.curveExists(curveName)) {
-            this.infoKeeper.isCurveFunction = true;
-            const points = this.tracingController.getBoxDimensions(curveName);
-            const relativeMouse = this.scaleManager.getMousePos(
-                this.canvasOdontoradiosis.getCanvas('bezier'),
-                event
-            );
-            this.infoKeeper.isInsideBox =
-                relativeMouse.x >= points[0] &&
-                relativeMouse.x <= points[0] + points[2] &&
-                relativeMouse.y >= points[1] &&
-                relativeMouse.y <= points[1] + points[3];
-            this.infoKeeper.isOnBoxVertex =
-                this.tracingController.verifyMouseOnBoxVertex(
-                    relativeMouse,
-                    curveName
-                );
-            this.infoKeeper.isOnCurvePoints =
-                this.tracingController.verifyMouseOnCurvePoint(
-                    relativeMouse,
-                    curveName
-                );
         }
     }
 }

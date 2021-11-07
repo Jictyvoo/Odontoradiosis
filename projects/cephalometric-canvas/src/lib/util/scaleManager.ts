@@ -1,3 +1,9 @@
+import { Injectable } from '@angular/core';
+import { IPointBidimensional } from '../models/interfaces';
+
+@Injectable({
+    providedIn: 'root',
+})
 class ScaleManager {
     public pointRadius: number;
     public lineWidth: number;
@@ -103,23 +109,23 @@ class ScaleManager {
     /**
      * Returns an object containing the relative mouse position in Canvas
      * @param {HTMLElement} canvas
-     * @param {Event} event
+     * @param {Event} point
      */
     getMousePos(
         canvas: HTMLCanvasElement,
-        event: MouseEvent
+        point: IPointBidimensional
     ): { x: number; y: number } {
         const rect = canvas.getBoundingClientRect();
         const context = canvas.getContext('2d') as CanvasRenderingContext2D;
         return {
             x: this.dynamicCanvasScale(
-                event.clientX - rect.left,
+                point.x - rect.left,
                 true,
                 context,
                 rect
             ),
             y: this.dynamicCanvasScale(
-                event.clientY - rect.top,
+                point.y - rect.top,
                 false,
                 context,
                 rect
