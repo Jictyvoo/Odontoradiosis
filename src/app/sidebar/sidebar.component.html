@@ -41,6 +41,7 @@
       </div>
       <mat-slider
         mat-list-item
+        #effectContrastSlider
         (valueChange)="applyEffects('contrast', $event)"
         id="effectContrastId"
         min="0"
@@ -55,6 +56,7 @@
       </div>
       <mat-slider
         mat-list-item
+        #effectBrightnessSlider
         (valueChange)="applyEffects('brightness', $event)"
         id="effectBrightnessId"
         min="0"
@@ -69,6 +71,7 @@
       </div>
       <mat-slider
         mat-list-item
+        #effectInvertSlider
         (valueChange)="applyEffects('invert', $event)"
         id="effectInvertId"
         min="0"
@@ -83,6 +86,7 @@
       </div>
       <mat-slider
         mat-list-item
+        #effectGrayscaleSlider
         (valueChange)="applyEffects('grayscale', $event)"
         id="effectGrayscaleId"
         min="0"

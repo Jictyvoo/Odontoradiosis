@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { MatSidenav } from '@angular/material/sidenav';
+import { MatSlider } from '@angular/material/slider';
 import {
     CephalometricCanvasService,
     OdontoradiosisKeeper,
@@ -26,6 +27,19 @@ export class SidebarComponent implements OnInit {
     @ViewChild('selectedCurve')
     public selectedCurve!: MatSelect;
 
+    /* All sidebar sliders */
+    @ViewChild('effectContrastSlider')
+    public effectContrastSlider!: MatSlider;
+
+    @ViewChild('effectBrightnessSlider')
+    public effectBrightnessSlider!: MatSlider;
+
+    @ViewChild('effectInvertSlider')
+    public effectInvertSlider!: MatSlider;
+
+    @ViewChild('effectGrayscaleSlider')
+    public effectGrayscaleSlider!: MatSlider;
+
     constructor(
         private sidenavService: SidenavService,
         private canvasService: CephalometricCanvasService,
@@ -42,7 +56,12 @@ export class SidebarComponent implements OnInit {
     }
 
     public undone(): void {
-        this.canvasService.effectsManager.reset();
+        const effectsManager = this.canvasService.effectsManager;
+        effectsManager.reset();
+        this.effectContrastSlider.value = effectsManager.contrast;
+        this.effectBrightnessSlider.value = effectsManager.brightness;
+        this.effectInvertSlider.value = effectsManager.invert;
+        this.effectGrayscaleSlider.value = effectsManager.grayscale;
     }
 
     /**
