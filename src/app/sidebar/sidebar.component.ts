@@ -126,4 +126,12 @@ export class SidebarComponent implements OnInit {
         }
         effectsManager.updateFilterValues();
     }
+
+    get contrastValue(): number {
+        return this.canvasService.defaultEffectValues.contrast;
+    }
+
+    get brightnessValue(): number {
+        return this.canvasService.defaultEffectValues.brightness;
+    }
 }

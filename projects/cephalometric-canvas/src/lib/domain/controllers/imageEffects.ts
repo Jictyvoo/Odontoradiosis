@@ -1,6 +1,7 @@
+import { IEffectValues } from '../models/interfaces';
 import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 
-const defaultValues = Object.freeze({
+export const defaultValues: IEffectValues = Object.freeze({
     brightness: 100,
     contrast: 100,
     grayscale: 0,
@@ -24,6 +25,10 @@ class ImageEffects {
         this.grayscale = defaultValues.grayscale;
         this.invert = defaultValues.invert;
         this.canvasManager = canvas;
+    }
+
+    public static get defaultValues(): IEffectValues {
+        return defaultValues;
     }
 
     /**
