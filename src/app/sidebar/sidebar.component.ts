@@ -71,6 +71,7 @@ export class SidebarComponent implements OnInit {
     public curveSelect(curveName: string): void {
         const tracingController = this.canvasService.tracingController;
         const canvasOdontoradiosis = this.canvasService.cephalometricCanvas;
+        this.infoKeeper.selectedOptions.curve = '';
         tracingController.drawAllCurves();
         if (curveName !== 'Selecione') {
             const currentCurve = UsefulMethods.normalizeTracingName(curveName);
@@ -90,7 +91,6 @@ export class SidebarComponent implements OnInit {
         } else {
             canvasOdontoradiosis.canvasCursor = 'crosshair';
         }
-        this.infoKeeper.selectedOptions.curve = '';
     }
 
     public landmarkSelect(landmarkName: string): void {
@@ -99,6 +99,7 @@ export class SidebarComponent implements OnInit {
         this.infoKeeper.selectedOptions.landmark = landmarkName;
         if (!this.selectedCurve.empty) {
             this.selectedCurve.writeValue('');
+            this.infoKeeper.selectedOptions.curve = '';
             tracingController.drawAllCurves();
             canvasOdontoradiosis.canvasCursor = 'crosshair';
         }

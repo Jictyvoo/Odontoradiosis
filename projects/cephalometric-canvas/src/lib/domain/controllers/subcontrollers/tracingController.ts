@@ -1,6 +1,6 @@
 import { LocalRepositoryImpl } from '../../../infra/repositories/localStorage.repository';
 import { default as AnatomicalTracingImpl } from '../../../infra/views/anatomicalTracing';
-import * as deafultBezierCurves from '../../models/bezier_curves.json';
+import deafultBezierCurves from '../../models/bezier_curves.json';
 import {
     IBezierCurves,
     ICurvePointLocation,
@@ -46,7 +46,8 @@ class TracingController {
      * @returns {boolean}
      */
     curveExists(curveId: string = ''): boolean {
-        return this.bezierPoints[curveId] != null;
+        const allCurves = Object.keys(this.bezierPoints);
+        return allCurves.includes(curveId);
     }
 
     /**

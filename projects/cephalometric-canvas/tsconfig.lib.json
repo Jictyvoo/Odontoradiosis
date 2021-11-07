@@ -8,15 +8,15 @@
     "declarationMap": true,
     "inlineSources": true,
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "types": [],
     "lib": ["dom", "es2018"],
     "paths": {
-      "@views": ["src/views/*"],
-      "@models": ["src/models/*"],
-      "@util": ["src/util/*"],
-      "@controllers": ["src/controllers/*"],
-      "@events": ["src/events/*"],
-      "@features": ["src/features/*"]
+      "@infra": ["src/lib/infra/*"],
+      "@models": ["src/lib/domain/models/*"],
+      "@util": ["src/lib/domain/util/*"],
+      "@controllers": ["src/lib/domain/controllers/*"],
+      "@features": ["src/lib/domain/features/*"]
     }
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
