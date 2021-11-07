@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ICurvePointLocation, IMousePosition } from './interfaces';
+import {
+    ICurvePointLocation,
+    IMousePosition,
+} from '../util/interfaces/interfaces';
 
 @Injectable({
     providedIn: 'root',

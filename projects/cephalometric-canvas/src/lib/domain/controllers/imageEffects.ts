@@ -1,4 +1,4 @@
-import { IEffectValues } from '../models/interfaces';
+import { IEffectValues } from '../util/interfaces/interfaces';
 import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 
 export const defaultValues: IEffectValues = Object.freeze({

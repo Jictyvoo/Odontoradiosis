@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPointBidimensional } from '../models/interfaces';
+import { IPointBidimensional } from './interfaces/interfaces';
 
 @Injectable({
     providedIn: 'root',

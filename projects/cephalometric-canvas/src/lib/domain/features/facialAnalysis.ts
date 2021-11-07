@@ -1,4 +1,4 @@
-import { IBezierCurves } from '../models/interfaces';
+import { IBezierCurves } from '../util/interfaces/interfaces';
 import ScaleManager from '../util/scaleManager';
 import UsefulMethods from '../util/usefulMethods';
 

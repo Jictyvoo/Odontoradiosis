@@ -5,7 +5,7 @@ import {
     IBezierCurves,
     ICurvePointLocation,
     IPointBidimensional,
-} from '../../models/interfaces';
+} from '../../util/interfaces/interfaces';
 import { ILocalRepository } from '../../util/interfaces/repositories';
 import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
 import { ITracingDraw } from '../../util/interfaces/views/tracingDraw';

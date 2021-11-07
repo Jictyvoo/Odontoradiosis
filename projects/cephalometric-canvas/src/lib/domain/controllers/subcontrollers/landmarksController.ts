@@ -1,5 +1,5 @@
 import { LocalRepositoryImpl } from '../../../infra/repositories/localStorage.repository';
-import { ILandmark, ILandmarkArray } from '../../models/interfaces';
+import { ILandmark, ILandmarkArray } from '../../util/interfaces/interfaces';
 import { ILocalRepository } from '../../util/interfaces/repositories';
 import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
 

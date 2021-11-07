@@ -3,7 +3,7 @@ import { default as TracingController } from '../../controllers/subcontrollers/t
 import {
     IRoutineHelpVar,
     IRoutinesSemiautomatic,
-} from '../../models/interfaces.js';
+} from '../../util/interfaces/interfaces.js';
 import { IRoutineDescription, ISymbolTable } from './interfaces';
 
 class SemiautomaticLandmarks {

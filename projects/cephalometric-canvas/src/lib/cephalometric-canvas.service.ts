@@ -9,8 +9,8 @@ import * as enaJson from './domain/features/semiautomatic_landmark/routines/ena.
 import * as gnatioJson from './domain/features/semiautomatic_landmark/routines/gnatio.ldmk.json';
 import * as nasioJson from './domain/features/semiautomatic_landmark/routines/nasio.ldmk.json';
 import * as selaJson from './domain/features/semiautomatic_landmark/routines/sela.ldmk.json';
-import { IEffectValues } from './domain/models/interfaces';
 import OdontoradiosisKeeper from './domain/models/odontoradiosisKeeper';
+import { IEffectValues } from './domain/util/interfaces/interfaces';
 import { ICanvasDraw } from './domain/util/interfaces/views/canvasDraw';
 import ScaleManager from './domain/util/scaleManager';
 import CanvasOdontoradiosisImpl from './infra/views/canvasImpl';

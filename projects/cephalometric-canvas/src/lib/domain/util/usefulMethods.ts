@@ -1,4 +1,4 @@
-import { IPointBidimensional } from '../models/interfaces';
+import { IPointBidimensional } from './interfaces/interfaces';
 
 class UsefulMethods {
     /**

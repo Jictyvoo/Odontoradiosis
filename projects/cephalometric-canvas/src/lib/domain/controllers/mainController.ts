@@ -1,5 +1,5 @@
-import { IPointBidimensional, IStringMap } from '../models/interfaces';
 import { default as OdontoradiosisKepper } from '../models/odontoradiosisKeeper';
+import { IPointBidimensional, IStringMap } from '../util/interfaces/interfaces';
 import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 import { default as ScaleManager } from '../util/scaleManager';
 import { default as UsefulMethods } from '../util/usefulMethods';

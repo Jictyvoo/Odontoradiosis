@@ -1,4 +1,4 @@
-import { IBezierCurves } from '../../domain/models/interfaces';
+import { IBezierCurves } from '../../domain/util/interfaces/interfaces';
 import { ICanvasDraw } from '../../domain/util/interfaces/views/canvasDraw';
 import { ITracingDraw } from '../../domain/util/interfaces/views/tracingDraw';
 
