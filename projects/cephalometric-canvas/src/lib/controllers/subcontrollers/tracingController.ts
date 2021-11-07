@@ -78,16 +78,9 @@ class TracingController {
             minY = Number.POSITIVE_INFINITY;
         let maxX = Number.NEGATIVE_INFINITY,
             maxY = Number.NEGATIVE_INFINITY;
-        this.bezierPoints[curveName].forEach(function (
-            element: number[],
-            _index: number,
-            _array: number[][]
-        ) {
-            element.forEach(function (
-                point: number,
-                position: number,
-                _arr: number[]
-            ) {
+        for (let element of this.bezierPoints[curveName]) {
+            for (let position = 0; position < element.length; position++) {
+                const point = element[position];
                 if (position % 2 !== 0) {
                     minY = Math.min(minY, point);
                     maxY = Math.max(maxY, point);
@@ -95,8 +88,8 @@ class TracingController {
                     minX = Math.min(minX, point);
                     maxX = Math.max(maxX, point);
                 }
-            });
-        });
+            }
+        }
         this.currentBoxPoints = [minX, minY, maxX, maxY];
         return this.currentBoxPoints;
     }
@@ -113,15 +106,20 @@ class TracingController {
         recalculate: boolean = false
     ): number[] {
         const points = this.getBoxPoints(curveName, recalculate);
-        const minX = points[0],
-            minY = points[1];
-        const maxX = points[2],
-            maxY = points[3];
-        const width = maxX - minX,
-            height = maxY - minY;
+        const minPoint: IPointBidimensional = {
+            x: points[0],
+            y: points[1],
+        };
+        const maxPoint: IPointBidimensional = {
+            x: points[2],
+            y: points[3],
+        };
+
+        const width = maxPoint.x - minPoint.x,
+            height = maxPoint.y - minPoint.y;
         return [
-            minX - borderSize,
-            minY - borderSize,
+            minPoint.x - borderSize,
+            minPoint.y - borderSize,
             width + borderSize * 2,
             height + borderSize * 2,
         ];
@@ -190,7 +188,7 @@ class TracingController {
 
     /**
      * Returns the current position of the mouse if it is on a curve point
-     * @param {*} relativeMouse
+     * @param {IPointBidimensional} relativeMouse
      * @param {string} curveName
      * @returns {array} [element, subindex, subindex + 1]
      */
@@ -233,16 +231,8 @@ class TracingController {
         _recalculate: boolean
     ): void {
         if (this.bezierPoints[curveName] != null) {
-            this.bezierPoints[curveName].forEach(function (
-                points: number[],
-                _index: number,
-                _array: number[][]
-            ) {
-                points.forEach(function (
-                    _point: number,
-                    position: number,
-                    _arr: number[]
-                ) {
+            for (let points of this.bezierPoints[curveName]) {
+                for (let position = 0; position < points.length; position++) {
                     if (position % 2 === 0) {
                         points[position] = callback_1(
                             points[position],
@@ -254,8 +244,8 @@ class TracingController {
                             points[position - 1]
                         );
                     }
-                });
-            });
+                }
+            }
             //this.anatomicalTracing.setAllCurves(this.bezierPoints);
         }
     }
