@@ -3,10 +3,11 @@
     (pointerdown)="onMouseDown($event)"
     (pointerup)="onMouseUp()"
     (pointermove)="onMouseMove($event)"
+    #stackCanvas
     id="stack-canvas"
   >
-    <canvas id="image"> </canvas>
-    <canvas id="bezier"> </canvas>
-    <canvas id="landmarks"> </canvas>
+    <canvas #canvasImage id="image"> </canvas>
+    <canvas #canvasBezier id="bezier"> </canvas>
+    <canvas #canvasLandmarks id="landmarks"> </canvas>
   </div>
 </div>

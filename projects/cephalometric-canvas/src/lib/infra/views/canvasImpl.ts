@@ -27,16 +27,17 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
         this.layerSequence = layerSequence;
         this.existentCanvas = {};
         this.scaleManager = scaleManager;
-        const allCanvas = this.stackCanvas.getElementsByTagName('canvas');
-        for (let index = 0; index < allCanvas.length; index++) {
-            const element = allCanvas[index];
-            const canvasName = element.getAttribute('id') as string;
-            this.existentCanvas[canvasName] = element;
-            element.setAttribute(
-                'style',
-                UsefulMethods.canvasStyle(layerSequence[canvasName])
-            );
-        }
+    }
+
+    public addCanvasElement(
+        canvasId: string,
+        element: HTMLCanvasElement
+    ): void {
+        this.existentCanvas[canvasId] = element;
+        element.setAttribute(
+            'style',
+            UsefulMethods.canvasStyle(this.layerSequence[canvasId] ?? -1)
+        );
     }
 
     get scales(): ScaleManager {

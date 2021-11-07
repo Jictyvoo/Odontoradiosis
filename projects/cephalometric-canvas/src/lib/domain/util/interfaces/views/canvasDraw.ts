@@ -1,6 +1,16 @@
 import ScaleManager from '../../scaleManager';
 
 export interface ICanvasDraw {
+    /**
+     * Add a canvas element in the manipulated canvas array
+     * @param canvasId
+     * @param element
+     */
+    addCanvasElement(canvasId: string, element: HTMLCanvasElement): void;
+
+    /**
+     * Change the cursor of the canvas stacks
+     */
     set canvasCursor(newCursor: string);
 
     /**

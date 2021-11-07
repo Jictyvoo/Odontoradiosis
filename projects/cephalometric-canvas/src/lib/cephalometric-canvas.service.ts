@@ -28,9 +28,9 @@ export class CephalometricCanvasService {
         private scaleManager: ScaleManager
     ) {}
 
-    public init(): void {
+    public init(stackCanvas: HTMLElement): void {
         this.canvasOdontoradiosis = new CanvasOdontoradiosisImpl(
-            document.getElementById('stack-canvas') as HTMLElement,
+            stackCanvas,
             this.scaleManager,
             { image: 0, bezier: 1, landmarks: 2 }
         );

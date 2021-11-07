@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CephalometricCanvasService } from '../../cephalometric-canvas.service';
 import OdontoradiosisKeeper from '../../domain/models/odontoradiosisKeeper';
 import { IPointBidimensional } from '../../domain/util/interfaces/interfaces';
@@ -11,6 +11,18 @@ import UsefulMethods from '../../domain/util/usefulMethods';
     styleUrls: ['./cephalometric-canvas.component.scss'],
 })
 export class CephalometricCanvasComponent implements OnInit {
+    @ViewChild('stackCanvas')
+    stackCanvasElement!: ElementRef<HTMLElement>;
+
+    @ViewChild('canvasImage')
+    canvasImageElement!: ElementRef<HTMLCanvasElement>;
+
+    @ViewChild('canvasBezier')
+    canvasBezierElement!: ElementRef<HTMLCanvasElement>;
+
+    @ViewChild('canvasLandmarks')
+    canvasLandmarksElement!: ElementRef<HTMLCanvasElement>;
+
     constructor(
         private canvasService: CephalometricCanvasService,
         private infoKeeper: OdontoradiosisKeeper,
@@ -20,7 +32,19 @@ export class CephalometricCanvasComponent implements OnInit {
     ngOnInit(): void {}
 
     ngAfterViewInit(): void {
-        this.canvasService.init();
+        this.canvasService.init(this.stackCanvasElement.nativeElement);
+        this.canvasService.cephalometricCanvas.addCanvasElement(
+            'image',
+            this.canvasImageElement.nativeElement
+        );
+        this.canvasService.cephalometricCanvas.addCanvasElement(
+            'bezier',
+            this.canvasBezierElement.nativeElement
+        );
+        this.canvasService.cephalometricCanvas.addCanvasElement(
+            'landmarks',
+            this.canvasLandmarksElement.nativeElement
+        );
     }
 
     onMouseMove(event: PointerEvent): void {
