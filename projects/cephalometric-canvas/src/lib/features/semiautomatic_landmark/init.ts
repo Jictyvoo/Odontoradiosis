@@ -162,8 +162,8 @@ class SemiautomaticLandmarks {
                 resultName: any
             ) {
                 const result = {
-                    X: parseFloat(symbolTable[firstParam] as string),
-                    Y: parseFloat(symbolTable[secondParam] as string),
+                    x: parseFloat(symbolTable[firstParam] as string),
+                    y: parseFloat(symbolTable[secondParam] as string),
                 };
                 landmarksController.setLandmark(
                     helpVariables.landmarkName,

@@ -187,7 +187,7 @@ class MainController {
      * @param {IPointBidimensional} point
      */
     markLandmarkPoint(landmarkName: string, point: IPointBidimensional): void {
-        if (landmarkName !== 'Selecione') {
+        if (landmarkName.length > 0 && landmarkName !== 'Selecione') {
             const landmarkCanvas =
                 this.canvasOdontoradiosis.getCanvas('landmarks');
             const currentLandmark = this.landmarksController.verifyLandmark(
