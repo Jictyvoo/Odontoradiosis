@@ -1,4 +1,4 @@
-import { default as CanvasOdontoradiosis } from '../views/canvas';
+import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 
 const defaultValues = Object.freeze({
     brightness: 100,
@@ -12,13 +12,13 @@ class ImageEffects {
     public contrast: number;
     public grayscale: number;
     public invert: number;
-    public canvasManager: CanvasOdontoradiosis;
+    public canvasManager: ICanvasDraw;
 
     /**
      *
-     * @param {CanvasOdontoradiosis} canvas
+     * @param {ICanvasDraw} canvas
      */
-    constructor(canvas: CanvasOdontoradiosis) {
+    constructor(canvas: ICanvasDraw) {
         this.brightness = defaultValues.brightness;
         this.contrast = defaultValues.contrast;
         this.grayscale = defaultValues.grayscale;

@@ -1,7 +1,8 @@
-import { default as ScaleManager } from '../util/scaleManager';
-import { default as UsefulMethods } from '../util/usefulMethods';
+import { ICanvasDraw } from '../../domain/util/interfaces/views/canvasDraw';
+import { default as ScaleManager } from '../../domain/util/scaleManager';
+import { default as UsefulMethods } from '../../domain/util/usefulMethods';
 
-class CanvasOdontoradiosis {
+class CanvasOdontoradiosisImpl implements ICanvasDraw {
     public stackCanvas: HTMLElement;
     public layerSequence: { [key: string]: number };
     public existentCanvas: {
@@ -36,6 +37,10 @@ class CanvasOdontoradiosis {
                 UsefulMethods.canvasStyle(layerSequence[canvasName])
             );
         }
+    }
+
+    get scales(): ScaleManager {
+        return this.scaleManager;
     }
 
     public set canvasCursor(newCursor: string) {
@@ -229,4 +234,4 @@ class CanvasOdontoradiosis {
     }
 }
 
-export default CanvasOdontoradiosis;
+export default CanvasOdontoradiosisImpl;

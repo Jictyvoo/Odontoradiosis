@@ -1,15 +1,16 @@
-import { IBezierCurves } from '../models/interfaces';
-import { default as CanvasOdontoradiosis } from './canvas';
+import { IBezierCurves } from '../../domain/models/interfaces';
+import { ICanvasDraw } from '../../domain/util/interfaces/views/canvasDraw';
+import { ITracingDraw } from '../../domain/util/interfaces/views/tracingDraw';
 
-class AnatomicalTracing {
-    public canvas: CanvasOdontoradiosis;
+class AnatomicalTracingImpl implements ITracingDraw {
+    public canvas: ICanvasDraw;
     public allCurves: IBezierCurves;
 
     /**
      * Constructor
-     * @param {CanvasOdontoradiosis} canvas
+     * @param {ICanvasDraw} canvas
      */
-    constructor(canvas: CanvasOdontoradiosis) {
+    constructor(canvas: ICanvasDraw) {
         this.canvas = canvas;
         this.allCurves = {};
     }
@@ -135,7 +136,7 @@ class AnatomicalTracing {
         if (currentCurve != null) {
             const context = this.canvas.getContext('bezier');
             context.beginPath();
-            context.lineWidth = this.canvas.scaleManager.lineWidth;
+            context.lineWidth = this.canvas.scales.lineWidth;
             context.rect(
                 boxDimensions[0],
                 boxDimensions[1],
@@ -148,4 +149,4 @@ class AnatomicalTracing {
     }
 }
 
-export default AnatomicalTracing;
+export default AnatomicalTracingImpl;

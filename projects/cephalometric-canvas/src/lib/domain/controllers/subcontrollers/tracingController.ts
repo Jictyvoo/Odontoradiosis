@@ -1,28 +1,31 @@
+import { LocalRepositoryImpl } from '../../../infra/repositories/localStorage.repository';
+import { default as AnatomicalTracingImpl } from '../../../infra/views/anatomicalTracing';
 import * as deafultBezierCurves from '../../models/bezier_curves.json';
 import {
     IBezierCurves,
     ICurvePointLocation,
     IPointBidimensional,
 } from '../../models/interfaces';
-import { ILocalRepository } from '../../util/repositories/interface';
-import { LocalRepositoryImpl } from '../../util/repositories/localStorage.repository';
-import { default as AnatomicalTracing } from '../../views/anatomicalTracing';
-import { default as CanvasOdontoradiosis } from '../../views/canvas';
+import { ILocalRepository } from '../../util/interfaces/repositories';
+import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
+import { ITracingDraw } from '../../util/interfaces/views/tracingDraw';
 
 class TracingController {
-    public canvasOdontoradiosis: CanvasOdontoradiosis;
-    public anatomicalTracing: AnatomicalTracing;
+    public canvasOdontoradiosis: ICanvasDraw;
+    public anatomicalTracing: ITracingDraw;
     public bezierPoints: IBezierCurves;
     public currentBoxPoints: number[];
     private localRepository: ILocalRepository;
 
     /**
      * Constructor
-     * @param {CanvasOdontoradiosis} canvasOdontoradiosis
+     * @param {ICanvasDraw} canvasOdontoradiosis
      */
-    constructor(canvasOdontoradiosis: CanvasOdontoradiosis) {
+    constructor(canvasOdontoradiosis: ICanvasDraw) {
         this.canvasOdontoradiosis = canvasOdontoradiosis;
-        this.anatomicalTracing = new AnatomicalTracing(canvasOdontoradiosis);
+        this.anatomicalTracing = new AnatomicalTracingImpl(
+            canvasOdontoradiosis
+        );
         this.bezierPoints = deafultBezierCurves;
         this.currentBoxPoints = [0, 0, 0, 0];
         this.localRepository = new LocalRepositoryImpl();
@@ -166,7 +169,7 @@ class TracingController {
         const boxVertex = this.getBoxDimensions(curveName, 20, true);
         let isOn = false;
         let vertexIndex = 0;
-        const pointRadius = this.canvasOdontoradiosis.scaleManager.pointRadius;
+        const pointRadius = this.canvasOdontoradiosis.scales.pointRadius;
         [
             [boxVertex[0], boxVertex[1]],
             [boxVertex[0], boxVertex[1] + boxVertex[3]],
@@ -196,7 +199,7 @@ class TracingController {
         relativeMouse: IPointBidimensional,
         curveName: string
     ): ICurvePointLocation | null {
-        const pointRadius = this.canvasOdontoradiosis.scaleManager.pointRadius;
+        const pointRadius = this.canvasOdontoradiosis.scales.pointRadius;
         for (
             let index = 0;
             index < this.bezierPoints[curveName].length;
@@ -228,7 +231,7 @@ class TracingController {
         curveName: string,
         callback_1: any,
         callback_2: any,
-        _recalculate: boolean
+        _recalculate: boolean = false
     ): void {
         if (this.bezierPoints[curveName] != null) {
             for (let points of this.bezierPoints[curveName]) {

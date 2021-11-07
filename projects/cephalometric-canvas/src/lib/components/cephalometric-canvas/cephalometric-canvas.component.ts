@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CephalometricCanvasService } from '../../cephalometric-canvas.service';
-import OdontoradiosisKeeper from '../../models/odontoradiosisKeeper';
-import ScaleManager from '../../util/scaleManager';
-import UsefulMethods from '../../util/usefulMethods';
+import OdontoradiosisKeeper from '../../domain/models/odontoradiosisKeeper';
+import ScaleManager from '../../domain/util/scaleManager';
+import UsefulMethods from '../../domain/util/usefulMethods';
 
 @Component({
     selector: 'lib-cephalometric-canvas',

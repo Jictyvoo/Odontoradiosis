@@ -1,31 +1,29 @@
 import { IPointBidimensional, IStringMap } from '../models/interfaces';
 import { default as OdontoradiosisKepper } from '../models/odontoradiosisKeeper';
+import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 import { default as ScaleManager } from '../util/scaleManager';
 import { default as UsefulMethods } from '../util/usefulMethods';
-import { default as CanvasOdontoradiosis } from '../views/canvas';
 import { default as LandmarksController } from './subcontrollers/landmarksController';
 import { default as TracingController } from './subcontrollers/tracingController';
 
 class MainController {
     public urls: IStringMap;
-    public canvasOdontoradiosis: CanvasOdontoradiosis;
+    public canvasOdontoradiosis: ICanvasDraw;
     public scaleManager: ScaleManager;
     public tracingController: TracingController;
     public landmarksController: LandmarksController;
     public infoKeeper: OdontoradiosisKepper;
-    public width!: number;
-    public height!: number;
 
     /**
      * Constructor
      * @param {array} urls
-     * @param {CanvasOdontoradiosis} canvasOdontoradiosis
+     * @param {ICanvasDraw} canvasOdontoradiosis
      * @param {ScaleManager} scaleManager
      * @param {OdontoradiosisKepper} infoKeeper
      */
     constructor(
         urls: IStringMap,
-        canvasOdontoradiosis: CanvasOdontoradiosis,
+        canvasOdontoradiosis: ICanvasDraw,
         scaleManager: ScaleManager,
         infoKeeper: OdontoradiosisKepper
     ) {
@@ -61,7 +59,7 @@ class MainController {
      * @param {int} id image id
      */
     loadJsonLandmarks(id: number): void {
-        if (id && id > 0) {
+        if (id > 0) {
             const landmarkJson = this.urls['landmarks'].replace(
                 '%REPLACE%',
                 id.toString()
@@ -87,32 +85,17 @@ class MainController {
 
     /**
      * Loads json file with bezier anatomical tracing points
-     * @param {int} id image id
+     * @param {string} jsonContent image id
      */
-    loadJsonCurve(id: number): void {
-        if (id && id > 0) {
-            const curveJson = this.urls['curves'].replace(
-                '%REPLACE%',
-                id.toString()
-            );
-            const selfTracingController = this.tracingController;
-            selfTracingController.drawAllCurves.call(selfTracingController);
-            fetch(curveJson)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    selfTracingController.setBezierPoints.call(
-                        selfTracingController,
-                        data
-                    );
-                })
-                .then(() => {
-                    selfTracingController.drawAllCurves.call(
-                        selfTracingController
-                    );
-                });
+    loadJsonCurve(jsonContent: string): void {
+        // Load JsonCurves from default json file
+        this.tracingController.setBezierPoints();
+        if (jsonContent.length > 0) {
+            // Load from uploaded json file
+            // TODO: implement
+            this.tracingController.setBezierPoints(JSON.parse(jsonContent));
         }
+        this.tracingController.drawAllCurves();
     }
 
     /**

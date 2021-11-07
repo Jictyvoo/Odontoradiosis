@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
-import ImageEffects from './controllers/imageEffects';
-import MainController from './controllers/mainController';
-import LandmarksController from './controllers/subcontrollers/landmarksController';
-import TracingController from './controllers/subcontrollers/tracingController';
-import SemiautomaticLandmarks from './features/semiautomatic_landmark/init';
-import * as aJson from './features/semiautomatic_landmark/routines/a.ldmk.json';
-import * as enaJson from './features/semiautomatic_landmark/routines/ena.ldmk.json';
-import * as gnatioJson from './features/semiautomatic_landmark/routines/gnatio.ldmk.json';
-import * as nasioJson from './features/semiautomatic_landmark/routines/nasio.ldmk.json';
-import * as selaJson from './features/semiautomatic_landmark/routines/sela.ldmk.json';
-import OdontoradiosisKeeper from './models/odontoradiosisKeeper';
-import ScaleManager from './util/scaleManager';
-import CanvasOdontoradiosis from './views/canvas';
+import ImageEffects from './domain/controllers/imageEffects';
+import MainController from './domain/controllers/mainController';
+import LandmarksController from './domain/controllers/subcontrollers/landmarksController';
+import TracingController from './domain/controllers/subcontrollers/tracingController';
+import SemiautomaticLandmarks from './domain/features/semiautomatic_landmark/init';
+import * as aJson from './domain/features/semiautomatic_landmark/routines/a.ldmk.json';
+import * as enaJson from './domain/features/semiautomatic_landmark/routines/ena.ldmk.json';
+import * as gnatioJson from './domain/features/semiautomatic_landmark/routines/gnatio.ldmk.json';
+import * as nasioJson from './domain/features/semiautomatic_landmark/routines/nasio.ldmk.json';
+import * as selaJson from './domain/features/semiautomatic_landmark/routines/sela.ldmk.json';
+import OdontoradiosisKeeper from './domain/models/odontoradiosisKeeper';
+import { ICanvasDraw } from './domain/util/interfaces/views/canvasDraw';
+import ScaleManager from './domain/util/scaleManager';
+import CanvasOdontoradiosisImpl from './infra/views/canvasImpl';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CephalometricCanvasService {
     private mainController!: MainController;
-    private canvasOdontoradiosis!: CanvasOdontoradiosis;
+    private canvasOdontoradiosis!: ICanvasDraw;
     private imageEffects!: ImageEffects;
 
     constructor(
@@ -27,7 +28,7 @@ export class CephalometricCanvasService {
     ) {}
 
     public init(): void {
-        this.canvasOdontoradiosis = new CanvasOdontoradiosis(
+        this.canvasOdontoradiosis = new CanvasOdontoradiosisImpl(
             document.getElementById('stack-canvas') as HTMLElement,
             this.scaleManager,
             { image: 0, bezier: 1, landmarks: 2 }
@@ -73,7 +74,7 @@ export class CephalometricCanvasService {
         return this.mainController.tracingController;
     }
 
-    public get cephalometricCanvas(): CanvasOdontoradiosis {
+    public get cephalometricCanvas(): ICanvasDraw {
         return this.mainController.canvasOdontoradiosis;
     }
 
@@ -86,7 +87,7 @@ export class CephalometricCanvasService {
         this.mainController.setUrl('image', path);
         const self = this;
         this.canvasOdontoradiosis.openImage(path, function () {
-            self.mainController.loadJsonCurve(id);
+            self.mainController.loadJsonCurve('');
             self.mainController.loadJsonLandmarks(id);
         });
         this.imageEffects.reset();

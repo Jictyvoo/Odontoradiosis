@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ILocalRepository } from './interface';
+import { ILocalRepository } from '../../domain/util/interfaces/repositories';
 
 @Injectable({
     providedIn: 'root',

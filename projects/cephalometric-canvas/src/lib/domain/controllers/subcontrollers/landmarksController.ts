@@ -1,19 +1,19 @@
+import { LocalRepositoryImpl } from '../../../infra/repositories/localStorage.repository';
 import { ILandmark, ILandmarkArray } from '../../models/interfaces';
-import { ILocalRepository } from '../../util/repositories/interface';
-import { LocalRepositoryImpl } from '../../util/repositories/localStorage.repository';
-import { default as CanvasOdontoradiosis } from '../../views/canvas';
+import { ILocalRepository } from '../../util/interfaces/repositories';
+import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
 
 class LandmarksController {
     public landmarks: ILandmarkArray;
-    public canvas: CanvasOdontoradiosis;
+    public canvas: ICanvasDraw;
     private localRepository: ILocalRepository;
     private static color = { fill: 'red', stroke: '#330005' };
 
     /**
      *
-     * @param {CanvasOdontoradiosis} canvasOdontoradiosis
+     * @param {ICanvasDraw} canvasOdontoradiosis
      */
-    constructor(canvasOdontoradiosis: CanvasOdontoradiosis) {
+    constructor(canvasOdontoradiosis: ICanvasDraw) {
         this.landmarks = {};
         this.canvas = canvasOdontoradiosis;
         this.localRepository = new LocalRepositoryImpl();
@@ -81,23 +81,21 @@ class LandmarksController {
                 'landmarks',
                 locations.x,
                 locations.y,
-                this.canvas.scaleManager.pointRadius,
+                this.canvas.scales.pointRadius,
                 1,
                 LandmarksController.color.fill,
                 LandmarksController.color.stroke
             );
             context.beginPath();
             context.fillStyle = LandmarksController.color.fill;
-            context.font = this.canvas.scaleManager.nameScale + 'px Arial';
+            context.font = this.canvas.scales.nameScale + 'px Arial';
             context.fillText(
                 readyToShowName.toString(),
                 Math.floor(
-                    locations.x -
-                        this.canvas.scaleManager.textRelativePosition.x
+                    locations.x - this.canvas.scales.textRelativePosition.x
                 ),
                 Math.floor(
-                    locations.y +
-                        this.canvas.scaleManager.textRelativePosition.y
+                    locations.y + this.canvas.scales.textRelativePosition.y
                 )
             );
             context.fill();
