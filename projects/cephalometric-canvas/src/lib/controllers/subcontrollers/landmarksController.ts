@@ -7,6 +7,7 @@ class LandmarksController {
     public landmarks: ILandmarkArray;
     public canvas: CanvasOdontoradiosis;
     private localRepository: ILocalRepository;
+    private static color = { fill: 'red', stroke: '#330005' };
 
     /**
      *
@@ -82,11 +83,11 @@ class LandmarksController {
                 locations.y,
                 this.canvas.scaleManager.pointRadius,
                 1,
-                'red',
-                '#330005'
+                LandmarksController.color.fill,
+                LandmarksController.color.stroke
             );
             context.beginPath();
-            context.fillStyle = 'red';
+            context.fillStyle = LandmarksController.color.fill;
             context.font = this.canvas.scaleManager.nameScale + 'px Arial';
             context.fillText(
                 readyToShowName.toString(),
@@ -101,7 +102,7 @@ class LandmarksController {
             );
             context.fill();
             context.lineWidth = 1;
-            context.strokeStyle = '#330005';
+            context.strokeStyle = LandmarksController.color.stroke;
             context.stroke();
         }
     }

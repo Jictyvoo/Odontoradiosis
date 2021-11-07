@@ -4,6 +4,8 @@ import {
     ICurvePointLocation,
     IPointBidimensional,
 } from '../../models/interfaces';
+import { ILocalRepository } from '../../util/repositories/interface';
+import { LocalRepositoryImpl } from '../../util/repositories/localStorage.repository';
 import { default as AnatomicalTracing } from '../../views/anatomicalTracing';
 import { default as CanvasOdontoradiosis } from '../../views/canvas';
 
@@ -12,6 +14,7 @@ class TracingController {
     public anatomicalTracing: AnatomicalTracing;
     public bezierPoints: IBezierCurves;
     public currentBoxPoints: number[];
+    private localRepository: ILocalRepository;
 
     /**
      * Constructor
@@ -22,6 +25,7 @@ class TracingController {
         this.anatomicalTracing = new AnatomicalTracing(canvasOdontoradiosis);
         this.bezierPoints = deafultBezierCurves;
         this.currentBoxPoints = [0, 0, 0, 0];
+        this.localRepository = new LocalRepositoryImpl();
     }
 
     /**
@@ -58,10 +62,7 @@ class TracingController {
      */
     saveBezierCurve() {
         const curvesJson = JSON.stringify(this.bezierPoints);
-        const hiddenForm = document.getElementById(
-            'bezier_curves'
-        ) as HTMLInputElement;
-        hiddenForm.setAttribute('value', curvesJson);
+        this.localRepository.set('bezier_curves', curvesJson);
     }
 
     /**
