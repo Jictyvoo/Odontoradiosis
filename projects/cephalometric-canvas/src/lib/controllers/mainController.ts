@@ -198,8 +198,8 @@ class MainController {
                 landmarkCanvas,
                 point
             );
-            currentLandmark.X = currentMousePosition.x;
-            currentLandmark.Y = currentMousePosition.y;
+            currentLandmark.x = currentMousePosition.x;
+            currentLandmark.y = currentMousePosition.y;
 
             this.landmarksController.saveLandmarks();
             this.landmarksController.redrawLandmarks();

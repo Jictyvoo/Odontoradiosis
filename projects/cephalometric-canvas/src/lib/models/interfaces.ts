@@ -7,9 +7,9 @@ export interface IPointBidimensional {
     y: number;
 }
 
-export interface ILandmark {
-    X: number;
-    Y: number;
+export interface ILandmark extends IPointBidimensional {
+    x: number;
+    y: number;
 }
 
 export interface IMousePosition extends IPointBidimensional {

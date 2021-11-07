@@ -38,7 +38,7 @@ class LandmarksController {
      * @param {string} name
      * @param {ILandmark} value
      */
-    setLandmark(name: string, value: ILandmark = { X: 0, Y: 0 }): void {
+    setLandmark(name: string, value: ILandmark = { x: 0, y: 0 }): void {
         this.landmarks[name] = value;
     }
 
@@ -50,7 +50,7 @@ class LandmarksController {
      */
     verifyLandmark(name: string, toCreate: boolean = false): ILandmark {
         if (!this.landmarks[name] && toCreate) {
-            this.landmarks[name] = { X: 0, Y: 0 };
+            this.landmarks[name] = { x: 0, y: 0 };
         }
         return this.landmarks[name];
     }
@@ -78,8 +78,8 @@ class LandmarksController {
         if (readyToShowName) {
             this.canvas.drawCircleCtx(
                 'landmarks',
-                locations.X,
-                locations.Y,
+                locations.x,
+                locations.y,
                 this.canvas.scaleManager.pointRadius,
                 1,
                 'red',
@@ -91,11 +91,11 @@ class LandmarksController {
             context.fillText(
                 readyToShowName.toString(),
                 Math.floor(
-                    locations.X -
+                    locations.x -
                         this.canvas.scaleManager.textRelativePosition.x
                 ),
                 Math.floor(
-                    locations.Y +
+                    locations.y +
                         this.canvas.scaleManager.textRelativePosition.y
                 )
             );
