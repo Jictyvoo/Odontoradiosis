@@ -173,7 +173,7 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
         cy2: number,
         x2: number,
         y2: number,
-        strokeStyle: string = '#00e379'
+        strokeStyle: string
     ): void {
         context.strokeStyle = strokeStyle;
         context.moveTo(x1, y1);

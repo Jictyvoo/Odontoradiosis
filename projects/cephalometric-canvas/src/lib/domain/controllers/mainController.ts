@@ -101,11 +101,7 @@ class MainController {
      * Adapt reference landmarks
      */
     referenceLandmarks(): void {
-        const pointSelect = document.getElementById(
-            'pointsId'
-        ) as HTMLSelectElement;
-        const selectedIndex = pointSelect.selectedIndex;
-        const currentPoint = pointSelect.options[selectedIndex].text;
+        const currentLandmark = this.infoKeeper.selectedOptions.landmark;
         const imagePaths: IStringMap = {};
         imagePaths['Sela (S)'] = 'selaTurcica.png';
         imagePaths['Násio (N)'] = 'nasio.png';
@@ -126,7 +122,7 @@ class MainController {
         imagePaths['Ponta do Nariz (PtN)'] = '';
         imagePaths['Fossa Ptérigo Maxilar (Fpm)'] = '';
         imagePaths['Pterigóide (Pt)'] = '';
-        if (currentPoint !== 'Selecione' && imagePaths[currentPoint]) {
+        if (currentLandmark !== 'Selecione' && imagePaths[currentLandmark]) {
             const img = new Image();
             const referenceCanvas = document.getElementById(
                 'referenceLandmark'
@@ -160,7 +156,8 @@ class MainController {
                     context.fillStyle = 'rgba(1, 1, 1, 0)'; //draw a box over the top
                 };
             }
-            img.src = this.urls['referenceImages'] + imagePaths[currentPoint];
+            img.src =
+                this.urls['referenceImages'] + imagePaths[currentLandmark];
         }
     }
 

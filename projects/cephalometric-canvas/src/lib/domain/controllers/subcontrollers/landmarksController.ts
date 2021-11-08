@@ -7,7 +7,7 @@ class LandmarksController {
     public landmarks: ILandmarkArray;
     public canvas: ICanvasDraw;
     private localRepository: ILocalRepository;
-    private static color = { fill: 'red', stroke: '#330005' };
+    private static color = Object.freeze({ fill: 'red', stroke: '#330005' });
 
     /**
      *

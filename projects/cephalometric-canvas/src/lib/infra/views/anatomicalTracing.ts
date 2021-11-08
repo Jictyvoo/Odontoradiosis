@@ -5,6 +5,7 @@ import { ITracingDraw } from '../../domain/util/interfaces/views/tracingDraw';
 class AnatomicalTracingImpl implements ITracingDraw {
     public canvas: ICanvasDraw;
     public allCurves: IBezierCurves;
+    private static color = Object.freeze({ fill: 'green', stroke: '#00e379' });
 
     /**
      * Constructor
@@ -23,47 +24,49 @@ class AnatomicalTracingImpl implements ITracingDraw {
         this.allCurves = curves;
     }
 
+    private drawCurve(curvePoints: number[][]): void {
+        for (let position = 0; position < curvePoints.length; position += 1) {
+            const points = curvePoints[position];
+            if (position === 0) {
+                this.canvas.drawBezier(
+                    this.canvas.getContext('bezier'),
+                    points[0],
+                    points[1],
+                    points[2],
+                    points[3],
+                    points[4],
+                    points[5],
+                    points[6],
+                    points[7],
+                    AnatomicalTracingImpl.color.stroke
+                );
+            } else {
+                const temporary = curvePoints[position - 1];
+                this.canvas.drawBezier(
+                    this.canvas.getContext('bezier'),
+                    temporary[temporary.length - 2],
+                    temporary[temporary.length - 1],
+                    points[0],
+                    points[1],
+                    points[2],
+                    points[3],
+                    points[4],
+                    points[5],
+                    AnatomicalTracingImpl.color.stroke
+                );
+            }
+        }
+    }
+
     /**
      * Draw all curves
      */
     drawAllCurves(): void {
         this.canvas.clearCanvas('bezier');
-        const selfCanvas = this.canvas;
-        const selfCurves = this.allCurves;
-        Object.keys(this.allCurves).forEach(function (element, _index, _array) {
-            selfCurves[element].forEach(function (points, position, _arr) {
-                if (position === 0) {
-                    selfCanvas.drawBezier.call(
-                        selfCanvas,
-                        selfCanvas.getContext.call(selfCanvas, 'bezier'),
-                        points[0],
-                        points[1],
-                        points[2],
-                        points[3],
-                        points[4],
-                        points[5],
-                        points[6],
-                        points[7],
-                        '#00e379'
-                    );
-                } else {
-                    const temporary = selfCurves[element][position - 1];
-                    selfCanvas.drawBezier.call(
-                        selfCanvas,
-                        selfCanvas.getContext.call(selfCanvas, 'bezier'),
-                        temporary[temporary.length - 2],
-                        temporary[temporary.length - 1],
-                        points[0],
-                        points[1],
-                        points[2],
-                        points[3],
-                        points[4],
-                        points[5],
-                        '#00e379'
-                    );
-                }
-            });
-        });
+        for (const entry of Object.entries(this.allCurves)) {
+            const element = entry[1];
+            this.drawCurve(element);
+        }
     }
 
     /**

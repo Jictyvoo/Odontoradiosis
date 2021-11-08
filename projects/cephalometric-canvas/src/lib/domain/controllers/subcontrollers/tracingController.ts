@@ -23,9 +23,13 @@ class TracingController {
      */
     constructor(canvasOdontoradiosis: ICanvasDraw) {
         this.canvasOdontoradiosis = canvasOdontoradiosis;
+
+        // Create AnatomicalTracing and set this curvePoints
         this.anatomicalTracing = new AnatomicalTracingImpl(
             canvasOdontoradiosis
         );
+        this.anatomicalTracing.setAllCurves(deafultBezierCurves);
+
         this.bezierPoints = deafultBezierCurves;
         this.currentBoxPoints = [0, 0, 0, 0];
         this.localRepository = new LocalRepositoryImpl();
