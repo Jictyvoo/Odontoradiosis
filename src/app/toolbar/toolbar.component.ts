@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { SidenavService } from 'src/services/sidenav.service';
+import { DropzoneDialogComponent } from '../dropzone/dropzone-dialog.component';
 
 @Component({
     selector: 'app-toolbar',
@@ -9,7 +11,7 @@ import { SidenavService } from 'src/services/sidenav.service';
 export class ToolbarComponent implements OnInit {
     private toggleActive: boolean;
 
-    constructor(private sidenav: SidenavService) {
+    constructor(private sidenav: SidenavService, public dialog: MatDialog) {
         this.toggleActive = false;
     }
 
@@ -21,11 +23,15 @@ export class ToolbarComponent implements OnInit {
     }
 
     openImageSelection(): void {
-        console.debug('Open image selection');
-    }
+        const dialogRef = this.dialog.open(DropzoneDialogComponent, {
+            width: '80%',
+            ariaDescribedBy: 'dropzone-dialog',
+            ariaLabel: 'Dropzone dialog',
+        });
 
-    openWindowSave(): void {
-        console.log('Open window save');
+        dialogRef.afterClosed().subscribe((result) => {
+            console.debug('The dialog was closed', result);
+        });
     }
 
     markSemiautomatic(): void {
