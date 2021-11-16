@@ -1,41 +1,44 @@
-<div class="dropzone" appDragNDrop (fileDropped)="onFileDropped($event)">
-  <p>Drag and drop file here</p>
-  <p>or</p>
-  <input
-    hidden
-    multiple
-    #fileDropRef
-    type="file"
-    id="fileDropRef"
-    (change)="fileBrowseHandler($event.target)"
-  />
-  <button mat-raised-button (click)="fileDropRef.click()">
-    <mat-icon>cloud_upload</mat-icon>
-    Browse for file
-  </button>
-</div>
-
-<!-- Uploaded File list -->
-<div class="files-list">
-  <div class="single-file" *ngFor="let file of files; let i = index">
-    <div class="file-icon">
+<mat-card
+  appDragNDrop
+  (fileDropped)="onFileDropped($event)"
+  class="content-card file-dropzone"
+>
+  <mat-card-title> Drag and drop file here </mat-card-title>
+  <mat-card-content (click)="fileDropRef.click()">
+    <input
+      hidden
+      multiple
+      #fileDropRef
+      type="file"
+      id="fileDropRef"
+      (change)="fileBrowseHandler($event.target)"
+    />
+    <div class="dashed-square">
+      <p>Browse for file</p>
+      <mat-icon>cloud_upload</mat-icon>
+    </div>
+  </mat-card-content>
+  <mat-card-footer class="files-list">
+    <!-- Uploaded File list -->
+    <div class="single-file" *ngFor="let file of files; let i = index">
       <mat-icon>insert_drive_file</mat-icon>
-    </div>
-    <div class="info">
-      <h4 class="name">
-        {{ file?.name }}
-      </h4>
-      <p class="size">
-        {{ formatBytes(file?.size ?? 0) }}
-      </p>
-      <mat-progress-bar
-        mode="determinate"
-        value="{{ file?.progress }}"
-      ></mat-progress-bar>
-    </div>
 
-    <div class="delete" (click)="deleteFile(i)">
-      <mat-icon>delete</mat-icon>
+      <div class="info">
+        <h4 class="name">
+          {{ file?.name }}
+        </h4>
+        <p class="size">
+          {{ formatBytes(file?.size ?? 0) }}
+        </p>
+        <mat-progress-bar
+          mode="determinate"
+          value="{{ file?.progress }}"
+        ></mat-progress-bar>
+      </div>
+
+      <button mat-button class="delete" (click)="deleteFile(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
-  </div>
-</div>
+  </mat-card-footer>
+</mat-card>

@@ -51,7 +51,7 @@
 }
 
 .files-list {
-  margin-top: 1.5rem;
+  width: 60%;
 
   .single-file {
     display: flex;
@@ -89,19 +89,71 @@
   }
 }
 
-.dropzone {
+.dashed-square {
+  width: 60%;
+  height: 80%;
+  border: 1px dashed #b7c6d8;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+
+  &:hover {
+    border: dashed 1px #979797;
+    background: #58415813;
+  }
+
+  font-size: 1.6rem;
+  .mat-icon {
+    font-size: 6rem;
+    width: max-content;
+    height: max-content;
+  }
+
+  min-width: 4rem;
+  min-height: 4rem;
+
+  margin: 1rem;
+  border-radius: 10px;
+  transform: translateX(30%);
+}
+
+.file-dropzone {
+  // centralize it's content
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  // centralize self
+  width: 90%;
   height: 100%;
+  border-radius: 5px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 
-  font-weight: bold;
-  font-size: 3rem;
+  &:hover {
+    background: #55546db4;
+  }
 
-  > button {
+  > mat-card-title {
+    margin: 0%;
+    font-size: 3rem;
+    text-align: start;
+
+    // fix on top
+    position: absolute;
+    top: 0;
+    margin: 0 auto;
+  }
+
+  > mat-card-content {
+    padding-top: 4rem;
     width: 100%;
     height: 100%;
+    align-items: center;
   }
 }
