@@ -1,0 +1,56 @@
+.content-card,
+.cephalometric-card {
+  // centralize it's content
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  // centralize self
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 10px);
+  margin: 0 auto;
+  // set the width and height
+  width: 96%;
+
+  > mat-card-title {
+    font-size: 1rem;
+    text-align: start;
+    margin: 0%;
+  }
+}
+
+.file-dropzone {
+  width: 90%;
+  height: 70%;
+  border-radius: 5px;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, 12%);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    border: dashed 1px #979797;
+    background: #58415813;
+  }
+  > mat-card-title {
+    font-size: 3rem;
+    text-align: start;
+
+    // fix on top
+    position: absolute;
+    top: 0;
+    margin: 0 auto;
+  }
+}
+
+.cephalometric-canvas {
+  // centralize the canvas
+  position: absolute;
+  top: 100%;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}

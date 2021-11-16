@@ -1,0 +1,19 @@
+<div *ngIf="!hasRadiographyLoaded; then canvasBlock; else dropZoneBlock"></div>
+
+<ng-template #canvasBlock>
+  <mat-card class="cephalometric-card">
+    <mat-card-title>Radiografia</mat-card-title>
+    <mat-card-content class="cephalometric-canvas">
+      <lib-cephalometric-canvas></lib-cephalometric-canvas>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #dropZoneBlock>
+  <mat-card (click)="selectFile()" class="content-card file-dropzone">
+    <mat-card-title> Drag and drop file here </mat-card-title>
+    <mat-card-content>
+      <app-file-dropzone></app-file-dropzone>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

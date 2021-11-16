@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
@@ -14,9 +15,12 @@ import {
     CephalometricCanvasService,
 } from 'cephalometric-canvas';
 import { SidenavService } from 'src/services/sidenav.service';
+import { DragNDropDirective } from '../directives/drag-n-drop/drag-n-drop.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DropzoneComponent } from './dropzone/dropzone.component';
 import { HelpPageComponent } from './help-page/help-page.component';
+import { HomeComponent } from './home/home.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
@@ -27,6 +31,11 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         HelpPageComponent,
         SidebarComponent,
         ToolbarComponent,
+        DropzoneComponent,
+        HomeComponent,
+
+        // Directives
+        DragNDropDirective,
     ],
     imports: [
         BrowserModule,
@@ -42,6 +51,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         MatListModule,
         MatButtonModule,
         MatCardModule,
+        MatProgressBarModule,
 
         // Custom Modules
         CephalometricCanvasModule,

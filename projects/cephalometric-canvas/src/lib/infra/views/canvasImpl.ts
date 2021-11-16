@@ -9,8 +9,6 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
         [key: string]: HTMLCanvasElement;
     };
     public scaleManager: ScaleManager;
-    public width!: number;
-    public height!: number;
 
     /**
      * Constructor
