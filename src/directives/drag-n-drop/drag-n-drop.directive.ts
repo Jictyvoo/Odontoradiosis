@@ -5,14 +5,13 @@ import {
     HostListener,
     Output,
 } from '@angular/core';
-import { IUploadableFile } from 'src/util/general';
 
 @Directive({
     selector: '[appDragNDrop]',
 })
 export class DragNDropDirective {
     @HostBinding('class.fileover') fileOver: boolean;
-    @Output() fileDropped = new EventEmitter<IUploadableFile>();
+    @Output() fileDropped = new EventEmitter<FileList>();
 
     constructor() {
         this.fileOver = false;
@@ -35,16 +34,12 @@ export class DragNDropDirective {
     }
 
     // Drop listener
-    @HostListener('drop', ['$event']) public ondrop(event: {
-        preventDefault: () => void;
-        stopPropagation: () => void;
-        dataTransfer: { files: any };
-    }): void {
+    @HostListener('drop', ['$event']) public ondrop(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
         this.fileOver = false;
-        let files = event.dataTransfer.files;
-        if (files.length > 0) {
+        const files = event.dataTransfer?.files;
+        if ((files?.length ?? 0) > 0) {
             this.fileDropped.emit(files);
         }
     }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IUploadableFile } from 'src/util/general';
+import { AcceptedFileType, IUploadableFile } from 'src/util/general';
 
 @Component({
     selector: 'app-file-dropzone',
@@ -10,10 +10,11 @@ export class DropzoneComponent {
     files: IUploadableFile[] = [];
 
     /**
-     * on file drop handler
+     * Load file from file list
+     * @param event (Drag event)
      */
-    onFileDropped(event: IUploadableFile): void {
-        this.files.push(event);
+    onFileDropped(event: FileList): void {
+        this.prepareFilesList(event);
     }
 
     /**
@@ -32,27 +33,50 @@ export class DropzoneComponent {
      * @param index (File index)
      */
     deleteFile(index: number): void {
+        const deleted = this.files[index];
+        deleted?.reader?.abort();
         this.files.splice(index, 1);
     }
 
-    /**
-     * Simulate the upload process
-     */
-    uploadFilesSimulator(index: number): void {
-        setTimeout(() => {
-            if (index === this.files.length) {
-                return;
+    private loadFile(item: File): void {
+        // check if the file is a image or a zip file
+        const fileType = item.type.match('image.*')
+            ? AcceptedFileType.IMAGE
+            : item.name.endsWith('.zip')
+            ? AcceptedFileType.ZIP
+            : null;
+
+        if (fileType) {
+            const reader = new FileReader();
+
+            this.files.push({
+                name: item.name,
+                size: item.size,
+                type: item.type,
+                file: item,
+                progress: 0,
+                reader: reader,
+            });
+
+            reader.readAsDataURL(item);
+
+            const currentIndex = this.files.length - 1;
+            reader.onprogress = (event: ProgressEvent<FileReader>) => {
+                this.files[currentIndex].progress = Math.round(
+                    (event.loaded / event.total) * 100
+                );
+            };
+
+            if (fileType === AcceptedFileType.IMAGE) {
+                reader.onload = (event: ProgressEvent<FileReader>) => {
+                    /*const image = new Image();
+                    image.src = event.target!.result as string;*/
+                    console.log(event.target!.result);
+                };
             } else {
-                const progressInterval = setInterval(() => {
-                    if (this.files[index].progress === 100) {
-                        clearInterval(progressInterval);
-                        this.uploadFilesSimulator(index + 1);
-                    } else {
-                        this.files[index].progress += 5;
-                    }
-                }, 200);
+                // TODO: Zip file
             }
-        }, 1000);
+        }
     }
 
     /**
@@ -63,16 +87,9 @@ export class DropzoneComponent {
         for (let index = 0; index < files.length; index++) {
             const item = files.item(index);
             if (item) {
-                this.files.push({
-                    name: item.name,
-                    size: item.size,
-                    type: item.type,
-                    file: item,
-                    progress: 0,
-                });
+                this.loadFile(item);
             }
         }
-        this.uploadFilesSimulator(0);
     }
 
     /**
