@@ -1,12 +1,15 @@
 import { default as OdontoradiosisKepper } from '../models/odontoradiosisKeeper';
-import { IPointBidimensional, IStringMap } from '../util/interfaces/interfaces';
+import {
+    ILandmarkArray,
+    IPointBidimensional,
+    IStringMap,
+} from '../util/interfaces/interfaces';
 import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 import { default as ScaleManager } from '../util/scaleManager';
 import { default as LandmarksController } from './subcontrollers/landmarksController';
 import { default as TracingController } from './subcontrollers/tracingController';
 
 class MainController {
-    public urls: IStringMap;
     public canvasOdontoradiosis: ICanvasDraw;
     public scaleManager: ScaleManager;
     public tracingController: TracingController;
@@ -15,18 +18,15 @@ class MainController {
 
     /**
      * Constructor
-     * @param {array} urls
      * @param {ICanvasDraw} canvasOdontoradiosis
      * @param {ScaleManager} scaleManager
      * @param {OdontoradiosisKepper} infoKeeper
      */
     constructor(
-        urls: IStringMap,
         canvasOdontoradiosis: ICanvasDraw,
         scaleManager: ScaleManager,
         infoKeeper: OdontoradiosisKepper
     ) {
-        this.urls = urls;
         this.canvasOdontoradiosis = canvasOdontoradiosis;
         this.scaleManager = scaleManager;
         this.tracingController = new TracingController(canvasOdontoradiosis);
@@ -37,48 +37,27 @@ class MainController {
     }
 
     /**
-     * @param {string} id
-     * @returns {string}
-     */
-    getUrl(id: string): string {
-        return this.urls[id];
-    }
-
-    /**
-     * Set the address of url with given id
-     * @param {string} id
-     * @param {string} address
-     */
-    setUrl(id: string, address: string): void {
-        this.urls[id] = address;
-    }
-
-    /**
      * Loads json file with landmarks location
      * @param {int} id image id
      */
-    loadJsonLandmarks(id: number): void {
-        if (id > 0) {
-            const landmarkJson = this.urls['landmarks'].replace(
-                '%REPLACE%',
-                id.toString()
-            );
-            const selfLandmarksController = this.landmarksController;
-            fetch(landmarkJson)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    selfLandmarksController.setLandmarks.call(
-                        selfLandmarksController,
-                        data
-                    );
-                })
-                .then(() => {
-                    selfLandmarksController.redrawLandmarks.call(
-                        selfLandmarksController
-                    );
-                });
+    public loadJsonLandmarks(jsonContent: string): void {
+        if (jsonContent.length > 0) {
+            const decodedLandmarks = JSON.parse(jsonContent);
+
+            const validLandmarks: ILandmarkArray = {};
+            for (const landmark of Object.entries(decodedLandmarks)) {
+                const landmarkName = landmark[0];
+                const landmarkPosition = landmark[1];
+
+                if (typeof landmarkPosition == 'object') {
+                    validLandmarks[landmarkName] = {
+                        x: (landmarkPosition as any)?.x,
+                        y: (landmarkPosition as any)?.y,
+                    };
+                }
+            }
+            this.landmarksController.setLandmarks(validLandmarks);
+            this.landmarksController.redrawLandmarks();
         }
     }
 
@@ -86,7 +65,7 @@ class MainController {
      * Loads json file with bezier anatomical tracing points
      * @param {string} jsonContent image id
      */
-    loadJsonCurve(jsonContent: string): void {
+    public loadJsonCurve(jsonContent: string): void {
         // Load JsonCurves from default json file
         this.tracingController.setBezierPoints();
         if (jsonContent.length > 0) {
@@ -156,8 +135,8 @@ class MainController {
                     context.fillStyle = 'rgba(1, 1, 1, 0)'; //draw a box over the top
                 };
             }
-            img.src =
-                this.urls['referenceImages'] + imagePaths[currentLandmark];
+            /*img.src =
+                this.urls['referenceImages'] + imagePaths[currentLandmark];*/
         }
     }
 

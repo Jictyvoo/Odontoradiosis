@@ -61,7 +61,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         CephalometricCanvasModule,
     ],
     providers: [SidenavService, CephalometricCanvasService],
-    entryComponents: [DropzoneDialogComponent],
+    entryComponents: [],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

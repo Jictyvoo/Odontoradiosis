@@ -22,11 +22,14 @@ export class CephalometricCanvasService {
     private mainController!: MainController;
     private canvasOdontoradiosis!: ICanvasDraw;
     private imageEffects!: ImageEffects;
+    private imageLoaded: boolean;
 
     constructor(
         private infoKeeper: OdontoradiosisKeeper,
         private scaleManager: ScaleManager
-    ) {}
+    ) {
+        this.imageLoaded = false;
+    }
 
     public init(stackCanvas: HTMLElement): void {
         this.canvasOdontoradiosis = new CanvasOdontoradiosisImpl(
@@ -37,12 +40,6 @@ export class CephalometricCanvasService {
 
         this.imageEffects = new ImageEffects(this.canvasOdontoradiosis);
         this.mainController = new MainController(
-            {
-                image: '',
-                curves: '/public/js/bezier_curves.json',
-                landmarks: 'landmarks_url(temporary by file loaded)',
-                referenceImages: 'reference_images_url',
-            },
             this.canvasOdontoradiosis,
             this.scaleManager,
             this.infoKeeper
@@ -87,13 +84,17 @@ export class CephalometricCanvasService {
         return this.mainController;
     }
 
-    public openImage(path: string = '', id: number = -1): void {
+    public get isImageOpened(): boolean {
+        return this.imageLoaded;
+    }
+
+    public openImage(imageData: string): void {
         this.mainController.tracingController.setBezierPoints();
-        this.mainController.setUrl('image', path);
         const self = this;
-        this.canvasOdontoradiosis.openImage(path, function () {
+        this.canvasOdontoradiosis.openImage(imageData, function () {
             self.mainController.loadJsonCurve('');
-            self.mainController.loadJsonLandmarks(id);
+            self.mainController.loadJsonLandmarks('');
+            self.imageLoaded = true;
         });
         this.imageEffects.reset();
     }

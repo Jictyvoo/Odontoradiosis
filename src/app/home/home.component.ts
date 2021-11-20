@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CephalometricCanvasService } from 'cephalometric-canvas';
+import { ILoadedFile } from 'src/util/general';
 
 @Component({
     selector: 'app-home',
@@ -12,10 +13,13 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {}
 
     get hasRadiographyLoaded(): boolean {
+        // FIXME: this is a hack to make the template work
+        // Currently, when no image is loaded, the canvas element is not loaded also, so mainController doesn't exist
+        // return this.canvasService.isImageOpened
         return true;
     }
 
-    selectFile(): void {
-        console.log('TODO');
+    onFileLoaded(event: ILoadedFile): void {
+        this.canvasService.openImage(event.content as string);
     }
 }

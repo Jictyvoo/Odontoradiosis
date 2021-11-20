@@ -182,10 +182,10 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
 
     /**
      * Opens a given image and reset canvas size
-     * @param {string} path
+     * @param {string} imageData
      * @param {VoidFunction} loadFunction
      */
-    openImage(path: string = '', loadFunction?: VoidFunction): void {
+    openImage(imageData: string = '', loadFunction?: VoidFunction): void {
         const imageObject = new Image();
         if (this.existentCanvas['image'].getContext('2d')) {
             const context = this.existentCanvas['image'].getContext(
@@ -229,7 +229,7 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
                 }
             };
         }
-        imageObject.src = path;
+        imageObject.src = imageData;
     }
 }
 

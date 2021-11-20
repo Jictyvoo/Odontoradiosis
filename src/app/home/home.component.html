@@ -10,5 +10,8 @@
 </ng-template>
 
 <ng-template #dropZoneBlock>
-  <app-file-dropzone class="content-card"></app-file-dropzone>
+  <app-file-dropzone
+    (fileLoadedEvent)="onFileLoaded($event)"
+    class="content-card"
+  ></app-file-dropzone>
 </ng-template>

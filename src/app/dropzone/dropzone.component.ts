@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
-import { AcceptedFileType, IUploadableFile } from 'src/util/general';
+import { Component, EventEmitter, Output } from '@angular/core';
+import {
+    AcceptedFileType,
+    ILoadedFile,
+    IUploadableFile,
+} from 'src/util/general';
 
 @Component({
     selector: 'app-file-dropzone',
@@ -7,7 +11,13 @@ import { AcceptedFileType, IUploadableFile } from 'src/util/general';
     styleUrls: ['./dropzone.component.scss'],
 })
 export class DropzoneComponent {
-    files: IUploadableFile[] = [];
+    files: IUploadableFile[];
+    @Output() fileLoadedEvent: EventEmitter<ILoadedFile>;
+
+    constructor() {
+        this.files = [];
+        this.fileLoadedEvent = new EventEmitter<ILoadedFile>();
+    }
 
     /**
      * Load file from file list
@@ -67,15 +77,15 @@ export class DropzoneComponent {
                 );
             };
 
-            if (fileType === AcceptedFileType.IMAGE) {
-                reader.onload = (event: ProgressEvent<FileReader>) => {
-                    /*const image = new Image();
-                    image.src = event.target!.result as string;*/
-                    console.log(event.target!.result);
-                };
-            } else {
-                // TODO: Zip file
-            }
+            reader.onload = (event: ProgressEvent<FileReader>) => {
+                const result = event.target?.result;
+                if (result) {
+                    this.fileLoadedEvent.emit({
+                        fileType: fileType,
+                        content: result,
+                    });
+                }
+            };
         }
     }
 
