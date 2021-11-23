@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SidenavService } from 'src/services/sidenav.service';
+import { SidenavService } from '../../services/sidenav.service';
 import { DropzoneDialogComponent } from '../dropzone/dropzone-dialog.component';
 
 @Component({

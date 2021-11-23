@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CephalometricCanvasService } from 'cephalometric-canvas';
-import { ILoadedFile } from 'src/util/general';
+import { ILoadedFile } from '../../util/general';
 
 @Component({
     selector: 'app-home',

@@ -7,9 +7,9 @@ import {
     OdontoradiosisKeeper,
     UsefulMethods,
 } from 'cephalometric-canvas';
-import { SidenavService } from 'src/services/sidenav.service';
-import { AvailableEffects } from 'src/util/canvas-manipulation';
-import { default as supportedCephalometric } from 'src/util/supported-cephalometric';
+import { SidenavService } from '../../services/sidenav.service';
+import { AvailableEffects } from '../../util/canvas-manipulation';
+import { default as supportedCephalometric } from '../../util/supported-cephalometric';
 
 @Component({
     selector: 'app-sidebar',

@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CephalometricCanvasService } from 'cephalometric-canvas';
-import { ILoadedFile } from 'src/util/general';
+import { ILoadedFile } from '../../util/general';
 
 @Component({
     selector: 'dropzone-dialog',

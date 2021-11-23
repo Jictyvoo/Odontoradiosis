@@ -68,6 +68,23 @@ export class CephalometricCanvasService {
         }
     }
 
+    public openImageOnCanvas(imageData: string): void {
+        this.mainController.tracingController.setBezierPoints();
+        const self = this;
+        this.canvasOdontoradiosis.openImage(imageData, function () {
+            self.mainController.loadJsonCurve('');
+            self.mainController.loadJsonLandmarks('');
+        });
+        this.imageEffects.reset();
+    }
+
+    public loadImage(imageData: string): void {
+        this.imageInfo.imageData = imageData;
+        if (this.imageInfo.isLoaded) {
+            this.openImageOnCanvas(imageData);
+        }
+    }
+
     /**
      * Adding the semiautomatic landmark indentification feature
      * @param tracingController
@@ -108,22 +125,5 @@ export class CephalometricCanvasService {
 
     public get isImageOpened(): boolean {
         return this.imageInfo.imageData.length > 0;
-    }
-
-    public openImageOnCanvas(imageData: string): void {
-        this.mainController.tracingController.setBezierPoints();
-        const self = this;
-        this.canvasOdontoradiosis.openImage(imageData, function () {
-            self.mainController.loadJsonCurve('');
-            self.mainController.loadJsonLandmarks('');
-        });
-        this.imageEffects.reset();
-    }
-
-    public loadImage(imageData: string): void {
-        this.imageInfo.imageData = imageData;
-        if (this.imageInfo.isLoaded) {
-            this.openImageOnCanvas(imageData);
-        }
     }
 }

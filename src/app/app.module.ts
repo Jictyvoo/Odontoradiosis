@@ -15,8 +15,8 @@ import {
     CephalometricCanvasModule,
     CephalometricCanvasService,
 } from 'cephalometric-canvas';
-import { SidenavService } from 'src/services/sidenav.service';
 import { DragNDropDirective } from '../directives/drag-n-drop/drag-n-drop.directive';
+import { SidenavService } from '../services/sidenav.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DropzoneDialogComponent } from './dropzone/dropzone-dialog.component';
