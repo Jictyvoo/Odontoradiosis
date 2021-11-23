@@ -1,6 +1,7 @@
 import { LocalRepositoryImpl } from '../../../infra/repositories/localStorage.repository';
 import { default as AnatomicalTracingImpl } from '../../../infra/views/anatomicalTracing';
 import deafultBezierCurves from '../../models/bezier_curves.json';
+import { Cloneable } from '../../util/deepClone';
 import {
     IBezierCurves,
     ICurvePointLocation,
@@ -28,9 +29,9 @@ class TracingController {
         this.anatomicalTracing = new AnatomicalTracingImpl(
             canvasOdontoradiosis
         );
-        this.anatomicalTracing.setAllCurves(deafultBezierCurves);
+        this.bezierPoints = Cloneable.deepCopy(deafultBezierCurves);
+        this.anatomicalTracing.setAllCurves(this.bezierPoints);
 
-        this.bezierPoints = deafultBezierCurves;
         this.currentBoxPoints = [0, 0, 0, 0];
         this.localRepository = new LocalRepositoryImpl();
     }
@@ -39,7 +40,9 @@ class TracingController {
      * Bezier points setter
      * @param {IBezierCurves} points
      */
-    setBezierPoints(points: IBezierCurves = deafultBezierCurves): void {
+    setBezierPoints(
+        points: IBezierCurves = Cloneable.deepCopy(deafultBezierCurves)
+    ): void {
         this.bezierPoints = points;
         this.anatomicalTracing.setAllCurves(points);
     }

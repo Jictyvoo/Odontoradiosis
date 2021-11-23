@@ -10,7 +10,10 @@ import gnatioJson from './domain/features/semiautomatic_landmark/routines/gnatio
 import nasioJson from './domain/features/semiautomatic_landmark/routines/nasio.ldmk.json';
 import selaJson from './domain/features/semiautomatic_landmark/routines/sela.ldmk.json';
 import OdontoradiosisKeeper from './domain/models/odontoradiosisKeeper';
-import { ICanvasElements } from './domain/util/interfaces/canvasManipulation';
+import {
+    ICanvasElements,
+    ICanvasImage,
+} from './domain/util/interfaces/canvasManipulation';
 import { IEffectValues } from './domain/util/interfaces/interfaces';
 import { ICanvasDraw } from './domain/util/interfaces/views/canvasDraw';
 import ScaleManager from './domain/util/scaleManager';
@@ -23,13 +26,13 @@ export class CephalometricCanvasService {
     private mainController!: MainController;
     private canvasOdontoradiosis!: ICanvasDraw;
     private imageEffects!: ImageEffects;
-    private loadedImageData: string;
+    private imageInfo: ICanvasImage;
 
     constructor(
         private infoKeeper: OdontoradiosisKeeper,
         private scaleManager: ScaleManager
     ) {
-        this.loadedImageData = '';
+        this.imageInfo = { imageData: '', isLoaded: false };
     }
 
     public init(
@@ -59,8 +62,9 @@ export class CephalometricCanvasService {
         );
 
         // After the initialization of the canvas, the loaded image is displayed
-        if (this.loadedImageData.length > 0) {
-            this.openImageOnCanvas(this.loadedImageData);
+        if (this.imageInfo.imageData.length > 0) {
+            this.openImageOnCanvas(this.imageInfo.imageData);
+            this.imageInfo.isLoaded = true;
         }
     }
 
@@ -103,7 +107,7 @@ export class CephalometricCanvasService {
     }
 
     public get isImageOpened(): boolean {
-        return this.loadedImageData.length > 0;
+        return this.imageInfo.imageData.length > 0;
     }
 
     public openImageOnCanvas(imageData: string): void {
@@ -117,7 +121,9 @@ export class CephalometricCanvasService {
     }
 
     public loadImage(imageData: string): void {
-        this.loadedImageData = imageData;
-        // TODO: Create attribute to check if the canvas is initialized
+        this.imageInfo.imageData = imageData;
+        if (this.imageInfo.isLoaded) {
+            this.openImageOnCanvas(imageData);
+        }
     }
 }
