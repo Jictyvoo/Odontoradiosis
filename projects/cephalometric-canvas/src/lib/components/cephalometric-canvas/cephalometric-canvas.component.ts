@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CephalometricCanvasService } from '../../cephalometric-canvas.service';
 import OdontoradiosisKeeper from '../../domain/models/odontoradiosisKeeper';
+import { ICanvasLayers } from '../../domain/util/interfaces/canvasManipulation';
 import { IPointBidimensional } from '../../domain/util/interfaces/interfaces';
 import ScaleManager from '../../domain/util/scaleManager';
 import UsefulMethods from '../../domain/util/usefulMethods';
@@ -47,8 +48,8 @@ export class CephalometricCanvasComponent implements OnInit {
         const tracingController = this.canvasService.tracingController;
 
         /* For some reason the code below for context translate exists. This is bugging clear the canvas.
-        const bezierCanvas = canvasController.getCanvas('bezier');
-        const context = canvasController.getContext('bezier');
+        const bezierCanvas = canvasController.getCanvas(ICanvasLayers.ANATOMICAL_TRACING);
+        const context = canvasController.getContext(ICanvasLayers.ANATOMICAL_TRACING);
         context.translate(bezierCanvas.width / 2, bezierCanvas.height / 2);*/
 
         if (this.infoKeeper.isMouseDown && this.infoKeeper.isCurveFunction) {
@@ -58,8 +59,12 @@ export class CephalometricCanvasComponent implements OnInit {
             const curveName = UsefulMethods.normalizeTracingName(
                 this.infoKeeper.selectedOptions.curve
             );
-            const referenceCanvas = canvasController.getCanvas('landmarks');
-            const referenceContext = canvasController.getContext('landmarks');
+            const referenceCanvas = canvasController.getCanvas(
+                ICanvasLayers.LANDMARKS
+            );
+            const referenceContext = canvasController.getContext(
+                ICanvasLayers.LANDMARKS
+            );
             const referenceRect = referenceCanvas.getBoundingClientRect();
 
             const currentPosition: IPointBidimensional = {
@@ -162,7 +167,9 @@ export class CephalometricCanvasComponent implements OnInit {
             this.infoKeeper.isCurveFunction = true;
             const points = tracingController.getBoxDimensions(curveName);
             const relativeMouse = this.scaleManager.getMousePos(
-                canvasOdontoradiosis.getCanvas('bezier'),
+                canvasOdontoradiosis.getCanvas(
+                    ICanvasLayers.ANATOMICAL_TRACING
+                ),
                 { x: event.clientX, y: event.clientY }
             );
             this.infoKeeper.isInsideBox =

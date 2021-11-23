@@ -1,3 +1,4 @@
+import { ICanvasLayers } from '../../domain/util/interfaces/canvasManipulation';
 import { IBezierCurves } from '../../domain/util/interfaces/interfaces';
 import { ICanvasDraw } from '../../domain/util/interfaces/views/canvasDraw';
 import { ITracingDraw } from '../../domain/util/interfaces/views/tracingDraw';
@@ -25,7 +26,9 @@ class AnatomicalTracingImpl implements ITracingDraw {
     }
 
     private drawCurve(curvePoints: number[][]): void {
-        const bezierContext = this.canvas.getContext('bezier');
+        const bezierContext = this.canvas.getContext(
+            ICanvasLayers.ANATOMICAL_TRACING
+        );
         for (let position = 0; position < curvePoints.length; position += 1) {
             const points = curvePoints[position];
             if (position === 0) {
@@ -63,7 +66,7 @@ class AnatomicalTracingImpl implements ITracingDraw {
      * Draw all curves
      */
     drawAllCurves(): void {
-        this.canvas.clearCanvas('bezier');
+        this.canvas.clearCanvas(ICanvasLayers.ANATOMICAL_TRACING);
         for (const entry of Object.entries(this.allCurves)) {
             const element = entry[1];
             this.drawCurve(element);
@@ -76,7 +79,9 @@ class AnatomicalTracingImpl implements ITracingDraw {
      */
     drawPointCircle(curveName: string): void {
         if (this.allCurves[curveName] != null) {
-            const context = this.canvas.getContext('bezier');
+            const context = this.canvas.getContext(
+                ICanvasLayers.ANATOMICAL_TRACING
+            );
             //context.beginPath();
             for (
                 let index = 0;
@@ -138,7 +143,9 @@ class AnatomicalTracingImpl implements ITracingDraw {
      */
     drawCurveBox(currentCurve: string, boxDimensions: number[]): void {
         if (currentCurve != null) {
-            const context = this.canvas.getContext('bezier');
+            const context = this.canvas.getContext(
+                ICanvasLayers.ANATOMICAL_TRACING
+            );
             context.beginPath();
             context.lineWidth = this.canvas.scales.lineWidth;
             context.rect(

@@ -1,4 +1,5 @@
 import { default as OdontoradiosisKepper } from '../models/odontoradiosisKeeper';
+import { ICanvasLayers } from '../util/interfaces/canvasManipulation';
 import {
     ILandmarkArray,
     IPointBidimensional,
@@ -146,8 +147,9 @@ class MainController {
      */
     markLandmarkPoint(landmarkName: string, point: IPointBidimensional): void {
         if (landmarkName.length > 0 && landmarkName !== 'Selecione') {
-            const landmarkCanvas =
-                this.canvasOdontoradiosis.getCanvas('landmarks');
+            const landmarkCanvas = this.canvasOdontoradiosis.getCanvas(
+                ICanvasLayers.LANDMARKS
+            );
             const currentLandmark = this.landmarksController.verifyLandmark(
                 landmarkName,
                 true

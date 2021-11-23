@@ -1,3 +1,4 @@
+import { ICanvasLayers } from '../../domain/util/interfaces/canvasManipulation';
 import { ICanvasDraw } from '../../domain/util/interfaces/views/canvasDraw';
 import { default as ScaleManager } from '../../domain/util/scaleManager';
 import { default as UsefulMethods } from '../../domain/util/usefulMethods';
@@ -188,8 +189,9 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
      */
     openImage(imageData: string = '', loadFunction?: VoidFunction): void {
         const imageObject = new Image();
-        if (this.existentCanvas['image'].getContext('2d')) {
-            const context = this.existentCanvas['image'].getContext(
+        const backgroundCanvas = this.getCanvas(ICanvasLayers.BACKGROUND);
+        if (backgroundCanvas && backgroundCanvas.getContext('2d')) {
+            const context = backgroundCanvas.getContext(
                 '2d'
             ) as CanvasRenderingContext2D;
             const self = this;
@@ -198,13 +200,16 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
             imageObject.onload = function () {
                 context.canvas.width = imageObject.width; //this.width
                 context.canvas.height = imageObject.height; //this.height
-                ['landmarks', 'bezier'].forEach((element) => {
+                for (const element of [
+                    ICanvasLayers.LANDMARKS,
+                    ICanvasLayers.ANATOMICAL_TRACING,
+                ]) {
                     const temporaryContext = self.existentCanvas[
                         element
                     ].getContext('2d') as CanvasRenderingContext2D;
                     temporaryContext.canvas.width = context.canvas.width;
                     temporaryContext.canvas.height = context.canvas.height;
-                });
+                }
                 const cardCanvas = document.getElementById('card-canvas');
                 if (cardCanvas) {
                     cardCanvas.setAttribute(
@@ -214,7 +219,7 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
                 }
                 selfScaleManager.calculateScales.call(
                     selfScaleManager,
-                    self.existentCanvas['landmarks']
+                    self.existentCanvas[ICanvasLayers.LANDMARKS]
                 );
 
                 context.drawImage(

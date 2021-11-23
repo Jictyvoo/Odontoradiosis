@@ -1,3 +1,4 @@
+import { ICanvasLayers } from '../util/interfaces/canvasManipulation';
 import { IEffectValues } from '../util/interfaces/interfaces';
 import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 
@@ -45,7 +46,11 @@ class ImageEffects {
      */
     updateFilterValues(): void {
         const filterValue = this.getValues();
-        this.canvasManager.setStyle('image', 'filter', filterValue);
+        this.canvasManager.setStyle(
+            ICanvasLayers.BACKGROUND,
+            'filter',
+            filterValue
+        );
     }
 
     /**

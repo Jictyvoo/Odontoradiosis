@@ -1,3 +1,4 @@
+import { ICanvasLayers } from '../util/interfaces/canvasManipulation';
 import { IBezierCurves } from '../util/interfaces/interfaces';
 import ScaleManager from '../util/scaleManager';
 import UsefulMethods from '../util/usefulMethods';
@@ -27,7 +28,9 @@ class FacialAnalysis {
                 x: this.allCurves['perfil-mole'][5][4],
                 y: this.allCurves['perfil-mole'][5][5],
             };
-            const div = document.getElementById('bezier') as HTMLCanvasElement;
+            const div = document.getElementById(
+                ICanvasLayers.ANATOMICAL_TRACING
+            ) as HTMLCanvasElement;
             const ctx = div.getContext('2d') as CanvasRenderingContext2D;
             ctx.strokeStyle = '#451c87';
             ctx.beginPath();

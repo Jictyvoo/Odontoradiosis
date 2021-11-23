@@ -1,4 +1,5 @@
 import { LocalRepositoryImpl } from '../../../infra/repositories/localStorage.repository';
+import { ICanvasLayers } from '../../util/interfaces/canvasManipulation';
 import { ILandmark, ILandmarkArray } from '../../util/interfaces/interfaces';
 import { ILocalRepository } from '../../util/interfaces/repositories';
 import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
@@ -78,7 +79,7 @@ class LandmarksController {
         const readyToShowName = landmarkName.match(/\(.+\)/);
         if (readyToShowName) {
             this.canvas.drawCircleCtx(
-                'landmarks',
+                ICanvasLayers.LANDMARKS,
                 locations.x,
                 locations.y,
                 this.canvas.scales.pointRadius,
@@ -109,7 +110,7 @@ class LandmarksController {
      * Redraw all landmarks
      */
     redrawLandmarks(): void {
-        const landmarksCanvas = this.canvas.getCanvas('landmarks');
+        const landmarksCanvas = this.canvas.getCanvas(ICanvasLayers.LANDMARKS);
         const context = landmarksCanvas.getContext('2d');
         if (context) {
             /*context.clearRect(
@@ -118,7 +119,7 @@ class LandmarksController {
                 landmarksCanvas.width,
                 landmarksCanvas.height
             );*/
-            this.canvas.clearCanvas('landmarks');
+            this.canvas.clearCanvas(ICanvasLayers.LANDMARKS);
             for (const element of Object.keys(this.landmarks)) {
                 this.drawLandmark(context, element);
             }
