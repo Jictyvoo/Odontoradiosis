@@ -46,9 +46,10 @@ export class CephalometricCanvasComponent implements OnInit {
         const canvasController = this.canvasService.cephalometricCanvas;
         const tracingController = this.canvasService.tracingController;
 
+        /* For some reason the code below for context translate exists. This is bugging clear the canvas.
         const bezierCanvas = canvasController.getCanvas('bezier');
         const context = canvasController.getContext('bezier');
-        context.translate(bezierCanvas.width / 2, bezierCanvas.height / 2);
+        context.translate(bezierCanvas.width / 2, bezierCanvas.height / 2);*/
 
         if (this.infoKeeper.isMouseDown && this.infoKeeper.isCurveFunction) {
             /* do drag things */
@@ -132,7 +133,6 @@ export class CephalometricCanvasComponent implements OnInit {
                 tracingController.drawAllCurves();
                 tracingController.drawCurveBox(curveName, true);
                 tracingController.drawPointCircle(curveName);
-                tracingController.saveBezierCurve();
             }
         } else if (this.infoKeeper.isCurveFunction) {
             canvasController.canvasCursor = 'crosshair';
@@ -192,5 +192,7 @@ export class CephalometricCanvasComponent implements OnInit {
         /*this.infoKeeper.mousePosition.x = null;
         this.infoKeeper.mousePosition.y = null;*/
         this.infoKeeper.mousePosition.disabled = true;
+        const tracingController = this.canvasService.tracingController;
+        tracingController.saveBezierCurve();
     }
 }

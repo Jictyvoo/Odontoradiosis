@@ -84,9 +84,9 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
         const canvas = this.getCanvas(canvasId);
         const context = canvas.getContext('2d');
         if (context) {
-            /*context.clearRect(0, 0, canvas.width, canvas.height);*/
-            const canvasWidth = context.canvas.width;
-            context.canvas.width = canvasWidth;
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            /*const canvasWidth = context.canvas.width;
+            context.canvas.width = canvasWidth;*/
         }
     }
 
@@ -173,10 +173,11 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
         y2: number,
         strokeStyle: string
     ): void {
+        context.beginPath();
         context.strokeStyle = strokeStyle;
+        context.lineWidth = this.scaleManager.lineWidth;
         context.moveTo(x1, y1);
         context.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2);
-        context.lineWidth = this.scaleManager.lineWidth;
         context.stroke();
     }
 

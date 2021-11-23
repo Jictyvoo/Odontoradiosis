@@ -25,11 +25,12 @@ class AnatomicalTracingImpl implements ITracingDraw {
     }
 
     private drawCurve(curvePoints: number[][]): void {
+        const bezierContext = this.canvas.getContext('bezier');
         for (let position = 0; position < curvePoints.length; position += 1) {
             const points = curvePoints[position];
             if (position === 0) {
                 this.canvas.drawBezier(
-                    this.canvas.getContext('bezier'),
+                    bezierContext,
                     points[0],
                     points[1],
                     points[2],
@@ -43,7 +44,7 @@ class AnatomicalTracingImpl implements ITracingDraw {
             } else {
                 const temporary = curvePoints[position - 1];
                 this.canvas.drawBezier(
-                    this.canvas.getContext('bezier'),
+                    bezierContext,
                     temporary[temporary.length - 2],
                     temporary[temporary.length - 1],
                     points[0],
