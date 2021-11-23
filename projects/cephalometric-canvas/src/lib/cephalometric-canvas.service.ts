@@ -10,6 +10,7 @@ import gnatioJson from './domain/features/semiautomatic_landmark/routines/gnatio
 import nasioJson from './domain/features/semiautomatic_landmark/routines/nasio.ldmk.json';
 import selaJson from './domain/features/semiautomatic_landmark/routines/sela.ldmk.json';
 import OdontoradiosisKeeper from './domain/models/odontoradiosisKeeper';
+import { ICanvasElements } from './domain/util/interfaces/canvasManipulation';
 import { IEffectValues } from './domain/util/interfaces/interfaces';
 import { ICanvasDraw } from './domain/util/interfaces/views/canvasDraw';
 import ScaleManager from './domain/util/scaleManager';
@@ -22,21 +23,33 @@ export class CephalometricCanvasService {
     private mainController!: MainController;
     private canvasOdontoradiosis!: ICanvasDraw;
     private imageEffects!: ImageEffects;
-    private imageLoaded: boolean;
+    private loadedImageData: string;
 
     constructor(
         private infoKeeper: OdontoradiosisKeeper,
         private scaleManager: ScaleManager
     ) {
-        this.imageLoaded = false;
+        this.loadedImageData = '';
     }
 
-    public init(stackCanvas: HTMLElement): void {
+    public init(
+        stackCanvas: HTMLElement,
+        canvasElements?: ICanvasElements
+    ): void {
         this.canvasOdontoradiosis = new CanvasOdontoradiosisImpl(
             stackCanvas,
             this.scaleManager,
             { image: 0, bezier: 1, landmarks: 2 }
         );
+
+        if (canvasElements) {
+            for (const canvasEntry of Object.entries(canvasElements)) {
+                this.canvasOdontoradiosis.addCanvasElement(
+                    canvasEntry[0],
+                    canvasEntry[1]
+                );
+            }
+        }
 
         this.imageEffects = new ImageEffects(this.canvasOdontoradiosis);
         this.mainController = new MainController(
@@ -44,6 +57,11 @@ export class CephalometricCanvasService {
             this.scaleManager,
             this.infoKeeper
         );
+
+        // After the initialization of the canvas, the loaded image is displayed
+        if (this.loadedImageData.length > 0) {
+            this.openImageOnCanvas(this.loadedImageData);
+        }
     }
 
     /**
@@ -85,17 +103,21 @@ export class CephalometricCanvasService {
     }
 
     public get isImageOpened(): boolean {
-        return this.imageLoaded;
+        return this.loadedImageData.length > 0;
     }
 
-    public openImage(imageData: string): void {
+    public openImageOnCanvas(imageData: string): void {
         this.mainController.tracingController.setBezierPoints();
         const self = this;
         this.canvasOdontoradiosis.openImage(imageData, function () {
             self.mainController.loadJsonCurve('');
             self.mainController.loadJsonLandmarks('');
-            self.imageLoaded = true;
         });
         this.imageEffects.reset();
+    }
+
+    public loadImage(imageData: string): void {
+        this.loadedImageData = imageData;
+        // TODO: Create attribute to check if the canvas is initialized
     }
 }

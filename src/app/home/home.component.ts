@@ -13,13 +13,10 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {}
 
     get hasRadiographyLoaded(): boolean {
-        // FIXME: this is a hack to make the template work
-        // Currently, when no image is loaded, the canvas element is not loaded also, so mainController doesn't exist
-        // return this.canvasService.isImageOpened
-        return true;
+        return this.canvasService.isImageOpened;
     }
 
     onFileLoaded(event: ILoadedFile): void {
-        this.canvasService.openImage(event.content as string);
+        this.canvasService.loadImage(event.content as string);
     }
 }

@@ -106,6 +106,11 @@ export class SidebarComponent implements OnInit {
         //self.mainController.referenceLandmarks.call(self.mainController);
     }
 
+    /**
+     * Apply the effect to the canvas image only if the effect is enabled
+     * @param effect
+     * @param value
+     */
     applyEffects(effect: string, value: number | null): void {
         const effectsManager = this.canvasService.effectsManager;
         switch (effect) {

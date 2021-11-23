@@ -25,7 +25,7 @@ export class DropzoneDialogComponent {
     }
 
     onFileLoaded(event: ILoadedFile): void {
-        this.canvasService.openImage(event.content as string);
+        this.canvasService.loadImage(event.content as string);
         this.dialogRef.close();
     }
 }

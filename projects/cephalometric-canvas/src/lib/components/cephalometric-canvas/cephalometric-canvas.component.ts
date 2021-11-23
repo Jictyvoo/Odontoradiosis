@@ -32,19 +32,11 @@ export class CephalometricCanvasComponent implements OnInit {
     ngOnInit(): void {}
 
     ngAfterViewInit(): void {
-        this.canvasService.init(this.stackCanvasElement.nativeElement);
-        this.canvasService.cephalometricCanvas.addCanvasElement(
-            'image',
-            this.canvasImageElement.nativeElement
-        );
-        this.canvasService.cephalometricCanvas.addCanvasElement(
-            'bezier',
-            this.canvasBezierElement.nativeElement
-        );
-        this.canvasService.cephalometricCanvas.addCanvasElement(
-            'landmarks',
-            this.canvasLandmarksElement.nativeElement
-        );
+        this.canvasService.init(this.stackCanvasElement.nativeElement, {
+            image: this.canvasImageElement.nativeElement,
+            bezier: this.canvasBezierElement.nativeElement,
+            landmarks: this.canvasLandmarksElement.nativeElement,
+        });
     }
 
     onMouseMove(event: PointerEvent): void {
