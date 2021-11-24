@@ -15,8 +15,10 @@ import {
     ICanvasImage,
 } from './domain/util/interfaces/canvasManipulation';
 import { IEffectValues } from './domain/util/interfaces/interfaces';
+import { ILocalRepository } from './domain/util/interfaces/repositories';
 import { ICanvasDraw } from './domain/util/interfaces/views/canvasDraw';
 import ScaleManager from './domain/util/scaleManager';
+import { LocalRepositoryImpl } from './infra/repositories/localStorage.repository';
 import CanvasOdontoradiosisImpl from './infra/views/canvasImpl';
 
 @Injectable({
@@ -27,12 +29,20 @@ export class CephalometricCanvasService {
     private canvasOdontoradiosis!: ICanvasDraw;
     private imageEffects!: ImageEffects;
     private imageInfo: ICanvasImage;
+    private localRepository: ILocalRepository;
 
     constructor(
         private infoKeeper: OdontoradiosisKeeper,
         private scaleManager: ScaleManager
     ) {
-        this.imageInfo = { imageData: '', isLoaded: false };
+        this.localRepository = new LocalRepositoryImpl();
+
+        const imageData = this.localRepository.get<string>('imageData');
+        this.imageInfo = {
+            imageData: imageData ?? '',
+            isLoaded: false,
+            isFromStorage: !!imageData,
+        };
     }
 
     public init(
@@ -69,17 +79,25 @@ export class CephalometricCanvasService {
     }
 
     public openImageOnCanvas(imageData: string): void {
-        this.mainController.tracingController.setBezierPoints();
         const self = this;
         this.canvasOdontoradiosis.openImage(imageData, function () {
-            self.mainController.loadJsonCurve('');
-            self.mainController.loadJsonLandmarks('');
+            self.mainController.loadJsonCurve(
+                '',
+                !self.imageInfo.isFromStorage
+            );
+            self.mainController.loadJsonLandmarks(
+                '',
+                !self.imageInfo.isFromStorage
+            );
         });
         this.imageEffects.reset();
     }
 
     public loadImage(imageData: string): void {
         this.imageInfo.imageData = imageData;
+        this.imageInfo.isFromStorage = false;
+        // save the image data on local storage
+        this.localRepository.set('imageData', imageData);
         if (this.imageInfo.isLoaded) {
             this.openImageOnCanvas(imageData);
         }

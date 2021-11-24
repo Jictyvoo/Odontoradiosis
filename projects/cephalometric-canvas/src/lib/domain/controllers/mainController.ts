@@ -41,7 +41,14 @@ class MainController {
      * Loads json file with landmarks location
      * @param {int} id image id
      */
-    public loadJsonLandmarks(jsonContent: string): void {
+    public loadJsonLandmarks(
+        jsonContent: string,
+        override: boolean = true
+    ): void {
+        if (override) {
+            // Load landmarks from default empty
+            this.landmarksController.setLandmarks({});
+        }
         if (jsonContent.length > 0) {
             const decodedLandmarks = JSON.parse(jsonContent);
 
@@ -58,20 +65,20 @@ class MainController {
                 }
             }
             this.landmarksController.setLandmarks(validLandmarks);
-            this.landmarksController.redrawLandmarks();
         }
+        this.landmarksController.redrawLandmarks();
     }
 
     /**
      * Loads json file with bezier anatomical tracing points
      * @param {string} jsonContent image id
      */
-    public loadJsonCurve(jsonContent: string): void {
-        // Load JsonCurves from default json file
-        this.tracingController.setBezierPoints();
+    public loadJsonCurve(jsonContent: string, override: boolean = true): void {
+        if (override) {
+            // Load JsonCurves from default json file
+            this.tracingController.setBezierPoints();
+        }
         if (jsonContent.length > 0) {
-            // Load from uploaded json file
-            // TODO: implement
             this.tracingController.setBezierPoints(JSON.parse(jsonContent));
         }
         this.tracingController.drawAllCurves();

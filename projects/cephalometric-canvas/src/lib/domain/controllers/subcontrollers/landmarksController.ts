@@ -15,9 +15,14 @@ class LandmarksController {
      * @param {ICanvasDraw} canvasOdontoradiosis
      */
     constructor(canvasOdontoradiosis: ICanvasDraw) {
-        this.landmarks = {};
         this.canvas = canvasOdontoradiosis;
         this.localRepository = new LocalRepositoryImpl();
+
+        this.landmarks = {};
+        const savedLandmarks = this.localRepository.get<string>('saved_points');
+        if (savedLandmarks) {
+            this.landmarks = JSON.parse(savedLandmarks);
+        }
     }
 
     /**

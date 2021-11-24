@@ -5,6 +5,7 @@ export interface ICanvasElements {
 export interface ICanvasImage {
     imageData: string;
     isLoaded: boolean;
+    isFromStorage: boolean;
 }
 
 export enum ICanvasLayers {

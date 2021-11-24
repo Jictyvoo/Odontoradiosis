@@ -29,11 +29,16 @@ class TracingController {
         this.anatomicalTracing = new AnatomicalTracingImpl(
             canvasOdontoradiosis
         );
+        this.localRepository = new LocalRepositoryImpl();
+
         this.bezierPoints = Cloneable.deepCopy(deafultBezierCurves);
+        const storedCurves = this.localRepository.get<string>('bezier_curves');
+        if (storedCurves) {
+            this.bezierPoints = JSON.parse(storedCurves);
+        }
         this.anatomicalTracing.setAllCurves(this.bezierPoints);
 
         this.currentBoxPoints = [0, 0, 0, 0];
-        this.localRepository = new LocalRepositoryImpl();
     }
 
     /**
