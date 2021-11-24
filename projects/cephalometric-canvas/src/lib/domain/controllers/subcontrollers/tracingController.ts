@@ -5,8 +5,8 @@ import { Cloneable } from '../../util/deepClone';
 import {
     IBezierCurves,
     ICurvePointLocation,
-    IPointBidimensional,
-} from '../../util/interfaces/interfaces';
+} from '../../util/interfaces/curveManipulation';
+import { IPointBidimensional } from '../../util/interfaces/interfaces';
 import { ILocalRepository } from '../../util/interfaces/repositories';
 import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
 import { ITracingDraw } from '../../util/interfaces/views/tracingDraw';

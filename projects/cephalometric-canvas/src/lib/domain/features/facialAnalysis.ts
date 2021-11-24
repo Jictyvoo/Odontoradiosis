@@ -1,5 +1,5 @@
 import { ICanvasLayers } from '../util/interfaces/canvasManipulation';
-import { IBezierCurves } from '../util/interfaces/interfaces';
+import { IBezierCurves } from '../util/interfaces/curveManipulation';
 import ScaleManager from '../util/scaleManager';
 import UsefulMethods from '../util/usefulMethods';
 

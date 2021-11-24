@@ -29,4 +29,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Upload to GitHub Pages
 
-`ngh --branch=gh-pages --dir=dist/odontoradiosis`
+```shell
+ng build --prod --base-href https://jictyvoo.github.io/Odontoradiosis/
+ngh --branch=gh-pages --dir=dist/odontoradiosis
+```

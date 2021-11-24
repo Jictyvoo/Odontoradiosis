@@ -27,14 +27,6 @@ export interface ILandmarkArray {
     [key: string]: ILandmark;
 }
 
-export interface IBezierCurves {
-    [key: string]: number[][];
-}
-
-export interface ICurvePointLocation {
-    [key: number]: number | number[];
-}
-
 export interface IRoutineHelpVar {
     accessed_curves: string[];
     landmarkName: string;

@@ -1,4 +1,4 @@
-import { IBezierCurves } from '../interfaces';
+import { IBezierCurves } from '../curveManipulation';
 
 export interface ITracingDraw {
     /**

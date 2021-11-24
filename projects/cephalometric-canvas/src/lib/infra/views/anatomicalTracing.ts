@@ -1,5 +1,5 @@
 import { ICanvasLayers } from '../../domain/util/interfaces/canvasManipulation';
-import { IBezierCurves } from '../../domain/util/interfaces/interfaces';
+import { IBezierCurves } from '../../domain/util/interfaces/curveManipulation';
 import { ICanvasDraw } from '../../domain/util/interfaces/views/canvasDraw';
 import { ITracingDraw } from '../../domain/util/interfaces/views/tracingDraw';
 
