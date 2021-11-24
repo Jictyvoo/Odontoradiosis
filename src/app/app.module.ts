@@ -21,6 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DropzoneDialogComponent } from './dropzone/dropzone-dialog.component';
 import { DropzoneComponent } from './dropzone/dropzone.component';
+import { FooterComponent } from './footer/footer.component';
 import { HelpPageComponent } from './help-page/help-page.component';
 import { HomeComponent } from './home/home.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -32,6 +33,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         AppComponent,
         HelpPageComponent,
         SidebarComponent,
+        FooterComponent,
         ToolbarComponent,
         DropzoneComponent,
         DropzoneDialogComponent,

@@ -1,20 +1,10 @@
-#app,
-.main-footer {
+#app {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   line-height: 1.4;
   margin: 0 auto;
   text-align: center;
-}
-
-.main-footer {
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  padding-bottom: 12px;
-  transform: translate(-50%, 0%);
-  margin: 0 auto;
 }
 
 h1 {
