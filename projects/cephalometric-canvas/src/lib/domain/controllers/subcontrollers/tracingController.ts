@@ -40,7 +40,6 @@ class TracingController {
         }
         this.bezierPoints =
             TracingController.bezierPoints2TracingList(bezierCurves);
-        this.anatomicalTracing.setAllCurves(bezierCurves);
 
         this.currentBoxPoints = [0, 0, 0, 0];
     }
@@ -78,7 +77,6 @@ class TracingController {
         points: IBezierCurves = Cloneable.deepCopy(deafultBezierCurves)
     ): void {
         this.bezierPoints = TracingController.bezierPoints2TracingList(points);
-        this.anatomicalTracing.setAllCurves(points);
     }
 
     /**
@@ -123,7 +121,11 @@ class TracingController {
      * Call AnatomicalTracing method to draw bezierCurves
      */
     drawAllCurves(): void {
-        this.anatomicalTracing.drawAllCurves();
+        this.anatomicalTracing.clearCanvas();
+        for (const entry of Object.entries(this.bezierPoints)) {
+            const element = entry[1];
+            this.anatomicalTracing.drawCurve(element.points);
+        }
         this.saveBezierCurve();
     }
 
@@ -136,7 +138,6 @@ class TracingController {
         const tracing = this.getTracing(currentCurve);
         if (tracing) {
             this.anatomicalTracing.drawCurveBox(
-                currentCurve,
                 tracing.getBoxDimensions(20, recalculate)
             );
         }
@@ -147,7 +148,10 @@ class TracingController {
      * @param {string} curveName
      */
     drawPointCircle(curveName: string): void {
-        this.anatomicalTracing.drawPointCircle(curveName);
+        const tracing = this.getTracing(curveName);
+        if (tracing) {
+            this.anatomicalTracing.drawPointCircle(tracing.points);
+        }
     }
 
     /**

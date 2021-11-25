@@ -1,12 +1,10 @@
 import { ICanvasLayers } from '../../domain/util/interfaces/canvasManipulation';
-import { IBezierCurves } from '../../domain/util/interfaces/curveManipulation';
+import { IBezierPoints } from '../../domain/util/interfaces/curveManipulation';
 import { ICanvasDraw } from '../../domain/util/interfaces/views/canvasDraw';
 import { ITracingDraw } from '../../domain/util/interfaces/views/tracingDraw';
 
 class AnatomicalTracingImpl implements ITracingDraw {
     public canvas: ICanvasDraw;
-    // TODO: Remove this attribute and use it only in tracingController
-    public allCurves: IBezierCurves;
     private static color = Object.freeze({ fill: 'green', stroke: '#00e379' });
 
     /**
@@ -15,18 +13,9 @@ class AnatomicalTracingImpl implements ITracingDraw {
      */
     constructor(canvas: ICanvasDraw) {
         this.canvas = canvas;
-        this.allCurves = {};
     }
 
-    /**
-     * Bezier curves setter
-     * @param {IBezierCurves} curves
-     */
-    setAllCurves(curves: IBezierCurves): void {
-        this.allCurves = curves;
-    }
-
-    private drawCurve(curvePoints: number[][]): void {
+    public drawCurve(curvePoints: number[][]): void {
         const bezierContext = this.canvas.getContext(
             ICanvasLayers.ANATOMICAL_TRACING
         );
@@ -64,43 +53,29 @@ class AnatomicalTracingImpl implements ITracingDraw {
     }
 
     /**
-     * Draw all curves
+     * Clear the canvas
      */
-    drawAllCurves(): void {
+    public clearCanvas(): void {
         this.canvas.clearCanvas(ICanvasLayers.ANATOMICAL_TRACING);
-        for (const entry of Object.entries(this.allCurves)) {
-            const element = entry[1];
-            this.drawCurve(element);
-        }
     }
 
     /**
      * Draw all control points in a given curve
-     * @param {string} curveName
+     * @param {IBezierPoints} curvePoints
      */
-    drawPointCircle(curveName: string): void {
-        if (this.allCurves[curveName] != null) {
-            const context = this.canvas.getContext(
-                ICanvasLayers.ANATOMICAL_TRACING
-            );
-            //context.beginPath();
-            for (
-                let index = 0;
-                index < this.allCurves[curveName].length;
-                index++
-            ) {
-                const element = this.allCurves[curveName][index];
-                for (
-                    let subindex = 1;
-                    subindex < element.length;
-                    subindex += 2
-                ) {
-                    this.canvas.drawCircle(
-                        context,
-                        element[subindex - 1],
-                        element[subindex]
-                    );
-                }
+    public drawPointCircle(curvePoints: IBezierPoints): void {
+        const context = this.canvas.getContext(
+            ICanvasLayers.ANATOMICAL_TRACING
+        );
+        //context.beginPath();
+        for (let index = 0; index < curvePoints.length; index++) {
+            const element = curvePoints[index];
+            for (let subindex = 1; subindex < element.length; subindex += 2) {
+                this.canvas.drawCircle(
+                    context,
+                    element[subindex - 1],
+                    element[subindex]
+                );
             }
         }
     }
@@ -110,7 +85,7 @@ class AnatomicalTracingImpl implements ITracingDraw {
      * @param {CanvasRenderingContext2D} context
      * @param {array} boxDimensions
      */
-    drawBoxVertex(
+    public drawBoxVertex(
         context: CanvasRenderingContext2D,
         boxDimensions: number[]
     ): void {
@@ -142,22 +117,20 @@ class AnatomicalTracingImpl implements ITracingDraw {
      * @param {string} currentCurve
      * @param {array} boxDimensions
      */
-    drawCurveBox(currentCurve: string, boxDimensions: number[]): void {
-        if (currentCurve != null) {
-            const context = this.canvas.getContext(
-                ICanvasLayers.ANATOMICAL_TRACING
-            );
-            context.beginPath();
-            context.lineWidth = this.canvas.scales.lineWidth;
-            context.rect(
-                boxDimensions[0],
-                boxDimensions[1],
-                boxDimensions[2],
-                boxDimensions[3]
-            );
-            context.stroke();
-            this.drawBoxVertex(context, boxDimensions);
-        }
+    public drawCurveBox(boxDimensions: number[]): void {
+        const context = this.canvas.getContext(
+            ICanvasLayers.ANATOMICAL_TRACING
+        );
+        context.beginPath();
+        context.lineWidth = this.canvas.scales.lineWidth;
+        context.rect(
+            boxDimensions[0],
+            boxDimensions[1],
+            boxDimensions[2],
+            boxDimensions[3]
+        );
+        context.stroke();
+        this.drawBoxVertex(context, boxDimensions);
     }
 }
 

@@ -1,22 +1,22 @@
-import { IBezierCurves } from '../curveManipulation';
+import { IBezierPoints } from '../curveManipulation';
 
 export interface ITracingDraw {
     /**
-     * Bezier curves setter
-     * @param {IBezierCurves} curves
+     * Clear the canvas.
      */
-    setAllCurves(curves: IBezierCurves): void;
+    clearCanvas(): void;
 
     /**
-     * Draw all curves
+     * Draw a single curve on the canvas.
+     * @param curvePoints
      */
-    drawAllCurves(): void;
+    drawCurve(curvePoints: number[][]): void;
 
     /**
      * Draw all control points in a given curve
-     * @param {string} curveName
+     * @param {IBezierPoints} curvePoints
      */
-    drawPointCircle(curveName: string): void;
+    drawPointCircle(curvePoints: IBezierPoints): void;
 
     /**
      *
@@ -33,5 +33,5 @@ export interface ITracingDraw {
      * @param {string} currentCurve
      * @param {array} boxDimensions
      */
-    drawCurveBox(currentCurve: string, boxDimensions: number[]): void;
+    drawCurveBox(boxDimensions: number[]): void;
 }
