@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CephalometricCanvasService } from 'cephalometric-canvas';
+import { DataExporterRepository } from '../../services/data-exporter.repository';
 import { SidenavService } from '../../services/sidenav.service';
 import { DropzoneDialogComponent } from '../dropzone/dropzone-dialog.component';
 
@@ -15,7 +16,8 @@ export class ToolbarComponent implements OnInit {
     constructor(
         private sidenav: SidenavService,
         public dialog: MatDialog,
-        private canvasService: CephalometricCanvasService
+        private canvasService: CephalometricCanvasService,
+        private dataExporterRepository: DataExporterRepository
     ) {
         this.toggleActive = false;
     }
@@ -46,21 +48,12 @@ export class ToolbarComponent implements OnInit {
     /**
      * Method is use to download file.
      */
-    exportImage(): void {
+    async exportCephalometricData(): Promise<void> {
         // generate file as a blob
         const exportableData = this.canvasService.exportCephalometricData();
         const data = JSON.stringify(exportableData);
-        const blob = new Blob([data], { type: 'text/json' });
-        const url = window.URL.createObjectURL(blob);
 
         // download the file
-        const tempElement = document.createElement('a');
-        tempElement.href = url;
-        tempElement.download = 'cephalometric-data.json';
-        tempElement.click();
-        window.URL.revokeObjectURL(url);
-        tempElement.remove();
-
-        // window.open(url, '_blank');
+        this.dataExporterRepository.exportData(data);
     }
 }
