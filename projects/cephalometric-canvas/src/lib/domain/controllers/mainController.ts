@@ -1,10 +1,7 @@
 import { default as OdontoradiosisKepper } from '../models/odontoradiosisKeeper';
 import { ICanvasLayers } from '../util/interfaces/canvasManipulation';
-import {
-    ILandmarkArray,
-    IPointBidimensional,
-    IStringMap,
-} from '../util/interfaces/interfaces';
+import { IPointBidimensional, IStringMap } from '../util/interfaces/interfaces';
+import { ILandmarkArray } from '../util/interfaces/landmarkManipulation';
 import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 import { default as ScaleManager } from '../util/scaleManager';
 import { default as LandmarksController } from './subcontrollers/landmarksController';

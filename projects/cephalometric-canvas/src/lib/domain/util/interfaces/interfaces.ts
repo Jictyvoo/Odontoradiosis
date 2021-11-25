@@ -14,26 +14,11 @@ export interface IPointBidimensional {
     y: number;
 }
 
-export interface ILandmark extends IPointBidimensional {
-    x: number;
-    y: number;
-}
-
 export interface IMousePosition extends IPointBidimensional {
     disabled: boolean;
-}
-
-export interface ILandmarkArray {
-    [key: string]: ILandmark;
 }
 
 export interface IRoutineHelpVar {
     accessed_curves: string[];
     landmarkName: string;
-}
-
-export interface IRoutinesSemiautomatic {
-    landmark: string;
-    accessed_curves: string[];
-    routines: any[][];
 }
