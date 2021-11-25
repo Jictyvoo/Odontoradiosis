@@ -140,4 +140,12 @@ export class SidebarComponent implements OnInit {
     get brightnessValue(): number {
         return this.canvasService.defaultEffectValues.brightness;
     }
+
+    get negativeValue(): number {
+        return this.canvasService.defaultEffectValues.invert;
+    }
+
+    get grayscaleValue(): number {
+        return this.canvasService.defaultEffectValues.grayscale;
+    }
 }
