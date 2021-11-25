@@ -43,9 +43,13 @@ class SemiautomaticLandmarks {
                 secondParam: string | null | undefined,
                 resultName: string
             ) {
-                const loadedCurves = [tracingController.getCurve(firstParam)];
+                const loadedCurves = [
+                    tracingController.getCurvePoints(firstParam),
+                ];
                 if (secondParam != null) {
-                    loadedCurves.push(tracingController.getCurve(secondParam));
+                    loadedCurves.push(
+                        tracingController.getCurvePoints(secondParam)
+                    );
                     symbolTable[resultName + '_1'] = loadedCurves[0];
                     symbolTable[resultName + '_2'] = loadedCurves[1];
                 } else {

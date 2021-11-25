@@ -5,6 +5,7 @@ import { ITracingDraw } from '../../domain/util/interfaces/views/tracingDraw';
 
 class AnatomicalTracingImpl implements ITracingDraw {
     public canvas: ICanvasDraw;
+    // TODO: Remove this attribute and use it only in tracingController
     public allCurves: IBezierCurves;
     private static color = Object.freeze({ fill: 'green', stroke: '#00e379' });
 

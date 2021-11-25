@@ -165,18 +165,16 @@ export class CephalometricCanvasComponent implements OnInit {
             });
         } else if (tracingController.curveExists(curveName)) {
             this.infoKeeper.isCurveFunction = true;
-            const points = tracingController.getBoxDimensions(curveName);
             const relativeMouse = this.scaleManager.getMousePos(
                 canvasOdontoradiosis.getCanvas(
                     ICanvasLayers.ANATOMICAL_TRACING
                 ),
                 { x: event.clientX, y: event.clientY }
             );
-            this.infoKeeper.isInsideBox =
-                relativeMouse.x >= points[0] &&
-                relativeMouse.x <= points[0] + points[2] &&
-                relativeMouse.y >= points[1] &&
-                relativeMouse.y <= points[1] + points[3];
+            this.infoKeeper.isInsideBox = tracingController.verifyMouseInBox(
+                relativeMouse,
+                curveName
+            );
             this.infoKeeper.isOnBoxVertex =
                 tracingController.verifyMouseOnBoxVertex(
                     relativeMouse,

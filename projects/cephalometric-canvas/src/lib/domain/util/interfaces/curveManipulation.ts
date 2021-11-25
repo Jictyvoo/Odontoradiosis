@@ -1,7 +1,13 @@
+import { AnatomicalTracingCurve } from '../../models/tracingCurve';
+
 export type IBezierPoints = number[][];
 
 export interface IBezierCurves {
     [key: string]: IBezierPoints;
+}
+
+export interface ITracingList {
+    [key: string]: AnatomicalTracingCurve;
 }
 
 export interface ICurvePointLocation {
@@ -9,7 +15,7 @@ export interface ICurvePointLocation {
 }
 
 export type BezierChangeFunction = {
-    (point_1: number, point_2?: number): number;
+    (point_1: number, point_2: number): number;
 };
 
 export interface IChangeBezierPoint {
