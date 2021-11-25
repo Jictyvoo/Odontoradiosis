@@ -13,6 +13,7 @@ import OdontoradiosisKeeper from './domain/models/odontoradiosisKeeper';
 import {
     ICanvasElements,
     ICanvasImage,
+    IExportableData,
 } from './domain/util/interfaces/canvasManipulation';
 import { IEffectValues } from './domain/util/interfaces/interfaces';
 import { ILocalRepository } from './domain/util/interfaces/repositories';
@@ -101,6 +102,14 @@ export class CephalometricCanvasService {
         if (this.imageInfo.isLoaded) {
             this.openImageOnCanvas(imageData);
         }
+    }
+
+    public exportCephalometricData(): IExportableData {
+        return {
+            imageData: this.imageInfo.imageData,
+            landmarks: this.mainController.landmarksController.landmarks,
+            curves: this.mainController.tracingController.curvePoints,
+        };
     }
 
     /**

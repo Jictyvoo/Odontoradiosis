@@ -1,3 +1,6 @@
+import { IBezierCurves } from './curveManipulation';
+import { ILandmarkArray } from './landmarkManipulation';
+
 export interface ICanvasElements {
     [key: string]: HTMLCanvasElement;
 }
@@ -12,4 +15,10 @@ export enum ICanvasLayers {
     BACKGROUND = 'image',
     LANDMARKS = 'landmarks',
     ANATOMICAL_TRACING = 'bezier',
+}
+
+export interface IExportableData {
+    imageData: string;
+    landmarks: ILandmarkArray;
+    curves: IBezierCurves;
 }

@@ -59,7 +59,7 @@ class TracingController {
         return tracingList;
     }
 
-    protected static traingList2BezierPoints(
+    protected static tracingList2BezierPoints(
         tracingList: ITracingList
     ): IBezierCurves {
         const bezierPoints: IBezierCurves = {};
@@ -89,11 +89,15 @@ class TracingController {
         return allCurves.includes(curveId);
     }
 
+    public get curvePoints(): IBezierCurves {
+        return TracingController.tracingList2BezierPoints(this.bezierPoints);
+    }
+
     /**
      * Verify if curve exists and returns it or null
      * @param {string} curveId
      */
-    getCurvePoints(curveId: string = ''): number[][] | null {
+    public getCurvePoints(curveId: string = ''): number[][] | null {
         if (this.curveExists(curveId)) {
             return this.bezierPoints[curveId].points;
         }
@@ -112,7 +116,7 @@ class TracingController {
      */
     saveBezierCurve() {
         const curvesJson = JSON.stringify(
-            TracingController.traingList2BezierPoints(this.bezierPoints)
+            TracingController.tracingList2BezierPoints(this.bezierPoints)
         );
         this.localRepository.set('bezier_curves', curvesJson);
     }
