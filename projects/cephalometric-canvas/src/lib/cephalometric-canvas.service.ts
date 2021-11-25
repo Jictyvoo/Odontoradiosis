@@ -106,6 +106,18 @@ export class CephalometricCanvasService {
         }
     }
 
+    public loadExportedData(exportedData: IExportableData): void {
+        this.loadImage(exportedData.imageData);
+        this.imageInfo.isFromStorage = true;
+        this.mainController.landmarksController.setLandmarks(
+            exportedData.landmarks
+        );
+        this.mainController.tracingController.setBezierPoints(
+            exportedData.curves
+        );
+        this.mainController.saveAll();
+    }
+
     public exportCephalometricData(): IExportableData {
         return {
             imageData: this.imageInfo.imageData,

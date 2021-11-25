@@ -68,7 +68,11 @@ export class DropzoneComponent {
                 reader: reader,
             });
 
-            reader.readAsDataURL(item);
+            if (fileType === AcceptedFileType.IMAGE) {
+                reader.readAsDataURL(item);
+            } else if (fileType === AcceptedFileType.ZIP) {
+                reader.readAsArrayBuffer(item);
+            }
 
             const currentIndex = this.files.length - 1;
             reader.onprogress = (event: ProgressEvent<FileReader>) => {

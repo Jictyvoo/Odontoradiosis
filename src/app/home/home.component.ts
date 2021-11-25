@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CephalometricCanvasService } from 'cephalometric-canvas';
+import { DataExporterRepository } from '../../services/data-exporter.repository';
+import { globalLoadFile } from '../../util/file-loader';
 import { ILoadedFile } from '../../util/general';
 
 @Component({
@@ -8,7 +10,10 @@ import { ILoadedFile } from '../../util/general';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    constructor(private canvasService: CephalometricCanvasService) {}
+    constructor(
+        private canvasService: CephalometricCanvasService,
+        private dataExporterRepository: DataExporterRepository
+    ) {}
 
     ngOnInit(): void {}
 
@@ -16,7 +21,11 @@ export class HomeComponent implements OnInit {
         return this.canvasService.isImageOpened;
     }
 
-    onFileLoaded(event: ILoadedFile): void {
-        this.canvasService.loadImage(event.content as string);
+    async onFileLoaded(event: ILoadedFile): Promise<void> {
+        await globalLoadFile(
+            event,
+            this.canvasService,
+            this.dataExporterRepository
+        );
     }
 }

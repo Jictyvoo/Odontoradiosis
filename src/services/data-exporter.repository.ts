@@ -6,6 +6,8 @@ import JSZip from 'jszip';
     providedIn: 'root',
 })
 export class DataExporterRepository {
+    private static readonly jsonFilename = 'cephalometric-data.json';
+
     constructor() {}
 
     async importData(data: any): Promise<IExportableData | null> {
@@ -13,7 +15,7 @@ export class DataExporterRepository {
         const zip = new JSZip();
         const loadedZip = await zip.loadAsync(data);
         if (loadedZip) {
-            const file = loadedZip.file('cephalometric_data.json');
+            const file = loadedZip.file(DataExporterRepository.jsonFilename);
             if (file) {
                 const stringFile = await file.async('string');
                 const json = JSON.parse(stringFile);
@@ -29,7 +31,7 @@ export class DataExporterRepository {
     async exportData(data: any): Promise<void> {
         // download the file
         const zip = new JSZip();
-        zip.file('cephalometric-data.json', data);
+        zip.file(DataExporterRepository.jsonFilename, data);
         const zipContent = await zip.generateAsync({
             type: 'blob',
             compression: 'DEFLATE',

@@ -81,6 +81,11 @@ class MainController {
         this.tracingController.drawAllCurves();
     }
 
+    public saveAll(): void {
+        this.landmarksController.saveLandmarks();
+        this.tracingController.saveBezierCurve();
+    }
+
     /**
      * Adapt reference landmarks
      */

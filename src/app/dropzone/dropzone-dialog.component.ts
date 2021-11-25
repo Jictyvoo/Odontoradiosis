@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CephalometricCanvasService } from 'cephalometric-canvas';
+import { DataExporterRepository } from '../../services/data-exporter.repository';
+import { globalLoadFile } from '../../util/file-loader';
 import { ILoadedFile } from '../../util/general';
 
 @Component({
@@ -17,15 +19,22 @@ export class DropzoneDialogComponent {
     constructor(
         public dialogRef: MatDialogRef<DropzoneDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { toEdit: boolean },
-        private canvasService: CephalometricCanvasService
+        private canvasService: CephalometricCanvasService,
+        private dataExporterRepository: DataExporterRepository
     ) {}
 
     onCancelClick(): void {
         this.dialogRef.close();
     }
 
-    onFileLoaded(event: ILoadedFile): void {
-        this.canvasService.loadImage(event.content as string);
-        this.dialogRef.close();
+    async onFileLoaded(event: ILoadedFile): Promise<void> {
+        const loaded = await globalLoadFile(
+            event,
+            this.canvasService,
+            this.dataExporterRepository
+        );
+        if (loaded) {
+            this.dialogRef.close();
+        }
     }
 }
