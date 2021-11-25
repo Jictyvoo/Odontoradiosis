@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import ImageEffects from './domain/controllers/imageEffects';
 import MainController from './domain/controllers/mainController';
-import LandmarksController from './domain/controllers/subcontrollers/landmarksController';
 import TracingController from './domain/controllers/subcontrollers/tracingController';
 import SemiautomaticLandmarks from './domain/features/semiautomatic_landmark/init';
 import aJson from './domain/features/semiautomatic_landmark/routines/a.ldmk.json';
@@ -31,6 +30,7 @@ export class CephalometricCanvasService {
     private imageEffects!: ImageEffects;
     private imageInfo: ICanvasImage;
     private localRepository: ILocalRepository;
+    private semiautomaticLandmarks?: SemiautomaticLandmarks;
 
     constructor(
         private infoKeeper: OdontoradiosisKeeper,
@@ -44,6 +44,7 @@ export class CephalometricCanvasService {
             isLoaded: false,
             isFromStorage: !!imageData,
         };
+        this.semiautomaticLandmarks = undefined;
     }
 
     public init(
@@ -97,6 +98,7 @@ export class CephalometricCanvasService {
     public loadImage(imageData: string): void {
         this.imageInfo.imageData = imageData;
         this.imageInfo.isFromStorage = false;
+        this.semiautomaticLandmarks = undefined;
         // save the image data on local storage
         this.localRepository.set('imageData', imageData);
         if (this.imageInfo.isLoaded) {
@@ -114,20 +116,19 @@ export class CephalometricCanvasService {
 
     /**
      * Adding the semiautomatic landmark indentification feature
-     * @param tracingController
-     * @param landmarksController
      * @returns
      */
-    public static newSemiautomaticLandmark(
-        tracingController: TracingController,
-        landmarksController: LandmarksController
-    ): SemiautomaticLandmarks {
-        return new SemiautomaticLandmarks(
-            [aJson, enaJson, gnatioJson, nasioJson, selaJson],
-            tracingController,
-            landmarksController
-        );
-        // semiautomaticLandmarks.generateButtonEvent();
+    public markSemiautomatic(): void {
+        const semiautomaticLandmarks =
+            this.semiautomaticLandmarks ??
+            new SemiautomaticLandmarks(
+                [aJson, enaJson, gnatioJson, nasioJson, selaJson],
+                this.tracingController,
+                this.mainController.landmarksController
+            );
+        if (semiautomaticLandmarks.start()) {
+            this.mainController.landmarksController.saveLandmarks();
+        }
     }
 
     public get effectsManager(): ImageEffects {

@@ -177,22 +177,10 @@ class SemiautomaticLandmarks {
         };
     }
 
-    generateButtonEvent(): void {
-        const self = this;
-        const semiautomaticButton = document.getElementById(
-            'semiautomatic_button'
-        ) as HTMLButtonElement;
-        if (semiautomaticButton) {
-            semiautomaticButton.onclick = function () {
-                self.start.call(self);
-            };
-        }
-    }
-
     /**
      * Start all routines
      */
-    start(): boolean {
+    public start(): boolean {
         for (let index = 0; index < this.routinesDescription.length; index++) {
             const currentRoutine = this.routinesDescription[index];
             this.helpVariables.landmarkName = currentRoutine.landmark;

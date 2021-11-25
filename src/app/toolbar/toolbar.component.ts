@@ -40,7 +40,7 @@ export class ToolbarComponent implements OnInit {
     }
 
     markSemiautomatic(): void {
-        console.log('Mark semiautomatic');
+        this.canvasService.markSemiautomatic();
     }
 
     /**
