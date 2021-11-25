@@ -130,7 +130,6 @@ class TracingController {
             const element = entry[1];
             this.anatomicalTracing.drawCurve(element.points);
         }
-        this.saveBezierCurve();
     }
 
     /**
