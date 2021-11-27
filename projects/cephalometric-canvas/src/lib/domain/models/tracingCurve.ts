@@ -7,7 +7,7 @@ import { IPointBidimensional } from '../util/interfaces/interfaces';
 export class AnatomicalTracingCurve {
     private curveName: string;
     private curvePoints: IBezierPoints;
-    private boxPoints: number[];
+    private boxPoints: IPointBidimensional[];
     private boxDimensions: number[];
 
     constructor(curveName: string, points: IBezierPoints) {
@@ -22,7 +22,7 @@ export class AnatomicalTracingCurve {
      * @param {string} curveName
      * @param {boolean} recalculate
      */
-    private getMaxMinPoints(recalculate: boolean): number[] {
+    private getMaxMinPoints(recalculate: boolean): IPointBidimensional[] {
         if (this.boxPoints.length > 0 && !recalculate) {
             return this.boxPoints;
         }
@@ -42,7 +42,15 @@ export class AnatomicalTracingCurve {
                 }
             }
         }
-        this.boxPoints = [minX, minY, maxX, maxY];
+        const minPoint: IPointBidimensional = {
+            x: minX,
+            y: minY,
+        };
+        const maxPoint: IPointBidimensional = {
+            x: maxX,
+            y: maxY,
+        };
+        this.boxPoints = [minPoint, maxPoint];
         return this.boxPoints;
     }
 
@@ -60,14 +68,8 @@ export class AnatomicalTracingCurve {
             return this.boxDimensions;
         }
         const points = this.getMaxMinPoints(recalculate);
-        const minPoint: IPointBidimensional = {
-            x: points[0],
-            y: points[1],
-        };
-        const maxPoint: IPointBidimensional = {
-            x: points[2],
-            y: points[3],
-        };
+        const minPoint = points[0];
+        const maxPoint = points[1];
 
         const width = maxPoint.x - minPoint.x,
             height = maxPoint.y - minPoint.y;
@@ -79,6 +81,17 @@ export class AnatomicalTracingCurve {
         ];
     }
 
+    private getCurveCenter(recalculate: boolean = false): IPointBidimensional {
+        const points = this.getMaxMinPoints(recalculate);
+        const minPoint = points[0];
+        const maxPoint = points[1];
+        const center: IPointBidimensional = {
+            x: (minPoint.x + maxPoint.x) / 2,
+            y: (minPoint.y + maxPoint.y) / 2,
+        };
+        return center;
+    }
+
     /**
      * Iterate all curves and changes it value
      * @param {string} curveName
@@ -86,7 +99,7 @@ export class AnatomicalTracingCurve {
      * @param {funtion} callback_2
      * @param {boolean} _recalculate
      */
-    public runPointsAndChange(
+    private runPointsAndChange(
         callback_1: BezierChangeFunction,
         callback_2: BezierChangeFunction
     ): void {
@@ -106,6 +119,26 @@ export class AnatomicalTracingCurve {
             }
         }
         this.boxDimensions = this.getBoxDimensions(20, true);
+    }
+
+    public updatePoints(
+        callback_1: BezierChangeFunction,
+        callback_2: BezierChangeFunction,
+        keepOldCenter: boolean = true
+    ): void {
+        const previousCenter: IPointBidimensional = this.getCurveCenter(false);
+        this.runPointsAndChange(callback_1, callback_2);
+
+        if (keepOldCenter) {
+            const newCenter: IPointBidimensional = this.getCurveCenter(true);
+            // Move curve to the old center
+            const moveX = previousCenter.x - newCenter.x;
+            const moveY = previousCenter.y - newCenter.y;
+            this.runPointsAndChange(
+                (pointX, _pointY) => pointX + moveX,
+                (pointY, _pointX) => pointY + moveY
+            );
+        }
     }
 
     public get points(): IBezierPoints {

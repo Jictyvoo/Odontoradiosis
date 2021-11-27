@@ -261,13 +261,14 @@ class TracingController {
         this.currentBoxPoints[1] -= amountY;
         this.currentBoxPoints[2] -= amountX;
         this.currentBoxPoints[3] -= amountY;
-        this.getTracing(curveName)?.runPointsAndChange(
+        this.getTracing(curveName)?.updatePoints(
             function (pointX: number) {
                 return pointX - amountX;
             },
             function (pointY: number) {
                 return pointY - amountY;
-            }
+            },
+            false
         );
     }
 
@@ -277,7 +278,7 @@ class TracingController {
      * @param {float} angle
      */
     rotateBezier(curveName: string, angle: number): void {
-        this.getTracing(curveName)?.runPointsAndChange(
+        this.getTracing(curveName)?.updatePoints(
             function (pointX: number, pointY: number) {
                 return pointX * Math.cos(angle) - pointY * Math.sin(angle);
             },
@@ -294,7 +295,7 @@ class TracingController {
      * @param {float} scaleY
      */
     rescaleBezier(curveName: string, scaleX: number, scaleY: number): void {
-        this.getTracing(curveName)?.runPointsAndChange(
+        this.getTracing(curveName)?.updatePoints(
             function (pointX: number) {
                 return pointX * scaleX;
             },
