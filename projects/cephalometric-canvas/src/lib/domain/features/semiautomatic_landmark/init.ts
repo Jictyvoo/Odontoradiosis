@@ -146,16 +146,23 @@ class SemiautomaticLandmarks {
                 return symbolTable[resultName];
             },
             average: function (
-                firstParam: string | any[],
+                firstParam: string | string[],
                 secondParam: any,
                 resultName: string | number
             ) {
-                let average = 0;
+                let average = { x: 0, y: 0 };
                 const total = firstParam.length;
                 for (let index = 0; index < firstParam.length; index++) {
-                    average += firstParam[index];
+                    const element = firstParam[index];
+                    if (symbolTable[element]) {
+                        average.x += symbolTable[element].x;
+                        average.y += symbolTable[element].y;
+                    }
                 }
-                symbolTable[resultName] = average / total;
+                symbolTable[resultName] = {
+                    x: average.x / total,
+                    y: average.y / total,
+                };
                 return symbolTable[resultName];
             },
             return: function (
