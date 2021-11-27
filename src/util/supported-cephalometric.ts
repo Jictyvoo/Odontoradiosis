@@ -37,5 +37,7 @@ const supportedPoints = [
 
 export default {
     supportedCurves,
+    allCurves: 'Todas as Curvas',
     supportedPoints,
+    clearSelection: 'Selecione',
 };

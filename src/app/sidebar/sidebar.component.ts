@@ -46,6 +46,7 @@ export class SidebarComponent implements OnInit {
         private infoKeeper: OdontoradiosisKeeper
     ) {
         this.supportedCurves = supportedCephalometric.supportedCurves;
+        this.supportedCurves.unshift(supportedCephalometric.allCurves);
         this.supportedPoints = supportedCephalometric.supportedPoints;
     }
 
@@ -73,20 +74,21 @@ export class SidebarComponent implements OnInit {
         const canvasOdontoradiosis = this.canvasService.cephalometricCanvas;
         this.infoKeeper.selectedOptions.curve = '';
         tracingController.drawAllCurves();
-        if (curveName !== 'Selecione') {
+        if (curveName !== supportedCephalometric.clearSelection) {
             const currentCurve = UsefulMethods.normalizeTracingName(curveName);
-            if (tracingController.curveExists(currentCurve)) {
-                tracingController.drawCurveBox.call(
-                    tracingController,
-                    currentCurve,
-                    true
-                );
-                tracingController.drawPointCircle.call(
-                    tracingController,
-                    currentCurve
-                );
-                canvasOdontoradiosis.canvasCursor = 'move';
+            if (curveName === supportedCephalometric.allCurves) {
                 this.infoKeeper.selectedOptions.curve = currentCurve;
+                this.infoKeeper.selectedOptions.isAllCurves = true;
+                canvasOdontoradiosis.canvasCursor = 'move';
+                tracingController.drawEntireCurveBox(false);
+            } else {
+                if (tracingController.curveExists(currentCurve)) {
+                    canvasOdontoradiosis.canvasCursor = 'move';
+                    this.infoKeeper.selectedOptions.curve = currentCurve;
+                    this.infoKeeper.selectedOptions.isAllCurves = false;
+                    tracingController.drawCurveBox(currentCurve, true);
+                    tracingController.drawPointCircle(currentCurve);
+                }
             }
         } else {
             canvasOdontoradiosis.canvasCursor = 'crosshair';

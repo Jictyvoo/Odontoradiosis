@@ -12,12 +12,13 @@ import { IPointBidimensional } from '../../util/interfaces/interfaces';
 import { ILocalRepository } from '../../util/interfaces/repositories';
 import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
 import { ITracingDraw } from '../../util/interfaces/views/tracingDraw';
+import UsefulMethods from '../../util/usefulMethods';
+import { AbstractBezierController } from './abstractBezierController';
 
-class TracingController {
+class TracingController extends AbstractBezierController {
     public canvasOdontoradiosis: ICanvasDraw;
     public anatomicalTracing: ITracingDraw;
     public bezierPoints: ITracingList;
-    public currentBoxPoints: number[];
     private localRepository: ILocalRepository;
 
     /**
@@ -25,6 +26,7 @@ class TracingController {
      * @param {ICanvasDraw} canvasOdontoradiosis
      */
     constructor(canvasOdontoradiosis: ICanvasDraw) {
+        super();
         this.canvasOdontoradiosis = canvasOdontoradiosis;
 
         // Create AnatomicalTracing and set this curvePoints
@@ -40,8 +42,6 @@ class TracingController {
         }
         this.bezierPoints =
             TracingController.bezierPoints2TracingList(bezierCurves);
-
-        this.currentBoxPoints = [0, 0, 0, 0];
     }
 
     protected static bezierPoints2TracingList(
@@ -104,7 +104,7 @@ class TracingController {
         return null;
     }
 
-    private getTracing(curveName: string): AnatomicalTracingCurve | null {
+    protected getTracing(curveName: string): AnatomicalTracingCurve | null {
         if (this.curveExists(curveName)) {
             return this.bezierPoints[curveName];
         }
@@ -137,13 +137,43 @@ class TracingController {
      * @param {string} currentCurve
      * @param {boolean} recalculate
      */
-    drawCurveBox(currentCurve: string, recalculate: boolean): void {
+    public drawCurveBox(currentCurve: string, recalculate: boolean): void {
         const tracing = this.getTracing(currentCurve);
         if (tracing) {
             this.anatomicalTracing.drawCurveBox(
                 tracing.getBoxDimensions(20, recalculate)
             );
         }
+    }
+
+    private getMaxMinAllCurves(recalculate: boolean): IPointBidimensional[] {
+        // get the max and min points of all curves
+        const maxPoints: IPointBidimensional = {
+            x: Number.NEGATIVE_INFINITY,
+            y: Number.NEGATIVE_INFINITY,
+        };
+        const minPoints: IPointBidimensional = {
+            x: Number.POSITIVE_INFINITY,
+            y: Number.POSITIVE_INFINITY,
+        };
+        for (const curveElement of Object.values(this.bezierPoints)) {
+            const maxMinPoints = curveElement.getMaxMinPoints(recalculate);
+            // Override max point
+            maxPoints.x = Math.max(maxMinPoints[1].x, maxPoints.x);
+            maxPoints.y = Math.max(maxMinPoints[1].y, maxPoints.y);
+
+            // Override min point
+            minPoints.x = Math.min(maxMinPoints[0].x, minPoints.x);
+            minPoints.y = Math.min(maxMinPoints[0].y, minPoints.y);
+        }
+        return [minPoints, maxPoints];
+    }
+
+    public drawEntireCurveBox(recalculate: boolean) {
+        const points = this.getMaxMinAllCurves(recalculate);
+        const boxDimensions = UsefulMethods.calculateBoxDimensions(points);
+        console.log(points, boxDimensions);
+        this.anatomicalTracing.drawCurveBox(boxDimensions);
     }
 
     /**
@@ -165,17 +195,23 @@ class TracingController {
      */
     public verifyMouseOnBoxVertex(
         relativeMouse: IPointBidimensional,
-        curveName: string
+        curveName: string,
+        isAllCurves: boolean = false
     ): { isOn: boolean; index: number } {
         let isOn = false;
         let vertexIndex = 0;
 
         const tracing = this.getTracing(curveName);
-        if (!tracing) {
+        const boxVertex: number[] =
+            tracing?.getBoxDimensions(20, true) ?? isAllCurves
+                ? UsefulMethods.calculateBoxDimensions(
+                      this.getMaxMinAllCurves(true)
+                  )
+                : [];
+        if (boxVertex.length <= 0) {
             return { isOn, index: vertexIndex };
         }
 
-        const boxVertex = tracing.getBoxDimensions(20, true);
         const pointRadius = this.canvasOdontoradiosis.scales.pointRadius;
         [
             [boxVertex[0], boxVertex[1]],
@@ -204,11 +240,22 @@ class TracingController {
      */
     public verifyMouseInBox(
         relativeMouse: IPointBidimensional,
-        curveName: string
+        curveName: string,
+        isAllCurves: boolean = false
     ): boolean {
+        let points: number[] = [];
+        if (isAllCurves) {
+            const maxMin = this.getMaxMinAllCurves(true);
+            points = UsefulMethods.calculateBoxDimensions(maxMin);
+        }
+
         const tracing = this.getTracing(curveName);
         if (tracing) {
-            const points = tracing.getBoxDimensions();
+            points = tracing.getBoxDimensions();
+        }
+
+        // Verify if mouse is inside the box only has valid points
+        if (points.length >= 4) {
             return (
                 relativeMouse.x >= points[0] &&
                 relativeMouse.x <= points[0] + points[2] &&
@@ -230,12 +277,12 @@ class TracingController {
         curveName: string
     ): ICurvePointLocation | null {
         const pointRadius = this.canvasOdontoradiosis.scales.pointRadius;
-        for (
-            let index = 0;
-            index < this.bezierPoints[curveName].length;
-            index++
-        ) {
-            const element = this.bezierPoints[curveName].points[index];
+        const tracing = this.getTracing(curveName);
+        if (!tracing) {
+            return null;
+        }
+        for (let index = 0; index < tracing.length ?? 0; index++) {
+            const element = tracing.points[index];
             for (let subindex = 0; subindex < element.length; subindex += 2) {
                 if (
                     relativeMouse.x >= element[subindex] - pointRadius &&
@@ -250,59 +297,16 @@ class TracingController {
         return null;
     }
 
-    /**
-     * Translate a curve
-     * @param {string} curveName
-     * @param {float} amountX
-     * @param {float} amountY
-     */
-    translateBezier(curveName: string, amountX: number, amountY: number): void {
-        this.currentBoxPoints[0] -= amountX;
-        this.currentBoxPoints[1] -= amountY;
-        this.currentBoxPoints[2] -= amountX;
-        this.currentBoxPoints[3] -= amountY;
-        this.getTracing(curveName)?.updatePoints(
-            function (pointX: number) {
-                return pointX - amountX;
-            },
-            function (pointY: number) {
-                return pointY - amountY;
-            },
-            false
-        );
+    rescaleAllCurves(scales: IPointBidimensional) {
+        for (const curveName of Object.keys(this.bezierPoints)) {
+            this.rescaleBezier(curveName, scales.x, scales.y);
+        }
     }
 
-    /**
-     * Rotate a bezier curve
-     * @param {string} curveName
-     * @param {float} angle
-     */
-    rotateBezier(curveName: string, angle: number): void {
-        this.getTracing(curveName)?.updatePoints(
-            function (pointX: number, pointY: number) {
-                return pointX * Math.cos(angle) - pointY * Math.sin(angle);
-            },
-            function (pointY: number, pointX: number) {
-                return pointX * Math.sin(angle) + pointY * Math.cos(angle);
-            }
-        );
-    }
-
-    /**
-     * Reescale all bezier curves, based on scales given
-     * @param {string} curveName
-     * @param {float} scaleX
-     * @param {float} scaleY
-     */
-    rescaleBezier(curveName: string, scaleX: number, scaleY: number): void {
-        this.getTracing(curveName)?.updatePoints(
-            function (pointX: number) {
-                return pointX * scaleX;
-            },
-            function (pointY: number) {
-                return pointY * scaleY;
-            }
-        );
+    translateAllCurves(movement: IPointBidimensional) {
+        for (const curveName of Object.keys(this.bezierPoints)) {
+            this.translateBezier(curveName, movement.x, movement.y);
+        }
     }
 }
 

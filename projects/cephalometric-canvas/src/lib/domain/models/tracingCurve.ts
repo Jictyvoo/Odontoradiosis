@@ -3,6 +3,7 @@ import {
     IBezierPoints,
 } from '../util/interfaces/curveManipulation';
 import { IPointBidimensional } from '../util/interfaces/interfaces';
+import UsefulMethods from '../util/usefulMethods';
 
 export class AnatomicalTracingCurve {
     private curveName: string;
@@ -22,7 +23,7 @@ export class AnatomicalTracingCurve {
      * @param {string} curveName
      * @param {boolean} recalculate
      */
-    private getMaxMinPoints(recalculate: boolean): IPointBidimensional[] {
+    public getMaxMinPoints(recalculate: boolean): IPointBidimensional[] {
         if (this.boxPoints.length > 0 && !recalculate) {
             return this.boxPoints;
         }
@@ -68,17 +69,7 @@ export class AnatomicalTracingCurve {
             return this.boxDimensions;
         }
         const points = this.getMaxMinPoints(recalculate);
-        const minPoint = points[0];
-        const maxPoint = points[1];
-
-        const width = maxPoint.x - minPoint.x,
-            height = maxPoint.y - minPoint.y;
-        return [
-            minPoint.x - borderSize,
-            minPoint.y - borderSize,
-            width + borderSize * 2,
-            height + borderSize * 2,
-        ];
+        return UsefulMethods.calculateBoxDimensions(points, borderSize);
     }
 
     private getCurveCenter(recalculate: boolean = false): IPointBidimensional {

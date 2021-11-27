@@ -44,6 +44,28 @@ class UsefulMethods {
     }
 
     /**
+     * Calculate a dimesion for a rectangle box based on it's max and min points
+     * @param points
+     * @param borderSize
+     * @returns
+     */
+    static calculateBoxDimensions(
+        points: IPointBidimensional[],
+        borderSize: number = 20
+    ): number[] {
+        const minPoint = points[0];
+        const maxPoint = points[1];
+        const width = maxPoint.x - minPoint.x,
+            height = maxPoint.y - minPoint.y;
+        return [
+            minPoint.x - borderSize,
+            minPoint.y - borderSize,
+            width + borderSize * 2,
+            height + borderSize * 2,
+        ];
+    }
+
+    /**
      * Subtract the origin from points
      * @param {object} pointA
      * @param {object} pointB

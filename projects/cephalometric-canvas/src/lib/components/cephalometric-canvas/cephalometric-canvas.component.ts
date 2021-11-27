@@ -56,9 +56,7 @@ export class CephalometricCanvasComponent implements OnInit {
             /* do drag things */
             canvasController.canvasCursor = 'move';
 
-            const curveName = UsefulMethods.normalizeTracingName(
-                this.infoKeeper.selectedOptions.curve
-            );
+            const curveName = this.infoKeeper.selectedOptions.curve;
             const referenceCanvas = canvasController.getCanvas(
                 ICanvasLayers.LANDMARKS
             );
@@ -89,20 +87,29 @@ export class CephalometricCanvasComponent implements OnInit {
             } else {
                 const boxVertexInfo = this.infoKeeper.isOnBoxVertex;
                 if (boxVertexInfo.isOn) {
-                    /*still need to fix problem when rescale with top points*/
-                    let scaleX =
-                        currentPosition.x / this.infoKeeper.mousePosition.x;
+                    const scales: IPointBidimensional = {
+                        x: currentPosition.x / this.infoKeeper.mousePosition.x,
+                        y: currentPosition.y / this.infoKeeper.mousePosition.y,
+                    };
                     if (boxVertexInfo.index < 2) {
-                        scaleX =
+                        scales.x =
                             this.infoKeeper.mousePosition.x / currentPosition.x;
                     }
-                    let scaleY =
-                        currentPosition.y / this.infoKeeper.mousePosition.y;
                     if (boxVertexInfo.index % 2 === 0) {
-                        scaleY =
+                        scales.y =
                             this.infoKeeper.mousePosition.y / currentPosition.y;
                     }
-                    tracingController.rescaleBezier(curveName, scaleX, scaleY);
+
+                    // TODO: Make scales be attached with one of the points. This way maybe the edge selected can follow the mouse.
+                    if (this.infoKeeper.selectedOptions.isAllCurves) {
+                        tracingController.rescaleAllCurves(scales);
+                    } else {
+                        tracingController.rescaleBezier(
+                            curveName,
+                            scales.x,
+                            scales.y
+                        );
+                    }
                 } else if (this.infoKeeper.isOnCurvePoints != null) {
                     const curvePoints = this.infoKeeper
                         .isOnCurvePoints[0] as number[];
@@ -111,11 +118,19 @@ export class CephalometricCanvasComponent implements OnInit {
                     curvePoints[this.infoKeeper.isOnCurvePoints[2] as number] -=
                         this.infoKeeper.mousePosition.y - currentPosition.y;
                 } else if (this.infoKeeper.isInsideBox) {
-                    tracingController.translateBezier(
-                        curveName,
-                        this.infoKeeper.mousePosition.x - currentPosition.x,
-                        this.infoKeeper.mousePosition.y - currentPosition.y
-                    );
+                    const movement: IPointBidimensional = {
+                        x: this.infoKeeper.mousePosition.x - currentPosition.x,
+                        y: this.infoKeeper.mousePosition.y - currentPosition.y,
+                    };
+                    if (this.infoKeeper.selectedOptions.isAllCurves) {
+                        tracingController.translateAllCurves(movement);
+                    } else {
+                        tracingController.translateBezier(
+                            curveName,
+                            movement.x,
+                            movement.y
+                        );
+                    }
                 } else {
                     let angle = UsefulMethods.calculateAngle(
                         currentPosition,
@@ -136,8 +151,12 @@ export class CephalometricCanvasComponent implements OnInit {
                 this.infoKeeper.mousePosition.y = currentPosition.y;
                 this.infoKeeper.mousePosition.disabled = false;
                 tracingController.drawAllCurves();
-                tracingController.drawCurveBox(curveName, true);
-                tracingController.drawPointCircle(curveName);
+                if (this.infoKeeper.selectedOptions.isAllCurves) {
+                    tracingController.drawEntireCurveBox(true);
+                } else {
+                    tracingController.drawCurveBox(curveName, true);
+                    tracingController.drawPointCircle(curveName);
+                }
             }
         } else if (this.infoKeeper.isCurveFunction) {
             canvasController.canvasCursor = 'crosshair';
@@ -152,18 +171,20 @@ export class CephalometricCanvasComponent implements OnInit {
         this.infoKeeper.isMouseDown = true;
 
         // Start handling the mouse position
-        const currentCurve = this.infoKeeper.selectedOptions.curve;
-        const curveName = UsefulMethods.normalizeTracingName(currentCurve);
+        const curveName = this.infoKeeper.selectedOptions.curve;
         const tracingController = this.canvasService.tracingController;
         const canvasOdontoradiosis = this.canvasService.cephalometricCanvas;
-        if (currentCurve.length <= 0 || currentCurve === 'Selecione') {
+        if (curveName.length <= 0 || curveName === 'selecione') {
             this.infoKeeper.isCurveFunction = false;
             const landmarkName = this.infoKeeper.selectedOptions.landmark;
             this.canvasService.controller.markLandmarkPoint(landmarkName, {
                 x: event.clientX,
                 y: event.clientY,
             });
-        } else if (tracingController.curveExists(curveName)) {
+        } else if (
+            tracingController.curveExists(curveName) ||
+            this.infoKeeper.selectedOptions.isAllCurves
+        ) {
             this.infoKeeper.isCurveFunction = true;
             const relativeMouse = this.scaleManager.getMousePos(
                 canvasOdontoradiosis.getCanvas(
@@ -173,12 +194,15 @@ export class CephalometricCanvasComponent implements OnInit {
             );
             this.infoKeeper.isInsideBox = tracingController.verifyMouseInBox(
                 relativeMouse,
-                curveName
+                curveName,
+                this.infoKeeper.selectedOptions.isAllCurves
             );
+
             this.infoKeeper.isOnBoxVertex =
                 tracingController.verifyMouseOnBoxVertex(
                     relativeMouse,
-                    curveName
+                    curveName,
+                    this.infoKeeper.selectedOptions.isAllCurves
                 );
             this.infoKeeper.isOnCurvePoints =
                 tracingController.verifyMouseOnCurvePoint(
