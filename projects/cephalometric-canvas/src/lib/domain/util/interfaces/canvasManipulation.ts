@@ -5,20 +5,21 @@ export interface ICanvasElements {
     [key: string]: HTMLCanvasElement;
 }
 
+export interface IExportableData {
+    imageData: string;
+    landmarks: ILandmarkArray;
+    curves: IBezierCurves;
+}
+
 export interface ICanvasImage {
     imageData: string;
     isLoaded: boolean;
     isFromStorage: boolean;
+    elementsToLoad?: IExportableData;
 }
 
 export enum ICanvasLayers {
     BACKGROUND = 'image',
     LANDMARKS = 'landmarks',
     ANATOMICAL_TRACING = 'bezier',
-}
-
-export interface IExportableData {
-    imageData: string;
-    landmarks: ILandmarkArray;
-    curves: IBezierCurves;
 }

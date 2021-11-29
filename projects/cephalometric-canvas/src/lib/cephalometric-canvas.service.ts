@@ -48,6 +48,7 @@ export class CephalometricCanvasService {
             imageData: imageData ?? '',
             isLoaded: false,
             isFromStorage: !!imageData,
+            elementsToLoad: undefined,
         };
         this.semiautomaticLandmarks = undefined;
     }
@@ -87,6 +88,18 @@ export class CephalometricCanvasService {
 
     public openImageOnCanvas(imageData: string): void {
         const self = this;
+
+        const exportedData = this.imageInfo.elementsToLoad;
+        if (exportedData) {
+            this.mainController.landmarksController.setLandmarks(
+                exportedData.landmarks
+            );
+            this.mainController.tracingController.setBezierPoints(
+                exportedData.curves
+            );
+            this.mainController.saveAll();
+        }
+
         this.canvasOdontoradiosis.openImage(imageData, function () {
             self.mainController.loadJsonCurve(
                 '',
@@ -114,13 +127,7 @@ export class CephalometricCanvasService {
     public loadExportedData(exportedData: IExportableData): void {
         this.loadImage(exportedData.imageData);
         this.imageInfo.isFromStorage = true;
-        this.mainController.landmarksController.setLandmarks(
-            exportedData.landmarks
-        );
-        this.mainController.tracingController.setBezierPoints(
-            exportedData.curves
-        );
-        this.mainController.saveAll();
+        this.imageInfo.elementsToLoad = exportedData;
     }
 
     public exportCephalometricData(): IExportableData {
