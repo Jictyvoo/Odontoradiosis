@@ -15,7 +15,10 @@ import {
     IExportableData,
 } from './domain/util/interfaces/canvasManipulation';
 import { IEffectValues } from './domain/util/interfaces/interfaces';
-import { ILocalRepository } from './domain/util/interfaces/repositories';
+import {
+    EStorageKey,
+    ILocalRepository,
+} from './domain/util/interfaces/repositories';
 import { ICanvasDraw } from './domain/util/interfaces/views/canvasDraw';
 import ScaleManager from './domain/util/scaleManager';
 import { LocalRepositoryImpl } from './infra/repositories/localStorage.repository';
@@ -38,7 +41,9 @@ export class CephalometricCanvasService {
     ) {
         this.localRepository = new LocalRepositoryImpl();
 
-        const imageData = this.localRepository.get<string>('imageData');
+        const imageData = this.localRepository.get<string>(
+            EStorageKey.IMAGE_DATA
+        );
         this.imageInfo = {
             imageData: imageData ?? '',
             isLoaded: false,
@@ -100,7 +105,7 @@ export class CephalometricCanvasService {
         this.imageInfo.isFromStorage = false;
         this.semiautomaticLandmarks = undefined;
         // save the image data on local storage
-        this.localRepository.set('imageData', imageData);
+        this.localRepository.set(EStorageKey.IMAGE_DATA, imageData);
         if (this.imageInfo.isLoaded) {
             this.openImageOnCanvas(imageData);
         }

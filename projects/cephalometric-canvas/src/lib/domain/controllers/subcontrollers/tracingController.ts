@@ -9,7 +9,10 @@ import {
     ITracingList,
 } from '../../util/interfaces/curveManipulation';
 import { IPointBidimensional } from '../../util/interfaces/interfaces';
-import { ILocalRepository } from '../../util/interfaces/repositories';
+import {
+    EStorageKey,
+    ILocalRepository,
+} from '../../util/interfaces/repositories';
 import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
 import { ITracingDraw } from '../../util/interfaces/views/tracingDraw';
 import UsefulMethods from '../../util/usefulMethods';
@@ -36,7 +39,9 @@ class TracingController extends AbstractBezierController {
         this.localRepository = new LocalRepositoryImpl();
 
         let bezierCurves = Cloneable.deepCopy(deafultBezierCurves);
-        const storedCurves = this.localRepository.get<string>('bezier_curves');
+        const storedCurves = this.localRepository.get<string>(
+            EStorageKey.BEZIER_CURVES
+        );
         if (storedCurves) {
             bezierCurves = JSON.parse(storedCurves);
         }
@@ -118,7 +123,7 @@ class TracingController extends AbstractBezierController {
         const curvesJson = JSON.stringify(
             TracingController.tracingList2BezierPoints(this.bezierPoints)
         );
-        this.localRepository.set('bezier_curves', curvesJson);
+        this.localRepository.set(EStorageKey.BEZIER_CURVES, curvesJson);
     }
 
     /**
@@ -172,7 +177,6 @@ class TracingController extends AbstractBezierController {
     public drawEntireCurveBox(recalculate: boolean) {
         const points = this.getMaxMinAllCurves(recalculate);
         const boxDimensions = UsefulMethods.calculateBoxDimensions(points);
-        console.log(points, boxDimensions);
         this.anatomicalTracing.drawCurveBox(boxDimensions);
     }
 

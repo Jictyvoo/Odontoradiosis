@@ -4,7 +4,10 @@ import {
     ILandmark,
     ILandmarkArray,
 } from '../../util/interfaces/landmarkManipulation';
-import { ILocalRepository } from '../../util/interfaces/repositories';
+import {
+    EStorageKey,
+    ILocalRepository,
+} from '../../util/interfaces/repositories';
 import { ICanvasDraw } from '../../util/interfaces/views/canvasDraw';
 
 class LandmarksController {
@@ -22,7 +25,9 @@ class LandmarksController {
         this.localRepository = new LocalRepositoryImpl();
 
         this.landmarks = {};
-        const savedLandmarks = this.localRepository.get<string>('saved_points');
+        const savedLandmarks = this.localRepository.get<string>(
+            EStorageKey.LANDMARKS
+        );
         if (savedLandmarks) {
             this.landmarks = JSON.parse(savedLandmarks);
         }
@@ -70,7 +75,7 @@ class LandmarksController {
      */
     saveLandmarks(): void {
         const data_json = JSON.stringify(this.landmarks);
-        this.localRepository.set('saved_points', data_json);
+        this.localRepository.set(EStorageKey.LANDMARKS, data_json);
     }
 
     /**
