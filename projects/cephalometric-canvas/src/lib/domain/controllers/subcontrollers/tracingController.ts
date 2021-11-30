@@ -39,12 +39,6 @@ class TracingController extends AbstractBezierController {
         this.localRepository = new LocalRepositoryImpl();
 
         let bezierCurves = Cloneable.deepCopy(deafultBezierCurves);
-        const storedCurves = this.localRepository.get<string>(
-            EStorageKey.BEZIER_CURVES
-        );
-        if (storedCurves) {
-            bezierCurves = JSON.parse(storedCurves);
-        }
         this.bezierPoints =
             TracingController.bezierPoints2TracingList(bezierCurves);
     }
@@ -117,13 +111,35 @@ class TracingController extends AbstractBezierController {
     }
 
     /**
-     * Save all bezier curves in a hidden form
+     * Save all bezier curves in a given repository
      */
-    saveBezierCurve() {
+    saveBezierCurve(): void {
         const curvesJson = JSON.stringify(
             TracingController.tracingList2BezierPoints(this.bezierPoints)
         );
         this.localRepository.set(EStorageKey.BEZIER_CURVES, curvesJson);
+    }
+
+    /**
+     * Load bezier curves from repository
+     */
+    loadBezierCurves(jsonContent: string = ''): boolean {
+        let decodedCurves: IBezierCurves = {};
+        if (jsonContent && jsonContent.length > 0) {
+            decodedCurves = JSON.parse(jsonContent);
+        } else {
+            decodedCurves =
+                this.localRepository.get<IBezierCurves>(
+                    EStorageKey.BEZIER_CURVES
+                ) ?? {};
+        }
+
+        // Save parsed curves in bezierPoints
+        if (Object.keys(decodedCurves).length > 0) {
+            this.setBezierPoints(decodedCurves);
+            return true;
+        }
+        return false;
     }
 
     /**

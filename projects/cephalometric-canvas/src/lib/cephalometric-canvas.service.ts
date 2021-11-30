@@ -48,7 +48,6 @@ export class CephalometricCanvasService {
             imageData: imageData ?? '',
             isLoaded: false,
             isFromStorage: !!imageData,
-            elementsToLoad: undefined,
         };
         this.semiautomaticLandmarks = undefined;
     }
@@ -89,26 +88,18 @@ export class CephalometricCanvasService {
     public openImageOnCanvas(imageData: string): void {
         const self = this;
 
-        const exportedData = this.imageInfo.elementsToLoad;
-        if (exportedData) {
-            this.mainController.landmarksController.setLandmarks(
-                exportedData.landmarks
-            );
-            this.mainController.tracingController.setBezierPoints(
-                exportedData.curves
-            );
-            this.mainController.saveAll();
-        }
+        // Create closure to load elements after the image is loaded
+        this.canvasOdontoradiosis.openImage(imageData, function (): void {
+            if (self.imageInfo.isFromStorage) {
+                self.mainController.loadAll();
+            } else {
+                self.mainController.loadJsonCurve('', true);
+                self.mainController.loadJsonLandmarks('', true);
+                self.mainController.saveAll();
+            }
 
-        this.canvasOdontoradiosis.openImage(imageData, function () {
-            self.mainController.loadJsonCurve(
-                '',
-                !self.imageInfo.isFromStorage
-            );
-            self.mainController.loadJsonLandmarks(
-                '',
-                !self.imageInfo.isFromStorage
-            );
+            self.mainController.tracingController.drawAllCurves();
+            self.mainController.landmarksController.redrawLandmarks();
         });
         this.imageEffects.reset();
     }
@@ -125,9 +116,13 @@ export class CephalometricCanvasService {
     }
 
     public loadExportedData(exportedData: IExportableData): void {
+        this.localRepository.set(EStorageKey.LANDMARKS, exportedData.landmarks);
+        this.localRepository.set(
+            EStorageKey.BEZIER_CURVES,
+            exportedData.curves
+        );
         this.loadImage(exportedData.imageData);
         this.imageInfo.isFromStorage = true;
-        this.imageInfo.elementsToLoad = exportedData;
     }
 
     public exportCephalometricData(): IExportableData {

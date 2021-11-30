@@ -15,7 +15,6 @@ export interface ICanvasImage {
     imageData: string;
     isLoaded: boolean;
     isFromStorage: boolean;
-    elementsToLoad?: IExportableData;
 }
 
 export enum ICanvasLayers {

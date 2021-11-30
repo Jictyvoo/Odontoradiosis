@@ -1,7 +1,6 @@
 import { default as OdontoradiosisKepper } from '../models/odontoradiosisKeeper';
 import { ICanvasLayers } from '../util/interfaces/canvasManipulation';
 import { IPointBidimensional, IStringMap } from '../util/interfaces/interfaces';
-import { ILandmarkArray } from '../util/interfaces/landmarkManipulation';
 import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
 import { default as ScaleManager } from '../util/scaleManager';
 import { default as LandmarksController } from './subcontrollers/landmarksController';
@@ -45,25 +44,10 @@ class MainController {
         if (override) {
             // Load landmarks from default empty
             this.landmarksController.setLandmarks({});
+        } else if (jsonContent.length > 0) {
+            // Load landmarks from json file
+            this.landmarksController.loadLandmarks(jsonContent);
         }
-        if (jsonContent.length > 0) {
-            const decodedLandmarks = JSON.parse(jsonContent);
-
-            const validLandmarks: ILandmarkArray = {};
-            for (const landmark of Object.entries(decodedLandmarks)) {
-                const landmarkName = landmark[0];
-                const landmarkPosition = landmark[1];
-
-                if (typeof landmarkPosition == 'object') {
-                    validLandmarks[landmarkName] = {
-                        x: (landmarkPosition as any)?.x,
-                        y: (landmarkPosition as any)?.y,
-                    };
-                }
-            }
-            this.landmarksController.setLandmarks(validLandmarks);
-        }
-        this.landmarksController.redrawLandmarks();
     }
 
     /**
@@ -74,16 +58,28 @@ class MainController {
         if (override) {
             // Load JsonCurves from default json file
             this.tracingController.setBezierPoints();
+        } else if (jsonContent.length > 0) {
+            this.tracingController.loadBezierCurves(jsonContent);
         }
-        if (jsonContent.length > 0) {
-            this.tracingController.setBezierPoints(JSON.parse(jsonContent));
-        }
-        this.tracingController.drawAllCurves();
     }
 
     public saveAll(): void {
         this.landmarksController.saveLandmarks();
         this.tracingController.saveBezierCurve();
+    }
+
+    /**
+     * Load landmarks and anatomical tracing points from storage or default
+     */
+    public loadAll(): void {
+        if (!this.landmarksController.loadLandmarks()) {
+            console.error('Landmarks not found');
+            this.loadJsonLandmarks('', true);
+        }
+        if (!this.tracingController.loadBezierCurves()) {
+            console.error('Tracing not found');
+            this.loadJsonCurve('', true);
+        }
     }
 
     /**

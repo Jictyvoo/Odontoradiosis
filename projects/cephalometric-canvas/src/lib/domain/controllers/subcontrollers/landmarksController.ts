@@ -25,12 +25,6 @@ class LandmarksController {
         this.localRepository = new LocalRepositoryImpl();
 
         this.landmarks = {};
-        const savedLandmarks = this.localRepository.get<string>(
-            EStorageKey.LANDMARKS
-        );
-        if (savedLandmarks) {
-            this.landmarks = JSON.parse(savedLandmarks);
-        }
     }
 
     /**
@@ -71,11 +65,47 @@ class LandmarksController {
     }
 
     /**
-     * Save all landmarks in a hidden form
+     * Save all landmarks in the given repository
      */
     saveLandmarks(): void {
         const data_json = JSON.stringify(this.landmarks);
         this.localRepository.set(EStorageKey.LANDMARKS, data_json);
+    }
+
+    /**
+     * Load landmarks from local storage
+     */
+    loadLandmarks(jsonContent: string = ''): boolean {
+        let decodedLandmarks: ILandmarkArray = {};
+        if (jsonContent && jsonContent.length > 0) {
+            decodedLandmarks = JSON.parse(jsonContent);
+        } else {
+            decodedLandmarks =
+                this.localRepository.get<ILandmarkArray>(
+                    EStorageKey.LANDMARKS
+                ) ?? {};
+        }
+
+        // Make sure object is really valid
+        if (Object.keys(decodedLandmarks).length > 0) {
+            console.log('Landmarks loaded', decodedLandmarks);
+            const validLandmarks: ILandmarkArray = {};
+            for (const landmark of Object.entries(decodedLandmarks)) {
+                const landmarkName = landmark[0];
+                const landmarkPosition = landmark[1];
+
+                if (typeof landmarkPosition == 'object') {
+                    validLandmarks[landmarkName] = {
+                        x: (landmarkPosition as any)?.x,
+                        y: (landmarkPosition as any)?.y,
+                    };
+                }
+            }
+            this.setLandmarks(validLandmarks);
+
+            return true;
+        }
+        return false;
     }
 
     /**
