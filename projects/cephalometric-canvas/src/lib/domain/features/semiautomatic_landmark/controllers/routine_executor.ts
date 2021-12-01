@@ -1,11 +1,11 @@
 import LandmarksController from '../../../controllers/subcontrollers/landmarksController';
 import TracingController from '../../../controllers/subcontrollers/tracingController';
 import { IPointBidimensional } from '../../../util/interfaces/interfaces';
-import { IRoutinesSemiautomatic } from '../../../util/interfaces/landmarkManipulation';
+import { IRoutineDescription } from '../interfaces';
 import { ElementsStorage } from '../models/elements_storage';
 
 export class RoutineExecutor {
-    private readonly routine: IRoutinesSemiautomatic;
+    private readonly routine: IRoutineDescription;
     private elementsStorage: ElementsStorage;
     private readonly tracingController: TracingController;
     private readonly landmarksController: LandmarksController;
@@ -13,7 +13,7 @@ export class RoutineExecutor {
     constructor(
         tracingController: TracingController,
         landmarksController: LandmarksController,
-        routine: IRoutinesSemiautomatic
+        routine: IRoutineDescription
     ) {
         this.routine = routine;
         this.elementsStorage = new ElementsStorage();
@@ -154,12 +154,12 @@ export class RoutineExecutor {
      * Start all routines
      */
     public start(): IPointBidimensional | null {
-        for (const element of this.routine.routines) {
+        for (const element of this.routine.instructions) {
             // Saving elements in temp variables, to help with the execution of the routine
             const functionName = element[0];
-            const firstParam = element[1];
-            const secondParam = element[2];
-            const resultName = element[3];
+            const firstParam = element[1] as any;
+            const secondParam = element[2] as any;
+            const resultName = element[3] as any;
 
             // Select the function to execute
             switch (functionName) {

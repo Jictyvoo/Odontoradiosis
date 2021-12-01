@@ -22,8 +22,9 @@ type IOperation =
     | (string | string[] | null)[]
     | (string | { x: string; y: string } | null)[];
 
+// TODO: Create a class for this, and a parse in compile-time (save it as a AST)
 export interface IRoutineDescription {
     landmark: string;
     accessed_curves: string[];
-    routines: IOperation[];
+    instructions: IOperation[];
 }

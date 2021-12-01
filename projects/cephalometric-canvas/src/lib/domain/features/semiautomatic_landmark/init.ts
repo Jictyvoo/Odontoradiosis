@@ -1,11 +1,10 @@
 import { default as LandmarksController } from '../../controllers/subcontrollers/landmarksController';
 import { default as TracingController } from '../../controllers/subcontrollers/tracingController';
-import { IRoutinesSemiautomatic } from '../../util/interfaces/landmarkManipulation';
 import { RoutineExecutor } from './controllers/routine_executor';
 import { IRoutineDescription } from './interfaces';
 
 class SemiautomaticLandmarks {
-    public routinesDescription: IRoutinesSemiautomatic[];
+    public routinesDescription: IRoutineDescription[];
     public tracingController: TracingController;
     public landmarksController: LandmarksController;
 
