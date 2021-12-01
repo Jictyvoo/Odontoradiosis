@@ -1,5 +1,5 @@
 import LandmarksController from '../../../controllers/subcontrollers/landmarksController';
-import TracingController from '../../../controllers/subcontrollers/tracingController';
+import { AnatomicalTracingCurve } from '../../../models/tracingCurve';
 import { IPointBidimensional } from '../../../util/interfaces/interfaces';
 import { IRoutineDescription } from '../interfaces';
 import { ElementsStorage } from '../models/elements_storage';
@@ -7,22 +7,22 @@ import { ElementsStorage } from '../models/elements_storage';
 export class RoutineExecutor {
     private readonly routine: IRoutineDescription;
     private elementsStorage: ElementsStorage;
-    private readonly tracingController: TracingController;
+    private readonly accessedTracings: Map<string, AnatomicalTracingCurve>;
     private readonly landmarksController: LandmarksController;
 
     constructor(
-        tracingController: TracingController,
+        tracingController: Map<string, AnatomicalTracingCurve>,
         landmarksController: LandmarksController,
         routine: IRoutineDescription
     ) {
         this.routine = routine;
         this.elementsStorage = new ElementsStorage();
-        this.tracingController = tracingController;
+        this.accessedTracings = tracingController;
         this.landmarksController = landmarksController;
     }
 
     private load_curve(firstParam: string, resultName: string): void {
-        const loadedCurves = this.tracingController.getTracing(firstParam);
+        const loadedCurves = this.accessedTracings.get(firstParam);
 
         if (loadedCurves) {
             this.elementsStorage.addCurveAccess(resultName, loadedCurves);
