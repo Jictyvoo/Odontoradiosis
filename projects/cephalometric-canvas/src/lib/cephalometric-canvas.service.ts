@@ -4,9 +4,11 @@ import MainController from './domain/controllers/mainController';
 import TracingController from './domain/controllers/subcontrollers/tracingController';
 import SemiautomaticLandmarks from './domain/features/semiautomatic_landmark/init';
 import aJson from './domain/features/semiautomatic_landmark/routines/a.ldmk.json';
+import bJson from './domain/features/semiautomatic_landmark/routines/b.ldmk.json';
 import enaJson from './domain/features/semiautomatic_landmark/routines/ena.ldmk.json';
 import gnatioJson from './domain/features/semiautomatic_landmark/routines/gnatio.ldmk.json';
 import nasioJson from './domain/features/semiautomatic_landmark/routines/nasio.ldmk.json';
+import palatoMoleJson from './domain/features/semiautomatic_landmark/routines/palatoMole.ldmk.json';
 import selaJson from './domain/features/semiautomatic_landmark/routines/sela.ldmk.json';
 import OdontoradiosisKeeper from './domain/models/odontoradiosisKeeper';
 import {
@@ -141,7 +143,15 @@ export class CephalometricCanvasService {
         const semiautomaticLandmarks =
             this.semiautomaticLandmarks ??
             new SemiautomaticLandmarks(
-                [aJson, enaJson, gnatioJson, nasioJson, selaJson],
+                [
+                    aJson,
+                    bJson,
+                    enaJson,
+                    gnatioJson,
+                    nasioJson,
+                    selaJson,
+                    palatoMoleJson,
+                ],
                 this.tracingController,
                 this.mainController.landmarksController
             );

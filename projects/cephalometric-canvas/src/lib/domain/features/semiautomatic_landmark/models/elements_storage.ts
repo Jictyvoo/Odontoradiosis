@@ -39,6 +39,11 @@ export class ElementsStorage {
     }
 
     public getNumber(key: string): number | null {
+        // This is a workaround since pre-defined functions only accept strings
+        const tryFloat = parseFloat(key);
+        if (!isNaN(tryFloat)) {
+            return tryFloat;
+        }
         return this.numbers.get(key) ?? null;
     }
 

@@ -1,0 +1,17 @@
+{
+  "landmark": "Palato Mole (pm)",
+  "accessed_curves": ["mandíbula", "maxila"],
+  "instructions": [
+    ["load_curve", "mandíbula", null, "curvePoints_1"],
+    ["load_curve", "maxila", null, "curvePoints_2"],
+    ["access_point", 4, "curvePoints_2", "maxilaPoint"],
+    ["access_point", 2, "curvePoints_1", "mandibulaPoint"],
+    ["point_to_var", "maxilaPoint", null, { "x": "x1", "y": "y1" }],
+    ["point_to_var", "mandibulaPoint", null, { "x": "x2", "y": "y2" }],
+    ["add", "x1", "x2", "tempX"],
+    ["add", "y1", "y2", "tempY"],
+    ["div", "tempX", "2", "x"],
+    ["div", "tempY", "2", "y"],
+    ["return", "x", "y", null]
+  ]
+}
