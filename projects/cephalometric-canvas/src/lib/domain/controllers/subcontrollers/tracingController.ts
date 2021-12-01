@@ -222,12 +222,12 @@ class TracingController extends AbstractBezierController {
         let vertexIndex = 0;
 
         const tracing = this.getTracing(curveName);
-        const boxVertex: number[] =
-            tracing?.getBoxDimensions(20, true) ?? isAllCurves
-                ? UsefulMethods.calculateBoxDimensions(
-                      this.getMaxMinAllCurves(true)
-                  )
-                : [];
+        let boxVertex: number[] = tracing?.getBoxDimensions(20, true) ?? [];
+        if (isAllCurves) {
+            boxVertex = UsefulMethods.calculateBoxDimensions(
+                this.getMaxMinAllCurves(true)
+            );
+        }
         if (boxVertex.length <= 0) {
             return { isOn, index: vertexIndex };
         }
