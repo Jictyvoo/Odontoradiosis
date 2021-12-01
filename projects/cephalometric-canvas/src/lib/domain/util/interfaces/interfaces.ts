@@ -17,8 +17,3 @@ export interface IPointBidimensional {
 export interface IMousePosition extends IPointBidimensional {
     disabled: boolean;
 }
-
-export interface IRoutineHelpVar {
-    accessed_curves: string[];
-    landmarkName: string;
-}

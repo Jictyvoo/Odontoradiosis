@@ -13,10 +13,10 @@ export class LocalRepositoryImpl implements ILocalRepository {
 
     public get<T>(key: string): T | null {
         const value = this.storage.getItem(key);
-        if (value === null) {
-            return null;
+        if (value) {
+            return JSON.parse(value) as T;
         }
-        return JSON.parse(value);
+        return null;
     }
 
     public set<T>(key: string, value: T): void {

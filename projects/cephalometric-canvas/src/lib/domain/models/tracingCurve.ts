@@ -1,3 +1,4 @@
+import { ICurveAccess } from '../util/interfaces/curveAccess';
 import {
     BezierChangeFunction,
     IBezierPoints,
@@ -5,7 +6,7 @@ import {
 import { IPointBidimensional } from '../util/interfaces/interfaces';
 import UsefulMethods from '../util/usefulMethods';
 
-export class AnatomicalTracingCurve {
+export class AnatomicalTracingCurve implements ICurveAccess {
     private curveName: string;
     private curvePoints: IBezierPoints;
     private boxPoints: IPointBidimensional[];
@@ -130,6 +131,23 @@ export class AnatomicalTracingCurve {
                 (pointY, _pointX) => pointY + moveY
             );
         }
+    }
+
+    public getPoint(index: number): IPointBidimensional | null {
+        let counter = 0;
+        // TODO: Improve this search, calculate position with index divisor
+        for (const element of this.points) {
+            for (let subindex = 1; subindex < element.length; subindex += 2) {
+                counter++;
+                if (counter == index) {
+                    return {
+                        x: element[subindex - 1],
+                        y: element[subindex],
+                    };
+                }
+            }
+        }
+        return null;
     }
 
     public get points(): IBezierPoints {

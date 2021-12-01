@@ -103,7 +103,7 @@ class TracingController extends AbstractBezierController {
         return null;
     }
 
-    protected getTracing(curveName: string): AnatomicalTracingCurve | null {
+    public getTracing(curveName: string): AnatomicalTracingCurve | null {
         if (this.curveExists(curveName)) {
             return this.bezierPoints[curveName];
         }
