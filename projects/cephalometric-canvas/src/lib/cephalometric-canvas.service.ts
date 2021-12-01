@@ -5,10 +5,18 @@ import TracingController from './domain/controllers/subcontrollers/tracingContro
 import SemiautomaticLandmarks from './domain/features/semiautomatic_landmark/init';
 import aJson from './domain/features/semiautomatic_landmark/routines/a.ldmk.json';
 import bJson from './domain/features/semiautomatic_landmark/routines/b.ldmk.json';
+import condilioJson from './domain/features/semiautomatic_landmark/routines/condilio.ldmk.json';
 import enaJson from './domain/features/semiautomatic_landmark/routines/ena.ldmk.json';
+import enpJson from './domain/features/semiautomatic_landmark/routines/enp.ldmk.json';
 import gnatioJson from './domain/features/semiautomatic_landmark/routines/gnatio.ldmk.json';
+import gonioJson from './domain/features/semiautomatic_landmark/routines/gonio.ldmk.json';
+import mentoJson from './domain/features/semiautomatic_landmark/routines/mento.ldmk.json';
 import nasioJson from './domain/features/semiautomatic_landmark/routines/nasio.ldmk.json';
 import palatoMoleJson from './domain/features/semiautomatic_landmark/routines/palatoMole.ldmk.json';
+import pogonioJson from './domain/features/semiautomatic_landmark/routines/pogonio.ldmk.json';
+import pogonioMoleJson from './domain/features/semiautomatic_landmark/routines/pogonioMole.ldmk.json';
+import porioJson from './domain/features/semiautomatic_landmark/routines/porio.ldmk.json';
+import proNasalJson from './domain/features/semiautomatic_landmark/routines/proNasal.ldmk.json';
 import selaJson from './domain/features/semiautomatic_landmark/routines/sela.ldmk.json';
 import OdontoradiosisKeeper from './domain/models/odontoradiosisKeeper';
 import {
@@ -151,6 +159,14 @@ export class CephalometricCanvasService {
                     nasioJson,
                     selaJson,
                     palatoMoleJson,
+                    porioJson,
+                    enpJson,
+                    pogonioJson,
+                    mentoJson,
+                    gonioJson,
+                    proNasalJson,
+                    condilioJson,
+                    pogonioMoleJson,
                 ],
                 this.tracingController,
                 this.mainController.landmarksController

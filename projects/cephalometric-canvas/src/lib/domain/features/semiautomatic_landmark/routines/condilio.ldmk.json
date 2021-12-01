@@ -1,0 +1,17 @@
+{
+  "landmark": "Condílio (Co)",
+  "accessed_curves": ["fissura-pterigomaxilar", "pório-anatômico"],
+  "instructions": [
+    ["load_curve", "fissura-pterigomaxilar", null, "curvePoints_1"],
+    ["load_curve", "pório-anatômico", null, "curvePoints_2"],
+    ["access_point", 2, "curvePoints_1", "pterigoMaxilaPoint"],
+    ["access_point", 4, "curvePoints_2", "porioPoint"],
+    ["point_to_var", "porioPoint", null, { "x": "x1", "y": "y1" }],
+    ["point_to_var", "pterigoMaxilaPoint", null, { "x": "x2", "y": "y2" }],
+    ["add", "x1", "x2", "tempX"],
+    ["add", "y1", "y2", "tempY"],
+    ["div", "tempX", "2", "x"],
+    ["div", "tempY", "2", "y"],
+    ["return", "x", "y", null]
+  ]
+}

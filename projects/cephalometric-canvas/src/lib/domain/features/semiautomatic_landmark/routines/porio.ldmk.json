@@ -1,0 +1,17 @@
+{
+  "landmark": "Pório (Po)",
+  "accessed_curves": ["pório-anatômico"],
+  "instructions": [
+    ["load_curve", "pório-anatômico", null, "curvePoints"],
+    ["access_point", 1, "curvePoints", "p1"],
+    ["access_point", 2, "curvePoints", "p2"],
+    ["access_point", 3, "curvePoints", "p3"],
+    ["access_point", 4, "curvePoints", "p4"],
+    ["access_point", 5, "curvePoints", "p5"],
+    ["access_point", 6, "curvePoints", "p6"],
+    ["access_point", 7, "curvePoints", "p7"],
+    ["average", ["p1", "p2", "p3", "p4", "p5", "p6", "p7"], null, "result"],
+    ["point_to_var", "result", null, { "x": "x", "y": "y" }],
+    ["return", "x", "y", null]
+  ]
+}

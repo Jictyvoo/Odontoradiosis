@@ -1,0 +1,19 @@
+{
+  "landmark": "Pogônio (Pog)",
+  "accessed_curves": ["mandíbula", "perfil-mole"],
+  "instructions": [
+    ["load_curve", "mandíbula", null, "curvePoints_1"],
+    ["load_curve", "perfil-mole", null, "curvePoints_2"],
+    ["access_point", 19, "curvePoints_1", "p1"],
+    ["access_point", 13, "curvePoints_2", "p2"],
+    ["average", ["p1", "p2"], null, "p3"],
+
+    ["access_point", 19, "curvePoints_1", "p4"],
+    ["access_point", 16, "curvePoints_2", "p5"],
+    ["average", ["p3", "p4"], null, "p6"],
+
+    ["average", ["p2", "p3", "p6"], null, "result"],
+    ["point_to_var", "result", null, { "x": "x", "y": "y" }],
+    ["return", "x", "y", null]
+  ]
+}

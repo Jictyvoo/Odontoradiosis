@@ -1,0 +1,14 @@
+{
+  "landmark": "Gônio (Go)",
+  "accessed_curves": ["mandíbula"],
+  "instructions": [
+    ["load_curve", "mandíbula", null, "curvePoints"],
+    ["access_point", 10, "curvePoints", "firstPoint"],
+    ["access_point", 11, "curvePoints", "secondPoint"],
+    ["point_to_var", "secondPoint", null, { "x": "x1", "y": "y1" }],
+    ["point_to_var", "firstPoint", null, { "x": "x2", "y": "y2" }],
+    ["add", "x1", "x2", "tempX"],
+    ["div", "tempX", "2", "x"],
+    ["return", "x", "y2", null]
+  ]
+}
