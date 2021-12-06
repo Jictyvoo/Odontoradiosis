@@ -68,8 +68,7 @@ class LandmarksController {
      * Save all landmarks in the given repository
      */
     saveLandmarks(): void {
-        const data_json = JSON.stringify(this.landmarks);
-        this.localRepository.set(EStorageKey.LANDMARKS, data_json);
+        this.localRepository.set(EStorageKey.LANDMARKS, this.landmarks);
     }
 
     /**
@@ -88,7 +87,6 @@ class LandmarksController {
 
         // Make sure object is really valid
         if (Object.keys(decodedLandmarks).length > 0) {
-            console.log('Landmarks loaded', decodedLandmarks);
             const validLandmarks: ILandmarkArray = {};
             for (const landmark of Object.entries(decodedLandmarks)) {
                 const landmarkName = landmark[0];

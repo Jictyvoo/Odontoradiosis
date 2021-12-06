@@ -114,10 +114,10 @@ class TracingController extends AbstractBezierController {
      * Save all bezier curves in a given repository
      */
     saveBezierCurve(): void {
-        const curvesJson = JSON.stringify(
+        this.localRepository.set(
+            EStorageKey.BEZIER_CURVES,
             TracingController.tracingList2BezierPoints(this.bezierPoints)
         );
-        this.localRepository.set(EStorageKey.BEZIER_CURVES, curvesJson);
     }
 
     /**
