@@ -1,0 +1,21 @@
+{
+  "landmark": "Fossa Ptérigo Maxilar (Fpm)",
+  "accessed_curves": ["fissura-pterigomaxilar"],
+  "instructions": [
+    ["load_curve", "fissura-pterigomaxilar", null, "curvePoints"],
+    ["access_point", 3, "curvePoints", "p1"],
+    ["access_point", 4, "curvePoints", "p2"],
+
+    ["point_to_var", "p1", null, { "x": "x1", "y": "y1" }],
+    ["point_to_var", "p2", null, { "x": "x2", "y": "y2" }],
+
+    ["mul", "x1", "0.25", "tempX1"],
+    ["mul", "x2", "0.75", "tempX2"],
+    ["mul", "y1", "0.5", "tempY1"],
+    ["mul", "y2", "0.5", "tempY2"],
+
+    ["add", "tempX1", "tempX2", "x"],
+    ["add", "tempY1", "tempY2", "y"],
+    ["return", "x", "y", null]
+  ]
+}
