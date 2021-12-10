@@ -87,6 +87,26 @@ export interface ICanvasDraw {
     ): void;
 
     /**
+     * Draw a circle in selected curve with selected colors
+     * @param {string} layerId
+     * @param {number} x
+     * @param {number} y
+     * @param {number} pointRadius
+     * @param {number} lineWidth
+     * @param {string} fillStyle
+     * @param {string} strokeStyle
+     */
+    drawText(
+        layerId: string,
+        x: number,
+        y: number,
+        text: string,
+        lineWidth: number,
+        fillStyle: string,
+        strokeStyle: string
+    ): void;
+
+    /**
      *
      * @param {CanvasRenderingContext2D} context
      * @param {number} x1
