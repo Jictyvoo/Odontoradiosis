@@ -4,8 +4,8 @@ import deafultBezierCurves from '../../models/bezier_curves.json';
 import { AnatomicalTracingCurve } from '../../models/tracingCurve';
 import { Cloneable } from '../../util/deepClone';
 import {
-    IBezierCurves,
     ICurvePointLocation,
+    ITracingCurves,
     ITracingList,
 } from '../../util/interfaces/curveManipulation';
 import { IPointBidimensional } from '../../util/interfaces/interfaces';
@@ -44,7 +44,7 @@ class TracingController extends AbstractBezierController {
     }
 
     protected static bezierPoints2TracingList(
-        bezierPoints: IBezierCurves
+        bezierPoints: ITracingCurves
     ): ITracingList {
         const tracingList: ITracingList = {};
 
@@ -60,8 +60,8 @@ class TracingController extends AbstractBezierController {
 
     protected static tracingList2BezierPoints(
         tracingList: ITracingList
-    ): IBezierCurves {
-        const bezierPoints: IBezierCurves = {};
+    ): ITracingCurves {
+        const bezierPoints: ITracingCurves = {};
         for (const entry of Object.entries(tracingList)) {
             bezierPoints[entry[0]] = entry[1].points;
         }
@@ -70,10 +70,10 @@ class TracingController extends AbstractBezierController {
 
     /**
      * Bezier points setter
-     * @param {IBezierCurves} points
+     * @param {ITracingCurves} points
      */
     public setBezierPoints(
-        points: IBezierCurves = Cloneable.deepCopy(deafultBezierCurves)
+        points: ITracingCurves = Cloneable.deepCopy(deafultBezierCurves)
     ): void {
         this.bezierPoints = TracingController.bezierPoints2TracingList(points);
     }
@@ -88,7 +88,7 @@ class TracingController extends AbstractBezierController {
         return allCurves.includes(curveId);
     }
 
-    public get curvePoints(): IBezierCurves {
+    public get curvePoints(): ITracingCurves {
         return TracingController.tracingList2BezierPoints(this.bezierPoints);
     }
 
@@ -124,12 +124,12 @@ class TracingController extends AbstractBezierController {
      * Load bezier curves from repository
      */
     loadBezierCurves(jsonContent: string = ''): boolean {
-        let decodedCurves: IBezierCurves = {};
+        let decodedCurves: ITracingCurves = {};
         if (jsonContent && jsonContent.length > 0) {
             decodedCurves = JSON.parse(jsonContent);
         } else {
             decodedCurves =
-                this.localRepository.get<IBezierCurves>(
+                this.localRepository.get<ITracingCurves>(
                     EStorageKey.BEZIER_CURVES
                 ) ?? {};
         }
@@ -310,7 +310,7 @@ class TracingController extends AbstractBezierController {
                     relativeMouse.y >= element[subindex + 1] - pointRadius &&
                     relativeMouse.y <= element[subindex + 1] + pointRadius
                 ) {
-                    return [element, subindex, subindex + 1];
+                    return { element: element, x: subindex, y: subindex + 1 };
                 }
             }
         }

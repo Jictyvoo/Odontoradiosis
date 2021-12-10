@@ -1,12 +1,12 @@
 import { ICanvasLayers } from '../util/interfaces/canvasManipulation';
-import { IBezierCurves } from '../util/interfaces/curveManipulation';
+import { ITracingCurves } from '../util/interfaces/curveManipulation';
 import ScaleManager from '../util/scaleManager';
 import UsefulMethods from '../util/usefulMethods';
 
 class FacialAnalysis {
-    private allCurves: IBezierCurves;
+    private allCurves: ITracingCurves;
     public scaleManager: ScaleManager;
-    constructor(allCurves: IBezierCurves, scaleManager: ScaleManager) {
+    constructor(allCurves: ITracingCurves, scaleManager: ScaleManager) {
         this.allCurves = allCurves;
         this.scaleManager = scaleManager;
     }
