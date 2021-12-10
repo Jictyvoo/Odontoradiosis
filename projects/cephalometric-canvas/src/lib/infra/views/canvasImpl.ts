@@ -149,6 +149,26 @@ class CanvasOdontoradiosisImpl implements ICanvasDraw {
         );
     }
 
+    drawText(
+        layerId: string,
+        x: number,
+        y: number,
+        text: string,
+        lineWidth: number,
+        fillStyle: string,
+        strokeStyle: string
+    ): void {
+        const context = this.getContext(layerId);
+        context.beginPath();
+        context.fillStyle = fillStyle;
+        context.font = this.scales.nameScale + 'px Arial';
+        context.fillText(text, Math.floor(x), Math.floor(y));
+        context.fill();
+        context.lineWidth = lineWidth;
+        context.strokeStyle = strokeStyle;
+        context.stroke();
+    }
+
     /**
      *
      * @param {CanvasRenderingContext2D} context

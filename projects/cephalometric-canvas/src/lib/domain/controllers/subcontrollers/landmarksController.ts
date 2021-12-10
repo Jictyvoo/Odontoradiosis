@@ -111,12 +111,8 @@ class LandmarksController {
      * @param {CanvasRenderingContext2D} canvasContext
      * @param {string} landmarkName
      */
-    drawLandmark(
-        canvasContext: CanvasRenderingContext2D,
-        landmarkName: string
-    ): void {
+    drawLandmark(landmarkName: string): void {
         const locations = this.landmarks[landmarkName];
-        const context = canvasContext;
         const readyToShowName = landmarkName.match(/\(.+\)/);
         if (readyToShowName) {
             this.canvas.drawCircleCtx(
@@ -128,22 +124,19 @@ class LandmarksController {
                 LandmarksController.color.fill,
                 LandmarksController.color.stroke
             );
-            context.beginPath();
-            context.fillStyle = LandmarksController.color.fill;
-            context.font = this.canvas.scales.nameScale + 'px Arial';
-            context.fillText(
-                readyToShowName.toString(),
+            this.canvas.drawText(
+                ICanvasLayers.LANDMARKS,
                 Math.floor(
                     locations.x - this.canvas.scales.textRelativePosition.x
                 ),
                 Math.floor(
                     locations.y + this.canvas.scales.textRelativePosition.y
-                )
+                ),
+                readyToShowName.toString(),
+                1,
+                LandmarksController.color.fill,
+                LandmarksController.color.stroke
             );
-            context.fill();
-            context.lineWidth = 1;
-            context.strokeStyle = LandmarksController.color.stroke;
-            context.stroke();
         }
     }
 
@@ -151,19 +144,9 @@ class LandmarksController {
      * Redraw all landmarks
      */
     redrawLandmarks(): void {
-        const landmarksCanvas = this.canvas.getCanvas(ICanvasLayers.LANDMARKS);
-        const context = landmarksCanvas.getContext('2d');
-        if (context) {
-            /*context.clearRect(
-                0,
-                0,
-                landmarksCanvas.width,
-                landmarksCanvas.height
-            );*/
-            this.canvas.clearCanvas(ICanvasLayers.LANDMARKS);
-            for (const element of Object.keys(this.landmarks)) {
-                this.drawLandmark(context, element);
-            }
+        this.canvas.clearCanvas(ICanvasLayers.LANDMARKS);
+        for (const element of Object.keys(this.landmarks)) {
+            this.drawLandmark(element);
         }
     }
 }
