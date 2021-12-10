@@ -1,4 +1,4 @@
-import { IBezierCurves } from './curveManipulation';
+import { ITracingCurves } from './curveManipulation';
 import { ILandmarkArray } from './landmarkManipulation';
 
 export interface ICanvasElements {
@@ -8,7 +8,7 @@ export interface ICanvasElements {
 export interface IExportableData {
     imageData: string;
     landmarks: ILandmarkArray;
-    curves: IBezierCurves;
+    curves: ITracingCurves;
 }
 
 export interface ICanvasImage {

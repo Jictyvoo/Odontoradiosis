@@ -111,11 +111,10 @@ export class CephalometricCanvasComponent implements OnInit {
                         );
                     }
                 } else if (this.infoKeeper.isOnCurvePoints != null) {
-                    const curvePoints = this.infoKeeper
-                        .isOnCurvePoints[0] as number[];
-                    curvePoints[this.infoKeeper.isOnCurvePoints[1] as number] -=
+                    const curvePoints = this.infoKeeper.isOnCurvePoints.element;
+                    curvePoints[this.infoKeeper.isOnCurvePoints.x] -=
                         this.infoKeeper.mousePosition.x - currentPosition.x;
-                    curvePoints[this.infoKeeper.isOnCurvePoints[2] as number] -=
+                    curvePoints[this.infoKeeper.isOnCurvePoints.y] -=
                         this.infoKeeper.mousePosition.y - currentPosition.y;
                 } else if (this.infoKeeper.isInsideBox) {
                     const movement: IPointBidimensional = {
