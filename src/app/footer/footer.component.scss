@@ -2,7 +2,31 @@
   position: absolute;
   left: 50%;
   bottom: 20px;
-  padding-bottom: 6px;
-  transform: translate(-50%, 0%);
-  margin: 0 auto;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 90%; // Adjust width to fill the available space
+  max-width: 90%; // Set a maximum width to prevent overflow
+  padding: 5% 5%;
+  background-color: #333; // Add a background color
+  color: #fff; // Add text color
+  border-radius: 5px;// Add border radius
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  // Add shadow 
+  box-sizing: border-box; // Ensure padding is included in the width
+}
+
+.main-footer strong {
+  display: block;
+}
+
+.main-footer .powered-by {
+  margin-top: 10px;
+}
+
+.main-footer a {
+  color: #4caf50; // Adjust link color
+  text-decoration: none;
+}
+
+.main-footer a:hover {
+  text-decoration: underline;
 }

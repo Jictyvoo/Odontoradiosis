@@ -6,6 +6,16 @@ mat-sidenav-content {
   align-items: flex-start;
 }
 
+.internal-sidebar {
+  padding-left: .4%;
+  padding-right: .4%;
+}
+
+#undone-effects {
+  margin-top: 10%;
+  margin-bottom: 20%;
+}
+
 .sidebar-container {
   display: flex;
   flex-direction: column;
