@@ -59,10 +59,10 @@ export class SidebarComponent implements OnInit {
     public undone(): void {
         const effectsManager = this.canvasService.effectsManager;
         effectsManager.reset();
-        this.effectContrastSlider.value = effectsManager.contrast;
-        this.effectBrightnessSlider.value = effectsManager.brightness;
-        this.effectInvertSlider.value = effectsManager.invert;
-        this.effectGrayscaleSlider.value = effectsManager.grayscale;
+        this.effectContrastSlider._input.value = effectsManager.contrast;
+        this.effectBrightnessSlider._input.value = effectsManager.brightness;
+        this.effectInvertSlider._input.value = effectsManager.invert;
+        this.effectGrayscaleSlider._input.value = effectsManager.grayscale;
     }
 
     /**
@@ -132,6 +132,7 @@ export class SidebarComponent implements OnInit {
                 effectsManager.grayscale = value ?? 0;
                 break;
         }
+
         effectsManager.updateFilterValues();
     }
 
@@ -139,15 +140,31 @@ export class SidebarComponent implements OnInit {
         return this.canvasService.defaultEffectValues.contrast;
     }
 
+    set contrastValue(value: number) {
+        this.applyEffects(AvailableEffects.CONTRAST, value);
+    }
+
     get brightnessValue(): number {
         return this.canvasService.defaultEffectValues.brightness;
+    }
+
+    set brightnessValue(value: number) {
+        this.applyEffects(AvailableEffects.BRIGHTNESS, value);
     }
 
     get negativeValue(): number {
         return this.canvasService.defaultEffectValues.invert;
     }
 
+    set negativeValue(value: number) {
+        this.applyEffects(AvailableEffects.INVERT, value);
+    }
+
     get grayscaleValue(): number {
         return this.canvasService.defaultEffectValues.grayscale;
+    }
+
+    set grayscaleValue(value: number) {
+        this.applyEffects(AvailableEffects.GRAYSCALE, value);
     }
 }

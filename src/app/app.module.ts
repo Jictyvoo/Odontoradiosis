@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -45,6 +46,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
+        FormsModule,
         // Angular Material Components
         MatSelectModule,
         MatIconModule,
@@ -60,6 +62,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         CephalometricCanvasModule,
     ],
     providers: [SidenavService, CephalometricCanvasService],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

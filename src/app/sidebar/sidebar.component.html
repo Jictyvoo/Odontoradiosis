@@ -42,13 +42,12 @@
       <mat-slider
         mat-list-item
         #effectContrastSlider
-        (valueChange)="applyEffects('contrast', $event)"
         id="effectContrastId"
         min="0"
         max="200"
         step="1"
-        [value]="contrastValue"
       >
+      <input matSliderThumb [(ngModel)]="contrastValue" #effectContrastInput>
       </mat-slider>
       <mat-divider></mat-divider>
       <div class="slider-effect">
@@ -57,13 +56,12 @@
       <mat-slider
         mat-list-item
         #effectBrightnessSlider
-        (valueChange)="applyEffects('brightness', $event)"
         id="effectBrightnessId"
         min="0"
         max="200"
         step="1"
-        [value]="brightnessValue"
       >
+      <input matSliderThumb [(ngModel)]="brightnessValue" #effectBrightnessInput>
       </mat-slider>
       <mat-divider></mat-divider>
       <div class="slider-effect">
@@ -72,13 +70,12 @@
       <mat-slider
         mat-list-item
         #effectInvertSlider
-        (valueChange)="applyEffects('invert', $event)"
         id="effectInvertId"
         min="0"
         max="200"
         step="1"
-        [value]="negativeValue"
       >
+      <input matSliderThumb [(ngModel)]="negativeValue" #effectInvertInput>
       </mat-slider>
       <mat-divider></mat-divider>
       <div class="slider-effect">
@@ -87,13 +84,12 @@
       <mat-slider
         mat-list-item
         #effectGrayscaleSlider
-        (valueChange)="applyEffects('grayscale', $event)"
         id="effectGrayscaleId"
         min="0"
         max="200"
         step="1"
-        [value]="grayscaleValue"
       >
+      <input matSliderThumb [(ngModel)]="grayscaleValue" #effectGrayscaleInput>
       </mat-slider>
       <mat-divider></mat-divider>
 
