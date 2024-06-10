@@ -38,7 +38,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         DropzoneComponent,
         DropzoneDialogComponent,
         HomeComponent,
-
         // Directives
         DragNDropDirective,
     ],
@@ -46,7 +45,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-
         // Angular Material Components
         MatSelectModule,
         MatIconModule,
@@ -58,12 +56,10 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         MatCardModule,
         MatProgressBarModule,
         MatDialogModule,
-
         // Custom Modules
         CephalometricCanvasModule,
     ],
     providers: [SidenavService, CephalometricCanvasService],
-    entryComponents: [],
-    bootstrap: [AppComponent],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
