@@ -130,8 +130,10 @@
   text-align: center;
 
   // centralize self
-  min-width: 90%;
-  height: 100%;
+  min-width: 80%;
+  max-width: 80%;
+  align-self: center;
+  height: max-content;
   border-radius: 5px;
   padding: 1rem;
   transition: all 0.3s ease-in-out;
