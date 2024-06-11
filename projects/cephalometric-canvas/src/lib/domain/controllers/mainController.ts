@@ -1,4 +1,4 @@
-import { default as OdontoradiosisKepper } from '../models/odontoradiosisKeeper';
+import { default as OdontoradiosisKeeper } from '../models/odontoradiosisKeeper';
 import { ICanvasLayers } from '../util/interfaces/canvasManipulation';
 import { IPointBidimensional, IStringMap } from '../util/interfaces/interfaces';
 import { ICanvasDraw } from '../util/interfaces/views/canvasDraw';
@@ -11,18 +11,18 @@ class MainController {
     public scaleManager: ScaleManager;
     public tracingController: TracingController;
     public landmarksController: LandmarksController;
-    public infoKeeper: OdontoradiosisKepper;
+    public infoKeeper: OdontoradiosisKeeper;
 
     /**
      * Constructor
      * @param {ICanvasDraw} canvasOdontoradiosis
      * @param {ScaleManager} scaleManager
-     * @param {OdontoradiosisKepper} infoKeeper
+     * @param {OdontoradiosisKeeper} infoKeeper
      */
     constructor(
         canvasOdontoradiosis: ICanvasDraw,
         scaleManager: ScaleManager,
-        infoKeeper: OdontoradiosisKepper
+        infoKeeper: OdontoradiosisKeeper
     ) {
         this.canvasOdontoradiosis = canvasOdontoradiosis;
         this.scaleManager = scaleManager;
