@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-prod": "npm run build-projects && ng build --configuration production",
     "build-projects": "ng build cephalometric-canvas",
     "dev": "npm run build-projects && npm run start",
     "watch": "ng build --watch --configuration development",

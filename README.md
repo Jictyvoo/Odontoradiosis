@@ -1,7 +1,7 @@
 # Odontoradiosis
 
 A system to auxiliate development of Automatic Measurement to Cephalometric Landmarks.
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.0.
 
 ## Development server
 
@@ -30,6 +30,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Upload to GitHub Pages
 
 ```shell
-ng build --prod --base-href https://jictyvoo.github.io/Odontoradiosis/
+ng build --configuration production --base-href https://jictyvoo.github.io/Odontoradiosis/
 ngh --branch=gh-pages --dir=dist/odontoradiosis
 ```
