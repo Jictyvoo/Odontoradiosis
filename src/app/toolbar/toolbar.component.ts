@@ -22,7 +22,8 @@ export class ToolbarComponent implements OnInit {
         this.toggleActive = false;
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+    }
 
     openSidebar(): void {
         this.toggleActive = !this.toggleActive;
@@ -32,8 +33,12 @@ export class ToolbarComponent implements OnInit {
     openImageSelection(): void {
         const dialogRef = this.dialog.open(DropzoneDialogComponent, {
             width: '80%',
+            maxWidth: '800px',
+            minHeight: '360px',
+            maxHeight: '40%',
             ariaDescribedBy: 'dropzone-dialog',
             ariaLabel: 'Dropzone dialog',
+            panelClass: 'dropzone_component_panel',
         });
 
         dialogRef.afterClosed().subscribe((result) => {
